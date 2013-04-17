@@ -22,8 +22,6 @@
 
 package org.jboss.tattletale.profiles;
 
-
-
 /**
  * Interface that will define what all Profiles need to implement.
  *

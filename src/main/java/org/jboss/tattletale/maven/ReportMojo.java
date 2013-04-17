@@ -63,6 +63,9 @@ public class ReportMojo extends TattletaleMojo
    /** Scan */
    private String scan;
 
+   /** Title */
+   private String title;
+
    /** Constructor */
    public ReportMojo()
    {
@@ -76,6 +79,7 @@ public class ReportMojo extends TattletaleMojo
       this.deleteOutputDirectory = true;
       this.reports = null;
       this.scan = null;
+      this.title = null;
    }
 
    /**
@@ -279,6 +283,26 @@ public class ReportMojo extends TattletaleMojo
    }
 
    /**
+    * Get the title
+    *
+    * @return The value
+    */
+   public String getTitle()
+   {
+      return title;
+   }
+
+   /**
+    * Set the title
+    *
+    * @param title The value
+    */
+   public void setTitle(String title)
+   {
+      this.title = title;
+   }
+
+   /**
     * Execute
     *
     * @throws MojoExecutionException Thrown if the plugin cant be executed
@@ -309,56 +333,44 @@ public class ReportMojo extends TattletaleMojo
          if (getReports() != null)
          {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < getReports().length; i++)
+            for (String report : getReports())
             {
-               sb = sb.append(getReports()[i]);
-               if (i < getReports().length - 1)
-               {
-                  sb = sb.append(",");
-               }
+               sb.append(report).append(",");
             }
+            sb.setLength(sb.length() - 1);
             main.setReports(sb.toString());
          }
 
          if (getProfiles() != null)
          {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < getProfiles().length; i++)
+            for (String profile : getProfiles())
             {
-               sb = sb.append(getProfiles()[i]);
-               if (i < getProfiles().length - 1)
-               {
-                  sb = sb.append(",");
-               }
+               sb.append(profile).append(",");
             }
+            sb.setLength(sb.length() - 1);
             main.setProfiles(sb.toString());
          }
 
          if (getExcludes() != null)
          {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < getExcludes().length; i++)
+            for (String exclude : getExcludes())
             {
-               sb = sb.append(getExcludes()[i]);
-               if (i < getExcludes().length - 1)
-               {
-                  sb = sb.append(",");
-               }
+               sb.append(exclude).append(",");
             }
+            sb.setLength(sb.length() - 1);
             main.setExcludes(sb.toString());
          }
 
          if (getBlacklisted() != null)
          {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < getBlacklisted().length; i++)
+            for (String bl : getBlacklisted())
             {
-               sb = sb.append(getBlacklisted()[i]);
-               if (i < getBlacklisted().length - 1)
-               {
-                  sb = sb.append(",");
-               }
+               sb.append(bl).append(",");
             }
+            sb.setLength(sb.length() - 1);
             main.setBlacklisted(sb.toString());
          }
 
@@ -368,6 +380,7 @@ public class ReportMojo extends TattletaleMojo
          main.setDeleteOutputDirectory(getDeleteOutputDirectory());
 
          main.setScan(getScan());
+         main.setTitle(getTitle());
 
          getLog().info("Scanning: " + getSource().getAbsolutePath());
 

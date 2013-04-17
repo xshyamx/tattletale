@@ -29,7 +29,6 @@ import org.jboss.tattletale.profiles.Profile;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -50,7 +49,6 @@ public class PackageDependantsReport extends CLSReport
    /** DIRECTORY */
    private static final String DIRECTORY = "packagedependants";
 
-
    /**
     * Constructor
     */
@@ -58,7 +56,6 @@ public class PackageDependantsReport extends CLSReport
    {
       super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
    }
-
 
    /**
     * write out the report's content
@@ -70,18 +67,15 @@ public class PackageDependantsReport extends CLSReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Package</th>" + Dump.newLine());
-      bw.write("     <th>Dependants</th>" + Dump.newLine());
+      bw.write("    <th>Package</th>" + Dump.newLine());
+      bw.write("    <th>Dependants</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
       boolean odd = true;
-      Iterator<Map.Entry<String, SortedSet<String>>> rit = result.entrySet().iterator();
 
-      while (rit.hasNext())
+      for (Map.Entry<String, SortedSet<String>> entry : result.entrySet())
       {
-         Map.Entry<String, SortedSet<String>> entry = rit.next();
-         String pack = entry.getKey();
          SortedSet<String> packDeps = entry.getValue();
 
          if (packDeps != null && packDeps.size() > 0)
@@ -94,18 +88,16 @@ public class PackageDependantsReport extends CLSReport
             {
                bw.write("  <tr package =\"roweven\">" + Dump.newLine());
             }
-            bw.write("     <td>" + pack + "</a></td>" + Dump.newLine());
-            bw.write("     <td>");
+            bw.write("    <td>" + entry.getKey() + "</td>" + Dump.newLine());
+            bw.write("    <td>");
 
-            Iterator<String> sit = packDeps.iterator();
-            while (sit.hasNext())
+            StringBuffer list = new StringBuffer();
+            for (String dep : packDeps)
             {
-               String dep = sit.next();
-               bw.write(dep);
-
-               if (sit.hasNext())
-                  bw.write(", ");
+               list.append(dep).append(", ");
             }
+            list.setLength(list.length() - 2);
+            bw.write(list.toString());
 
             bw.write("</td>" + Dump.newLine());
             bw.write("  </tr>" + Dump.newLine());
@@ -133,29 +125,23 @@ public class PackageDependantsReport extends CLSReport
          else
          {
             SortedMap<String, SortedSet<String>> packageDependencies = archive.getPackageDependencies();
-            Iterator<Map.Entry<String, SortedSet<String>>> dit = packageDependencies.entrySet().iterator();
-            while (dit.hasNext())
+            for (Map.Entry<String, SortedSet<String>> entry : packageDependencies.entrySet())
             {
-               Map.Entry<String, SortedSet<String>> entry = dit.next();
                String pack = entry.getKey();
-               SortedSet<String> packDeps = entry.getValue();
 
-               Iterator<String> sit = packDeps.iterator();
-               while (sit.hasNext())
+               for (String dep : entry.getValue())
                {
-                  String dep = sit.next();
-
                   if (!dep.equals(pack))
                   {
                      boolean include = true;
 
-                     Iterator<Profile> kit = getKnown().iterator();
-                     while (include && kit.hasNext())
+                     for (Profile profile : getKnown())
                      {
-                        Profile profile = kit.next();
-
                         if (profile.doesProvide(dep))
+                        {
                            include = false;
+                           break;
+                        }
                      }
 
                      if (include)
@@ -175,21 +161,5 @@ public class PackageDependantsReport extends CLSReport
          }
       }
       return result;
-   }
-
-   /**
-    * write out the header of the report's content
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
    }
 }

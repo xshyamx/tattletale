@@ -21,6 +21,9 @@
  */
 package org.jboss.tattletale.ant;
 
+import java.util.Hashtable;
+import java.util.Properties;
+
 import org.jboss.tattletale.Main;
 
 import org.apache.tools.ant.BuildException;
@@ -63,6 +66,9 @@ public class ReportTask extends AbstractReportTask
    /** Scan */
    private String scan;
 
+   /** Title */
+   private String title;
+
    /** Constructor */
    public ReportTask()
    {
@@ -76,6 +82,7 @@ public class ReportTask extends AbstractReportTask
       this.deleteOutputDirectory = true;
       this.reports = null;
       this.scan = null;
+      this.title = null;
    }
 
    /**
@@ -279,6 +286,46 @@ public class ReportTask extends AbstractReportTask
    }
 
    /**
+    * Get the title
+    *
+    * @return The value
+    */
+   public String getTitle()
+   {
+      return title;
+   }
+
+   /**
+    * Set the title
+    *
+    * @param title The value
+    */
+   public void setTitle(String title)
+   {
+      this.title = title;
+   }
+
+   /**
+    * Extract tattletale-related properties from Ant project
+    */
+
+   public Properties getProperties()
+   {
+      String pattern = "tattletale.";
+      Properties properties = new Properties();
+      Hashtable<String, Object> pproperties = getProject().getProperties();
+      for (String property : pproperties.keySet())
+      {
+         if (property.startsWith(pattern))
+         {
+            properties.setProperty(property.replaceFirst(pattern, ""),
+                                   (String)pproperties.get(property));
+         }
+      }
+      return properties;
+   }
+
+   /**
     * Execute
     *
     * @throws BuildException If the build fails
@@ -304,6 +351,8 @@ public class ReportTask extends AbstractReportTask
          main.setDeleteOutputDirectory(getDeleteOutputDirectory());
          main.setReports(getReports());
          main.setScan(getScan());
+         main.setTitle(getTitle());
+         main.setConfiguration(getProperties());
 
          System.out.println("Scanning: " + getSource());
 

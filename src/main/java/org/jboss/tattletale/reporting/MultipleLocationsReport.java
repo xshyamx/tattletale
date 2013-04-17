@@ -28,7 +28,6 @@ import org.jboss.tattletale.core.NestableArchive;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Multiple locations report
@@ -61,8 +60,8 @@ public class MultipleLocationsReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Name</th>" + Dump.newLine());
-      bw.write("     <th>Location</th>" + Dump.newLine());
+      bw.write("    <th>Name</th>" + Dump.newLine());
+      bw.write("    <th>Location</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
       recursivelyWriteContent(bw, archives);
       bw.write("</table>" + Dump.newLine());
@@ -96,28 +95,24 @@ public class MultipleLocationsReport extends AbstractReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
-            bw.write("     <td><a href=\"../jar/" + a.getName() + ".html\">" +
+            bw.write("    <td><a href=\"../jar/" + a.getName() + ".html\">" +
                      a.getName() + "</a></td>" + Dump.newLine());
             if (!filtered)
             {
-               bw.write("     <td>");
+               bw.write("    <td>");
             }
             else
             {
-               bw.write("     <td style=\"text-decoration: line-through;\">");
+               bw.write("    <td style=\"text-decoration: line-through;\">");
             }
 
-            Iterator<Location> lit = a.getLocations().iterator();
-            while (lit.hasNext())
+            StringBuffer list = new StringBuffer();
+            for (Location location : a.getLocations())
             {
-               Location location = lit.next();
-               bw.write(location.getFilename());
-
-               if (lit.hasNext())
-               {
-                  bw.write("<br>");
-               }
+               list.append(location.getFilename()).append("<br/>");
             }
+            list.setLength(list.length() - 5);
+            bw.write(list.toString());
 
             bw.write("</td>" + Dump.newLine());
             bw.write("  </tr>" + Dump.newLine());
@@ -125,24 +120,6 @@ public class MultipleLocationsReport extends AbstractReport
             odd = !odd;
          }
       }
-
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
    }
 
    /**

@@ -29,7 +29,7 @@ import java.io.File;
  *
  * @author Navin Surtani
  */
-public interface Report extends Comparable
+public interface Report extends Comparable<Report>
 {
    /**
     * Method that any implementation must provide in order to generate any type of report.
@@ -45,15 +45,15 @@ public interface Report extends Comparable
 
    /**
     * Method to obtain the severity of each Report.
-    * @return - the severity of the Report as an integer.
+    * @return - the severity of the Report.
     */
-   public int getSeverity();
+   public ReportSeverity getSeverity();
 
    /**
     * Method to obtain the status of each Report.
     * @return - the status of the Report.
     */
-   public int getStatus();
+   public ReportStatus getStatus();
 
    /**
     * Method to obtain the directory within the filesystem that the Report is intended to go into.
@@ -92,6 +92,4 @@ public interface Report extends Comparable
     * @param filter - the String to be used to set the filter.
     */
    public void setFilter(String filter);
-
-
 }

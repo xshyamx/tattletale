@@ -26,22 +26,10 @@ package org.jboss.tattletale.core;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public class ArchiveTypes
+public enum ArchiveTypes
 {
-   /** CLASS */
-   public static final int CLASS = 0;
-
-   /** JAR */
-   public static final int JAR = 1;
-
-   /** WAR */
-   public static final int WAR = 2;
-
-   /** EAR */
-   public static final int EAR = 3;
-
-   /** Constructor */
-   private ArchiveTypes()
-   {
-   }
+   CLASS,
+   JAR,
+   WAR,
+   EAR
 }

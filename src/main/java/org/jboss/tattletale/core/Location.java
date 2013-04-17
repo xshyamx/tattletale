@@ -28,7 +28,7 @@ import java.io.Serializable;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public class Location implements Serializable, Comparable
+public class Location implements Serializable, Comparable<Location>
 {
    /** SerialVersionUID */
    static final long serialVersionUID = 5772882935036035107L;
@@ -74,13 +74,11 @@ public class Location implements Serializable, Comparable
    /**
     * Comparable
     *
-    * @param o The other object
+    * @param l The other location
     * @return The compareTo value
     */
-   public int compareTo(Object o)
+   public int compareTo(Location l)
    {
-      Location l = (Location) o;
-
       int result = filename.compareTo(l.getFilename());
 
       if (result == 0)
@@ -136,19 +134,11 @@ public class Location implements Serializable, Comparable
    public String toString()
    {
       StringBuffer sb = new StringBuffer();
+      String newline = System.getProperty("line.separator");
 
-      sb = sb.append(getClass().getName());
-      sb = sb.append("(\n");
-
-      sb = sb.append("filename=");
-      sb = sb.append(filename);
-      sb = sb.append("\n");
-
-      sb = sb.append("version=");
-      sb = sb.append(version);
-      sb = sb.append("\n");
-
-      sb = sb.append(")");
+      sb.append(getClass().getName()).append("(").append(newline);
+      sb.append("filename=").append(filename).append(newline);
+      sb.append("version=").append(version).append(newline).append(")");
 
       return sb.toString();
    }

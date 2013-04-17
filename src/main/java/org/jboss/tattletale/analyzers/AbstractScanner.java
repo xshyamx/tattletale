@@ -32,8 +32,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
@@ -46,7 +44,6 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.NotFoundException;
-
 
 /**
  * Abstract class that contains utility methods that other scanner extensions can use.
@@ -104,6 +101,7 @@ public abstract class AbstractScanner implements ArchiveScanner
       {
          version = mainAttributes.getValue("Implementation-Version");
       }
+
       if (version == null)
       {
          version = mainAttributes.getValue("Version");
@@ -111,19 +109,23 @@ public abstract class AbstractScanner implements ArchiveScanner
 
       if (version == null && manifest.getEntries() != null)
       {
-         Iterator ait = manifest.getEntries().values().iterator();
-         while (version == null && ait.hasNext())
+         for (Attributes attributes : manifest.getEntries().values())
          {
-            Attributes attributes = (Attributes) ait.next();
-
             version = attributes.getValue("Specification-Version");
+
             if (version == null)
             {
                version = attributes.getValue("Implementation-Version");
             }
+
             if (version == null)
             {
                version = attributes.getValue("Version");
+            }
+
+            if (version != null)
+            {
+               break;
             }
          }
       }
@@ -139,12 +141,9 @@ public abstract class AbstractScanner implements ArchiveScanner
 
    protected void addProfilesToArchive(Archive archive, SortedSet<String> profiles)
    {
-      if (profiles.size() > 0)
+      for (String profile : profiles)
       {
-         for (String profile : profiles)
-         {
-            archive.addProfile(profile);
-         }
+         archive.addProfile(profile);
       }
    }
 
@@ -169,10 +168,10 @@ public abstract class AbstractScanner implements ArchiveScanner
     */
 
    public Integer scanClasses(InputStream is, Set<String> blacklisted, List<Profile> known, Integer classVersion,
-                           SortedMap<String, Long> provides, SortedSet<String> requires,
-                           SortedSet<String> profiles, SortedMap<String, SortedSet<String>> classDependencies,
-                           SortedMap<String, SortedSet<String>> packageDependencies,
-                           SortedMap<String, SortedSet<String>> blacklistedDependencies)
+                              SortedMap<String, Long> provides, SortedSet<String> requires,
+                              SortedSet<String> profiles, SortedMap<String, SortedSet<String>> classDependencies,
+                              SortedMap<String, SortedSet<String>> packageDependencies,
+                              SortedMap<String, SortedSet<String>> blacklistedDependencies)
       throws IOException
    {
       ClassPool classPool = new ClassPool();
@@ -204,12 +203,9 @@ public abstract class AbstractScanner implements ArchiveScanner
          pkg = ctClz.getName().substring(0, pkgIdx);
       }
 
-      Collection c = ctClz.getRefClasses();
-      Iterator it = c.iterator();
-
-      while (it.hasNext())
+      for (Object c : ctClz.getRefClasses())
       {
-         String s = (String) it.next();
+         String s = (String) c;
          requires.add(s);
 
          SortedSet<String> cd = classDependencies.get(ctClz.getName());
@@ -217,13 +213,11 @@ public abstract class AbstractScanner implements ArchiveScanner
          {
             cd = new TreeSet<String>();
          }
-
          cd.add(s);
          classDependencies.put(ctClz.getName(), cd);
 
          int rPkgIdx = s.lastIndexOf(".");
          String rPkg = null;
-
          if (rPkgIdx != -1)
          {
             rPkg = s.substring(0, rPkgIdx);
@@ -233,14 +227,13 @@ public abstract class AbstractScanner implements ArchiveScanner
 
          if (known != null)
          {
-            Iterator<Profile> kit = known.iterator();
-            while (include && kit.hasNext())
+            for (Profile p : known)
             {
-               Profile p = kit.next();
                if (p.doesProvide(s))
                {
                   profiles.add(p.getName());
                   include = false;
+                  break;
                }
             }
          }
@@ -252,7 +245,6 @@ public abstract class AbstractScanner implements ArchiveScanner
             {
                pd = new TreeSet<String>();
             }
-
             pd.add(rPkg);
             packageDependencies.put(pkg, pd);
          }
@@ -261,13 +253,12 @@ public abstract class AbstractScanner implements ArchiveScanner
          {
             boolean bl = false;
 
-            Iterator<String> bit = blacklisted.iterator();
-            while (!bl && bit.hasNext())
+            for (String blp: blacklisted)
             {
-               String blp = bit.next();
                if (s.startsWith(blp))
                {
                   bl = true;
+                  break;
                }
             }
 
@@ -285,7 +276,6 @@ public abstract class AbstractScanner implements ArchiveScanner
                {
                   bld = new TreeSet<String>();
                }
-
                bld.add(rPkg);
                blacklistedDependencies.put(key, bld);
             }
@@ -293,5 +283,4 @@ public abstract class AbstractScanner implements ArchiveScanner
       }
       return classVersion;
    }
-
 }

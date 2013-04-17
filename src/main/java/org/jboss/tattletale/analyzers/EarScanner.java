@@ -34,7 +34,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -118,8 +117,8 @@ public class EarScanner extends AbstractScanner
                try
                {
                   entryStream = earFile.getInputStream(earEntry);
-                  classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides,
-                        requires, profiles, classDependencies, packageDependencies, blacklistedDependencies);
+                  classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides, requires,
+                                             profiles, classDependencies, packageDependencies, blacklistedDependencies);
                }
                catch (Exception openException)
                {
@@ -218,14 +217,11 @@ public class EarScanner extends AbstractScanner
             classVersion = Integer.valueOf(0);
 
          earArchive = new EarArchive(name, classVersion, lManifest, lSign, requires, provides, classDependencies,
-               packageDependencies, blacklistedDependencies, location, subArchiveList);
+                                     packageDependencies, blacklistedDependencies, location, subArchiveList);
          super.addProfilesToArchive(earArchive, profiles);
 
-         Iterator<String> it = provides.keySet().iterator();
-         while (it.hasNext())
+         for (String provide : provides.keySet())
          {
-            String provide = it.next();
-
             if (gProvides != null)
             {
                SortedSet<String> ss = gProvides.get(provide);

@@ -57,8 +57,8 @@ public class SealedReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>Status</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
+      bw.write("    <th>Status</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -68,10 +68,10 @@ public class SealedReport extends AbstractReport
 
       for (Archive archive : archives)
       {
-
          String archiveName = archive.getName();
          int finalDot = archiveName.lastIndexOf(".");
          String extension = archiveName.substring(finalDot + 1);
+
          if (odd)
          {
             bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -80,17 +80,17 @@ public class SealedReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("     <td><a href=\"../" + extension + "/" + archiveName + ".html\">" + archiveName
+         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" + archiveName
                   + "</a></td>" + Dump.newLine());
          if (archive.hasManifestKey("Sealed")
                && Boolean.TRUE.equals(Boolean.valueOf(archive.getManifestValue("Sealed"))))
          {
-            bw.write("     <td style=\"color: red;\">Sealed</td>" + Dump.newLine());
+            bw.write("    <td style=\"color: red;\">Sealed</td>" + Dump.newLine());
             sealed++;
          }
          else
          {
-            bw.write("     <td style=\"color: green;\">Unsealed</td>" + Dump.newLine());
+            bw.write("    <td style=\"color: green;\">Unsealed</td>" + Dump.newLine());
             unsealed++;
          }
          bw.write("  </tr>" + Dump.newLine());
@@ -99,6 +99,7 @@ public class SealedReport extends AbstractReport
       }
 
       bw.write("</table>" + Dump.newLine());
+      bw.write("</p>" + Dump.newLine());
 
       boolean filtered = isFiltered();
       if (sealed > 0 && unsealed > 0 && !filtered)
@@ -112,53 +113,36 @@ public class SealedReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Status</th>" + Dump.newLine());
-      bw.write("     <th>Archives</th>" + Dump.newLine());
+      bw.write("    <th>Status</th>" + Dump.newLine());
+      bw.write("    <th>Archives</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Sealed</td>" + Dump.newLine());
+      bw.write("    <td>Sealed</td>" + Dump.newLine());
       if (!filtered)
       {
-         bw.write("     <td style=\"color: red;\">" + sealed + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: red;\">" + sealed + "</td>" + Dump.newLine());
       }
       else
       {
-         bw.write("     <td style=\"color: red; text-decoration: line-through;\">" + sealed + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: red; text-decoration: line-through;\">" + sealed + "</td>" + Dump.newLine());
       }
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Unsealed</td>" + Dump.newLine());
+      bw.write("    <td>Unsealed</td>" + Dump.newLine());
       if (!filtered)
       {
-         bw.write("     <td style=\"color: green;\">" + unsealed + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: green;\">" + unsealed + "</td>" + Dump.newLine());
       }
       else
       {
-         bw.write("     <td style=\"color: green; text-decoration: line-through;\">"
+         bw.write("    <td style=\"color: green; text-decoration: line-through;\">"
                   + unsealed + "</td>" + Dump.newLine());
       }
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("</table>" + Dump.newLine());
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
    }
 
    /**

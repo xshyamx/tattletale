@@ -26,43 +26,9 @@ package org.jboss.tattletale.reporting;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public class ReportSeverity
+public enum ReportSeverity
 {
-   /** INFO */
-   public static final int INFO = 0;
-
-   /** WARNING */
-   public static final int WARNING = 1;
-
-   /** ERROR */
-   public static final int ERROR = 2;
-
-   /** Constructor */
-   private ReportSeverity()
-   {
-   }
-
-   /**
-    * Returns severity string
-    *
-    * @param severity constant value
-    * @return severity string
-    */
-   public static String getSeverityString(int severity)
-   {
-      String output = "-";
-      if (severity == ReportSeverity.INFO)
-      {
-         output = "INFO";
-      }
-      else if (severity == ReportSeverity.WARNING)
-      {
-         output = "WARNING";
-      }
-      else if (severity == ReportSeverity.ERROR)
-      {
-         output = "ERROR";
-      }
-      return output;
-   }
+   INFO,
+   WARNING,
+   ERROR
 }

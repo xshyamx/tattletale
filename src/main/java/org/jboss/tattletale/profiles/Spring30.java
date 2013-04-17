@@ -37,7 +37,7 @@ public class Spring30 extends AbstractProfile
    private static final String PROFILE_NAME = "Spring 3.0";
    private static final String PROFILE_CODE = "spring30";
    private static final String PROFILE_LOCATION = "spring.jar";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */

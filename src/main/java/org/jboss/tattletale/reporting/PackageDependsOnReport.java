@@ -28,7 +28,6 @@ import org.jboss.tattletale.core.NestableArchive;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -60,24 +59,6 @@ public class PackageDependsOnReport extends CLSReport
    }
 
    /**
-    * write out the header of the report's content
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   @Override
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
-
-   }
-
-   /**
     * write out the report's content
     * @param bw the writer to use
     * @exception IOException if an error occurs
@@ -88,21 +69,15 @@ public class PackageDependsOnReport extends CLSReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Package</th>" + Dump.newLine());
-      bw.write("     <th>Depends On</th>" + Dump.newLine());
+      bw.write("    <th>Package</th>" + Dump.newLine());
+      bw.write("    <th>Depends On</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
       boolean odd = true;
 
-      Iterator<Map.Entry<String, SortedSet<String>>> rit = result.entrySet().iterator();
-
-      while (rit.hasNext())
+      for (Map.Entry<String, SortedSet<String>> entry : result.entrySet())
       {
-         Map.Entry<String, SortedSet<String>> entry = rit.next();
-         String pack = entry.getKey();
-         SortedSet<String> packDeps = entry.getValue();
-
          if (odd)
          {
             bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -111,17 +86,20 @@ public class PackageDependsOnReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("     <td>" + pack + "</a></td>" + Dump.newLine());
-         bw.write("     <td>");
+         bw.write("    <td>" + entry.getKey() + "</td>" + Dump.newLine());
+         bw.write("    <td>");
 
-         Iterator<String> sit = packDeps.iterator();
-         while (sit.hasNext())
+         StringBuffer list = new StringBuffer();
+         for (String dep : entry.getValue())
          {
-            String dep = sit.next();
-            bw.write(dep);
-
-            if (sit.hasNext())
-               bw.write(", ");
+            list.append(dep).append(", ");
+         }
+         if (list.length() > 0)
+         {
+            list.setLength(list.length() - 2);
+            bw.write(list.toString());
+         } else {
+            bw.write("&nbsp;");
          }
 
          bw.write("</td>" + Dump.newLine());
@@ -131,7 +109,6 @@ public class PackageDependsOnReport extends CLSReport
       }
 
       bw.write("</table>" + Dump.newLine());
-
    }
 
    private SortedMap<String, SortedSet<String>> recursivelyBuildResultFromArchive(Collection<Archive> archives)
@@ -149,16 +126,13 @@ public class PackageDependsOnReport extends CLSReport
          else
          {
             SortedMap<String, SortedSet<String>> packageDependencies = archive.getPackageDependencies();
-            Iterator<Map.Entry<String, SortedSet<String>>> dit = packageDependencies.entrySet().iterator();
-            while (dit.hasNext())
+            for (Map.Entry<String, SortedSet<String>> entry : packageDependencies.entrySet())
             {
-               Map.Entry<String, SortedSet<String>> entry = dit.next();
                String pack = entry.getKey();
-               SortedSet<String> packDeps = entry.getValue();
 
                SortedSet<String> newDeps = new TreeSet<String>();
 
-               for (String dep : packDeps)
+               for (String dep : entry.getValue())
                {
                   if (!dep.equals(pack))
                      newDeps.add(dep);

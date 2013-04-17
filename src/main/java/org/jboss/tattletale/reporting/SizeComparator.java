@@ -29,6 +29,7 @@ import java.util.Comparator;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
+@SuppressWarnings("serial")
 public class SizeComparator implements Comparator<String>, Serializable
 {
 

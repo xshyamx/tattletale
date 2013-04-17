@@ -40,7 +40,7 @@ public class SunJava6 extends AbstractProfile
    private static final String PROFILE_CODE = "java6";
    private static final String PROFILE_LOCATION = "rt.jar";
    private static final String MODULE_IDENTIFIER = "system";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_6;
 
    /** Constructor */
@@ -67,8 +67,8 @@ public class SunJava6 extends AbstractProfile
    @Override
    public boolean included(boolean allProfiles, Set<String> profileSet)
    {
-      return allProfiles || profileSet == null || (profileSet.contains(getProfileCode())
-            || profileSet.contains(getProfileName()));
+      return allProfiles || profileSet == null || profileSet.isEmpty()
+             || profileSet.contains(getProfileCode()) || profileSet.contains(getProfileName());
    }
 
    @Override
@@ -77,4 +77,3 @@ public class SunJava6 extends AbstractProfile
       return MODULE_IDENTIFIER;
    }
 }
-

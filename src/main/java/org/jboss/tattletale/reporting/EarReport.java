@@ -27,8 +27,6 @@ import org.jboss.tattletale.core.NestableArchive;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-
-
 /**
  * This type of report is to .ear files as to {@link JarReport} is to .jar files.
  * @author Navin Surtani
@@ -52,16 +50,6 @@ public class EarReport extends NestableReport
       setFilename(sb.append(".html").toString());
    }
 
-   /**
-    * Get the name of the directory
-    * @return - the directory
-    */
-   @Override
-   public String getDirectory()
-   {
-      return DIRECTORY;
-   }
-
    @Override
    BufferedWriter getBufferedWriter() throws IOException
    {
@@ -77,5 +65,4 @@ public class EarReport extends NestableReport
    {
       this.fileName = fileName;
    }
-
 }

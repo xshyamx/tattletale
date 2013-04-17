@@ -15,3 +15,5 @@ reports/
 # Annoying tilde's from GEdit
 *~
 
+# Generated code
+Version.java

@@ -21,6 +21,7 @@
  */
 package org.jboss.tattletale.profiles;
 
+import org.jboss.tattletale.core.ArchiveTypes;
 import org.jboss.tattletale.core.Location;
 
 import java.io.BufferedReader;
@@ -40,9 +41,11 @@ import java.util.zip.GZIPInputStream;
 public abstract class AbstractProfile implements Profile
 {
    /** The type of Profile */
-   private int type;
+   @SuppressWarnings("unused")
+   private ArchiveTypes type;
 
    /** The version */
+   @SuppressWarnings("unused")
    private int version;
 
    /** The name of the profile */
@@ -57,7 +60,6 @@ public abstract class AbstractProfile implements Profile
    /** Set of sub-subProfiles */
    protected Set<Profile> subProfiles = new HashSet<Profile>();
 
-
    /**
     * Constructor
     *
@@ -67,7 +69,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(String classSet, int type, String name, int version, String location)
+   public AbstractProfile(String classSet, ArchiveTypes type, String name, int version, String location)
    {
       this (type, name, version, location);
       loadProfile(classSet);
@@ -81,7 +83,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(int type, String name, int version, String location)
+   public AbstractProfile(ArchiveTypes type, String name, int version, String location)
    {
       this.type = type;
       this.name = name;
@@ -212,7 +214,7 @@ public abstract class AbstractProfile implements Profile
    public boolean included(boolean allProfiles, Set<String> profileSet)
    {
       return allProfiles || profileSet != null && (profileSet.contains(getProfileCode())
-            || profileSet.contains(getProfileName()));
+                                                   || profileSet.contains(getProfileName()));
    }
 
    /** @return The code name of the profile */
@@ -220,5 +222,4 @@ public abstract class AbstractProfile implements Profile
 
    /** @return The long name of the profile */
    protected abstract String getProfileName();
-
 }

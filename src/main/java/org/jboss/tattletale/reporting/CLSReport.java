@@ -47,7 +47,7 @@ public abstract class CLSReport extends AbstractReport
     * @param name      The name of the report
     * @param directory The name of the output directory
     */
-   public CLSReport(String id, int severity, String name, String directory)
+   public CLSReport(String id, ReportSeverity severity, String name, String directory)
    {
       super(id, severity, name, directory);
    }
@@ -72,14 +72,14 @@ public abstract class CLSReport extends AbstractReport
    {
       try
       {
-         Class c = Thread.currentThread().getContextClassLoader().loadClass(classloaderStructure);
+         Class<?> c = Thread.currentThread().getContextClassLoader().loadClass(classloaderStructure);
          cls = (ClassLoaderStructure) c.newInstance();
       }
       catch (Exception e)
       {
          try
          {
-            Class c = CLSReport.class.getClassLoader().loadClass(classloaderStructure);
+            Class<?> c = CLSReport.class.getClassLoader().loadClass(classloaderStructure);
             cls = (ClassLoaderStructure) c.newInstance();
          }
          catch (Exception ntd)

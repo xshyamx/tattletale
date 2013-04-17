@@ -57,8 +57,8 @@ public class SignReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>Status</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
+      bw.write("    <th>Status</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -68,7 +68,6 @@ public class SignReport extends AbstractReport
 
       for (Archive archive : archives)
       {
-
          String archiveName = archive.getName();
          int finalDot = archiveName.lastIndexOf(".");
          String extension = archiveName.substring(finalDot + 1);
@@ -81,16 +80,16 @@ public class SignReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("     <td><a href=\"../" + extension + "/" + archiveName +
+         bw.write("    <td><a href=\"../" + extension + "/" + archiveName +
                   ".html\">" + archive.getName() + "</a></td>" + Dump.newLine());
          if (archive.getSign() != null)
          {
-            bw.write("     <td style=\"color: red;\">Signed</td>" + Dump.newLine());
+            bw.write("    <td style=\"color: red;\">Signed</td>" + Dump.newLine());
             signed++;
          }
          else
          {
-            bw.write("     <td style=\"color: green;\">Unsigned</td>" + Dump.newLine());
+            bw.write("    <td style=\"color: green;\">Unsigned</td>" + Dump.newLine());
             unsigned++;
          }
          bw.write("  </tr>" + Dump.newLine());
@@ -99,6 +98,7 @@ public class SignReport extends AbstractReport
       }
 
       bw.write("</table>" + Dump.newLine());
+      bw.write("</p>" + Dump.newLine());
 
       boolean filtered = isFiltered();
       if (signed > 0 && unsigned > 0 && !filtered)
@@ -112,53 +112,36 @@ public class SignReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Status</th>" + Dump.newLine());
-      bw.write("     <th>Archives</th>" + Dump.newLine());
+      bw.write("    <th>Status</th>" + Dump.newLine());
+      bw.write("    <th>Archives</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Signed</td>" + Dump.newLine());
+      bw.write("    <td>Signed</td>" + Dump.newLine());
       if (!filtered)
       {
-         bw.write("     <td style=\"color: red;\">" + signed + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: red;\">" + signed + "</td>" + Dump.newLine());
       }
       else
       {
-         bw.write("     <td style=\"color: red; text-decoration: line-through;\">" + signed + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: red; text-decoration: line-through;\">" + signed + "</td>" + Dump.newLine());
       }
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Unsigned</td>" + Dump.newLine());
+      bw.write("    <td>Unsigned</td>" + Dump.newLine());
       if (!filtered)
       {
-         bw.write("     <td style=\"color: green;\">" + unsigned + "</td>" + Dump.newLine());
+         bw.write("    <td style=\"color: green;\">" + unsigned + "</td>" + Dump.newLine());
       }
       else
       {
-         bw.write("     <td style=\"color: green; text-decoration: line-through;\">"
+         bw.write("    <td style=\"color: green; text-decoration: line-through;\">"
                   + unsigned + "</td>" + Dump.newLine());
       }
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("</table>" + Dump.newLine());
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
    }
 
    /**

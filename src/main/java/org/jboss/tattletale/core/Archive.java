@@ -22,7 +22,6 @@
 package org.jboss.tattletale.core;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -33,13 +32,13 @@ import java.util.TreeSet;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public abstract class Archive implements Serializable, Comparable
+public abstract class Archive implements Serializable, Comparable<Archive>
 {
    /** SerialVersionUID */
    static final long serialVersionUID = 8349128019949046037L;
 
    /** Archive type */
-   private int type;
+   private ArchiveTypes type;
 
    /** The name */
    private String name;
@@ -98,7 +97,7 @@ public abstract class Archive implements Serializable, Comparable
     * @param blacklistedDependencies The blacklisted dependencies
     * @param location                The location
     */
-   public Archive(int type, String name, int version, List<String> manifest, List<String> sign,
+   public Archive(ArchiveTypes type, String name, int version, List<String> manifest, List<String> sign,
                   SortedSet<String> requires, SortedMap<String, Long> provides,
                   SortedMap<String, SortedSet<String>> classDependencies,
                   SortedMap<String, SortedSet<String>> packageDependencies,
@@ -131,7 +130,7 @@ public abstract class Archive implements Serializable, Comparable
     *
     * @return The value
     */
-   public int getType()
+   public ArchiveTypes getType()
    {
       return type;
    }
@@ -201,14 +200,12 @@ public abstract class Archive implements Serializable, Comparable
          StringBuffer value = new StringBuffer();
          boolean found = false;
 
-         Iterator<String> it = manifest.iterator();
-         while (it.hasNext())
+         for (String s : manifest)
          {
-            String s = it.next();
             if (s.startsWith(key))
             {
                int idx = s.indexOf(":");
-               value = value.append(s.substring(idx + 1).trim());
+               value.append(s.substring(idx + 1).trim());
                found = true;
             }
             else if (found)
@@ -220,7 +217,7 @@ public abstract class Archive implements Serializable, Comparable
                }
                else
                {
-                  value = value.append(s.trim());
+                  value.append(s.trim());
                }
             }
          }
@@ -374,8 +371,6 @@ public abstract class Archive implements Serializable, Comparable
       return moduleIdentifier;
    }
 
-
-
    /** Init OSGi */
    private void initOSGi()
    {
@@ -385,13 +380,11 @@ public abstract class Archive implements Serializable, Comparable
    /**
     * Comparable
     *
-    * @param o The other object
+    * @param a The other archive
     * @return The compareTo value
     */
-   public int compareTo(Object o)
+   public int compareTo(Archive a)
    {
-      Archive a = (Archive) o;
-
       return name.compareTo(a.getName());
    }
 
@@ -431,59 +424,21 @@ public abstract class Archive implements Serializable, Comparable
    public String toString()
    {
       StringBuffer sb = new StringBuffer();
+      String newline = System.getProperty("line.separator");
 
-      sb = sb.append(getClass().getName());
-      sb = sb.append("(\n");
-
-      sb = sb.append("type=");
-      sb = sb.append(type);
-      sb = sb.append("\n");
-
-      sb = sb.append("name=");
-      sb = sb.append(name);
-      sb = sb.append("\n");
-
-      sb = sb.append("version=");
-      sb = sb.append(version);
-      sb = sb.append("\n");
-
-      sb = sb.append("manifest=");
-      sb = sb.append(manifest);
-      sb = sb.append("\n");
-
-      sb = sb.append("sign=");
-      sb = sb.append(sign);
-      sb = sb.append("\n");
-
-      sb = sb.append("requires=");
-      sb = sb.append(requires);
-      sb = sb.append("\n");
-
-      sb = sb.append("provides=");
-      sb = sb.append(provides);
-      sb = sb.append("\n");
-
-      sb = sb.append("profiles=");
-      sb = sb.append(profiles);
-      sb = sb.append("\n");
-
-      sb = sb.append("classdependencies=");
-      sb = sb.append(classDependencies);
-      sb = sb.append("\n");
-
-      sb = sb.append("packagedependencies=");
-      sb = sb.append(packageDependencies);
-      sb = sb.append("\n");
-
-      sb = sb.append("blacklisteddependencies=");
-      sb = sb.append(blacklistedDependencies);
-      sb = sb.append("\n");
-
-      sb = sb.append("locations=");
-      sb = sb.append(locations);
-      sb = sb.append("\n");
-
-      sb = sb.append(")");
+      sb.append(getClass().getName()).append("(").append(newline);
+      sb.append("type=").append(type).append(newline);
+      sb.append("name=").append(name).append(newline);
+      sb.append("version=").append(version).append(newline);
+      sb.append("manifest=").append(manifest).append(newline);
+      sb.append("sign=").append(sign).append(newline);
+      sb.append("requires=").append(requires).append(newline);
+      sb.append("provides=").append(provides).append(newline);
+      sb.append("profiles=").append(profiles).append(newline);
+      sb.append("classdependencies=").append(classDependencies).append(newline);
+      sb.append("packagedependencies=").append(packageDependencies).append(newline);
+      sb.append("blacklisteddependencies=").append(blacklistedDependencies).append(newline);
+      sb.append("locations=").append(locations).append(newline).append(")");
 
       return sb.toString();
    }

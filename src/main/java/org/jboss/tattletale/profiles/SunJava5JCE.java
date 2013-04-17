@@ -37,7 +37,7 @@ public class SunJava5JCE extends AbstractProfile
    private static final String PROFILE_NAME = "Sun Java 5 (JCE)";
    private static final String PROFILE_CODE = "jce5";
    private static final String PROFILE_LOCATION = "jce.jar";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */

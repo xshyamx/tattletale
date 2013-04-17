@@ -37,7 +37,7 @@ public class Seam22 extends AbstractProfile
    private static final String PROFILE_NAME = "Seam 2.2";
    private static final String PROFILE_CODE = "seam22";
    private static final String PROFILE_LOCATION = "jboss-seam-2.2.0.GA.jar";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */
@@ -57,5 +57,4 @@ public class Seam22 extends AbstractProfile
    {
       return PROFILE_NAME;
    }
-
 }

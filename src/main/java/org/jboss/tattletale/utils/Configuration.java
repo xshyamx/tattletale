@@ -33,19 +33,32 @@ import java.util.Properties;
  */
 public class Configuration
 {
+   /** Configuration */
+   private Properties config;
+
    /**
     * Constructor
+    * @param config Properties to encapsulate
     */
-   private Configuration()
+   public Configuration(Properties config)
    {
+      this.config = config;
+   }
+
+   /**
+    * Retrieve the configuration properties
+    * @return encapsulated Properties
+    */
+   public Properties getConfiguration()
+   {
+      return config;
    }
 
    /**
     * Load configuration from a file
     * @param fileName The file name
-    * @return The properties
     */
-   public static Properties loadFromFile(String fileName)
+   public void loadFromFile(String fileName)
    {
       Properties properties = new Properties();
 
@@ -74,16 +87,15 @@ public class Configuration
          }
       }
 
-      return properties;
+      addConfig(properties);
    }
 
    /**
     * Load configuration values specified from either a system property,
     * a file or the classloader
     * @param key The configuration key
-    * @return The properties
     */
-   public static Properties load(String key)
+   public void load(String key)
    {
       Properties properties = new Properties();
       String propertiesFile = System.getProperty(key);
@@ -174,8 +186,17 @@ public class Configuration
             }
          }
       }
+      addConfig(properties);
+   }
 
-      return properties;
+   private void addConfig(Properties cfg)
+   {
+      for (String name : cfg.stringPropertyNames())
+      {
+         if (!config.containsKey(name))
+         {
+            config.setProperty(name, cfg.getProperty(name));
+         }
+      }
    }
 }
-

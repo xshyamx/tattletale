@@ -60,6 +60,5 @@ public interface ArchiveScanner
     */
 
    public Archive scan(File file, Map<String, SortedSet<String>> gProvides,
-                              List<Profile> known, Set<String> blacklisted) throws IOException;
-
+                       List<Profile> known, Set<String> blacklisted) throws IOException;
 }

@@ -35,7 +35,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,8 +111,8 @@ public class WarScanner extends AbstractScanner
                try
                {
                   entryStream = warFile.getInputStream(warEntry);
-                  classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides,
-                        requires, profiles, classDependencies, packageDependencies, blacklistedDependencies);
+                  classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides, requires,
+                                             profiles, classDependencies, packageDependencies, blacklistedDependencies);
 
                }
                catch (Exception openException)
@@ -182,7 +181,6 @@ public class WarScanner extends AbstractScanner
             return null;
          }
 
-
          String version = null;
          List<String> lManifest = null;
          Manifest manifest = warFile.getManifest();
@@ -213,11 +211,8 @@ public class WarScanner extends AbstractScanner
                                      location, subArchiveList);
          super.addProfilesToArchive(warArchive, profiles);
 
-         Iterator<String> it = provides.keySet().iterator();
-         while (it.hasNext())
+         for (String provide : provides.keySet())
          {
-            String provide = it.next();
-
             if (gProvides != null)
             {
                SortedSet<String> ss = gProvides.get(provide);
@@ -252,5 +247,4 @@ public class WarScanner extends AbstractScanner
       }
       return warArchive;
    }
-
 }

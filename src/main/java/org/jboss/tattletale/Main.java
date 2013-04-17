@@ -40,6 +40,7 @@ import org.jboss.tattletale.profiles.Spring30;
 import org.jboss.tattletale.profiles.SunJava5;
 import org.jboss.tattletale.profiles.SunJava6;
 import org.jboss.tattletale.reporting.AS7Report;
+import org.jboss.tattletale.reporting.AbstractReport;
 import org.jboss.tattletale.reporting.BlackListedReport;
 import org.jboss.tattletale.reporting.CircularDependencyReport;
 import org.jboss.tattletale.reporting.ClassDependantsReport;
@@ -86,7 +87,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -106,7 +106,7 @@ public class Main
    /** Destination */
    private String destination;
 
-   /** Configuration */
+   /** Configuration file */
    private String configuration;
 
    /** Filter */
@@ -142,15 +142,20 @@ public class Main
    /** Scan */
    private String scan;
 
+   /** Title */
+   private String title;
+
+   /** Configuration **/
+   private Properties config;
+
    /** A List of the Constructors used to create dependency reports */
-   private final List<Class> dependencyReports;
+   private final List<Class<? extends AbstractReport>> dependencyReports;
 
    /** A List of the Constructors used to create general reports */
-   private final List<Class> generalReports;
+   private final List<Class<? extends AbstractReport>> generalReports;
 
    /** A List of the Constructors used to create custom reports */
-   private final List<Class> customReports;
-
+   private final List<Class<? extends AbstractReport>> customReports;
 
    /** Constructor */
 
@@ -170,8 +175,10 @@ public class Main
       this.deleteOutputDirectory = true;
       this.reports = null;
       this.scan = ".jar,.war,.ear";
+      this.title = "";
+      this.config = null;
 
-      this.dependencyReports = new ArrayList<Class>();
+      this.dependencyReports = new ArrayList<Class<? extends AbstractReport>>();
       addDependencyReport(ClassDependsOnReport.class);
       addDependencyReport(ClassDependantsReport.class);
       addDependencyReport(DependsOnReport.class);
@@ -183,7 +190,7 @@ public class Main
       addDependencyReport(CircularDependencyReport.class);
       addDependencyReport(GraphvizReport.class);
 
-      this.generalReports = new ArrayList<Class>();
+      this.generalReports = new ArrayList<Class<? extends AbstractReport>>();
       addGeneralReport(AS7Report.class);
       addGeneralReport(MultipleJarsReport.class);
       addGeneralReport(MultipleLocationsReport.class);
@@ -198,7 +205,7 @@ public class Main
       addGeneralReport(BlackListedReport.class);
       addGeneralReport(UnusedJarReport.class);
 
-      this.customReports = new ArrayList<Class>();
+      this.customReports = new ArrayList<Class<? extends AbstractReport>>();
    }
 
    /**
@@ -276,7 +283,7 @@ public class Main
     *
     * @param clazz The class definition of the dependency report
     */
-   public final void addDependencyReport(Class clazz)
+   public final void addDependencyReport(Class<? extends AbstractReport> clazz)
    {
       dependencyReports.add(clazz);
    }
@@ -286,7 +293,7 @@ public class Main
     *
     * @param clazz The class definition of the report
     */
-   public final void addGeneralReport(Class clazz)
+   public final void addGeneralReport(Class<? extends AbstractReport> clazz)
    {
       generalReports.add(clazz);
    }
@@ -296,7 +303,7 @@ public class Main
     *
     * @param clazz The class definition of the custom report
     */
-   public final void addCustomReport(Class clazz)
+   public final void addCustomReport(Class<? extends AbstractReport> clazz)
    {
       customReports.add(clazz);
    }
@@ -373,25 +380,47 @@ public class Main
    }
 
    /**
+    * Set the title
+    *
+    * @param title The value
+    */
+   public void setTitle(String title)
+   {
+      this.title = title;
+   }
+
+   /**
+    * Set the configuration
+    * 
+    * @param config The configuration
+    */
+   	public void setConfiguration(Properties config)
+   	{
+   		this.config = config;
+   	}
+
+   	/**
     * Execute
     *
     * @throws Exception Thrown if an error occurs
     */
    public void execute() throws Exception
    {
-
-      Properties config = null;
-      Properties filters = null;
+	  Configuration cfg = new Configuration(config);
 
       if (configuration != null)
       {
-         config = Configuration.loadFromFile(configuration);
+         cfg.loadFromFile(configuration);
       }
       else
       {
-         config = Configuration.load("jboss-tattletale.properties");
+         cfg.load("jboss-tattletale.properties");
       }
 
+      config = cfg.getConfiguration();
+
+      Properties filters = null;
+      
       if (filter != null)
       {
          filters = loadFilters();
@@ -420,10 +449,8 @@ public class Main
       {
          profileSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(profiles, ",");
-         while (st.hasMoreTokens())
+         for (String token : profiles.split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
             if ("*".equals(token))
             {
                allProfiles = true;
@@ -440,10 +467,8 @@ public class Main
       {
          profileSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(config.getProperty("profiles"), ",");
-         while (st.hasMoreTokens())
+         for (String token : config.getProperty("profiles").split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
             if ("*".equals(token))
             {
                allProfiles = true;
@@ -460,11 +485,8 @@ public class Main
       {
          blacklistedSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(blacklisted, ",");
-         while (st.hasMoreTokens())
+         for (String token : blacklisted.split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
-
             if (token.endsWith(".*"))
             {
                token.substring(0, token.indexOf(".*"));
@@ -483,11 +505,8 @@ public class Main
       {
          blacklistedSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(config.getProperty("blacklisted"), ",");
-         while (st.hasMoreTokens())
+         for (String token : config.getProperty("blacklisted").split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
-
             if (token.endsWith(".*"))
             {
                token.substring(0, token.indexOf(".*"));
@@ -528,10 +547,8 @@ public class Main
       {
          reportSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(reports, ",");
-         while (st.hasMoreTokens())
+         for (String token : reports.split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
             reportSet.add(token);
          }
       }
@@ -540,10 +557,8 @@ public class Main
       {
          reportSet = new HashSet<String>();
 
-         StringTokenizer st = new StringTokenizer(config.getProperty("reports"), ",");
-         while (st.hasMoreTokens())
+         for (String token : config.getProperty("reports").split("[\\s,]+"))
          {
-            String token = st.nextToken().trim();
             reportSet.add(token);
          }
       }
@@ -574,8 +589,11 @@ public class Main
       // Load up selected profiles
       List<Profile> known = new ArrayList<Profile>();
 
-      AbstractProfile[] profiles = new AbstractProfile[]{new SunJava5(), new SunJava6(), new JavaEE5(), new JavaEE6(),
-         new CDI10(), new Seam22(), new Spring25(), new Spring30(), new JBossAS7Profile()};
+      AbstractProfile[] profiles = new AbstractProfile[]{new SunJava5(), new SunJava6(),
+                                                         new JavaEE5(), new JavaEE6(),
+                                                         new CDI10(), new Seam22(),
+                                                         new Spring25(), new Spring30(),
+                                                         new JBossAS7Profile()};
 
       for (AbstractProfile p : profiles)
       {
@@ -585,14 +603,12 @@ public class Main
          }
       }
 
-      StringTokenizer st = new StringTokenizer(source, "#");
-
       List<File> fileList = new ArrayList<File>();
       Analyzer analyzer = new Analyzer();
 
-      while (st.hasMoreTokens())
+      for (String name : source.split("#"))
       {
-         File f = new File(st.nextToken());
+         File f = new File(name);
          if (f.isDirectory())
          {
             fileList.addAll(DirectoryScanner.scan(f, excludeSet));
@@ -659,6 +675,7 @@ public class Main
     *
     * @return The properties
     */
+   @SuppressWarnings("unused")
    private Properties loadConfiguration()
    {
       Properties properties = new Properties();
@@ -696,6 +713,7 @@ public class Main
     *
     * @return The properties
     */
+   @SuppressWarnings("unused")
    private Properties loadDefaultConfiguration()
    {
       Properties properties = new Properties();
@@ -798,6 +816,7 @@ public class Main
     * @param config - the Properties configuration.
     */
 
+   @SuppressWarnings("unchecked")
    private void loadCustomReports(Properties config)
    {
       FileInputStream inputStream = null;
@@ -810,7 +829,8 @@ public class Main
          {
             ClassLoader cl = Main.class.getClassLoader();
             String reportName = config.getProperty(keyString);
-            Class customReportClass = Class.forName(reportName, true, cl);
+            Class<? extends AbstractReport> customReportClass =
+               (Class<? extends AbstractReport>) Class.forName(reportName, true, cl);
             addCustomReport(customReportClass);
             index++;
             keyString = "customreport." + index;
@@ -819,7 +839,7 @@ public class Main
       catch (Exception e)
       {
          System.err.println("Exception of type: " + e.getClass().toString()
-               + " thrown in loadCustomReports() in org.jboss.tattletale.Main");
+                            + " thrown in loadCustomReports() in org.jboss.tattletale.Main");
       }
       finally
       {
@@ -834,11 +854,8 @@ public class Main
                // No op.
             }
          }
-
       }
-
    }
-
 
    /**
     * Load filters
@@ -960,21 +977,21 @@ public class Main
    private void outputReport(ReportSetBuilder reportSetBuilder, SortedSet<Archive> archives) throws Exception
    {
       reportSetBuilder.clear();
-      for (Class reportDef : dependencyReports)
+      for (Class<? extends AbstractReport> reportDef : dependencyReports)
       {
          reportSetBuilder.addReport(reportDef);
       }
       SortedSet<Report> dependencyReportSet = reportSetBuilder.getReportSet();
 
       reportSetBuilder.clear();
-      for (Class reportDef : generalReports)
+      for (Class<? extends AbstractReport> reportDef : generalReports)
       {
          reportSetBuilder.addReport(reportDef);
       }
       SortedSet<Report> generalReportSet = reportSetBuilder.getReportSet();
 
       reportSetBuilder.clear();
-      for (Class reportDef : customReports)
+      for (Class<? extends AbstractReport> reportDef : customReports)
       {
          reportSetBuilder.addReport(reportDef);
       }
@@ -985,9 +1002,8 @@ public class Main
 
       SortedSet<Report> archiveReports = reportSetBuilder.getReportSet();
 
-
       String outputDir = reportSetBuilder.getOutputDir();
-      Dump.generateIndex(dependencyReportSet, generalReportSet, archiveReports, customReportSet, outputDir);
+      Dump.generateIndex(dependencyReportSet, generalReportSet, archiveReports, customReportSet, outputDir, title);
       Dump.generateCSS(outputDir);
 
       if (failOnInfo || failOnWarn || failOnError)
@@ -1016,11 +1032,8 @@ public class Main
    {
       Set<String> result = new HashSet<String>();
 
-      StringTokenizer st = new StringTokenizer(s, ",");
-      while (st.hasMoreTokens())
+      for (String token : s.split("[\\s,]+"))
       {
-         String token = st.nextToken().trim();
-
          if (token.startsWith("**"))
          {
             token = token.substring(2);
@@ -1040,7 +1053,9 @@ public class Main
    /** The usage method */
    private static void usage()
    {
-      System.out.println("Usage: Tattletale [-exclude=<excludes>]" + " <source>[#<source>]* [output-directory]");
+      System.out.println("Usage: Tattletale [-exclude=<excludes>] [-title=<title>]"
+                         + " <source>[#<source>]* [output-directory]");
+      System.exit(0);
    }
 
    /**
@@ -1077,39 +1092,49 @@ public class Main
     */
    public static void main(String[] args)
    {
-      if (args.length > 0)
+      try
       {
-         try
+         Main main = new Main();
+         String source = "";
+         String destination = ".";
+         for (String arg: args)
          {
-            int arg = 0;
-            Main main = new Main();
-
-            if (args[arg].startsWith("-exclude="))
+            if (arg.startsWith("-exclude="))
             {
-               main.setExcludes(args[arg].substring(args[arg].indexOf("=") + 1));
-               arg++;
+               main.setExcludes(arg.substring(arg.indexOf("=") + 1));
+               continue;
             }
-            main.setSource(args[arg]);
-            main.setDestination(args.length > arg + 1 ? args[arg + 1] : ".");
-            main.setFailOnInfo(false);
-            main.setFailOnWarn(false);
-            main.setFailOnError(false);
-            main.setDeleteOutputDirectory(true);
-
-            main.execute();
+            if (arg.startsWith("-title="))
+            {
+               main.setTitle(arg.substring(arg.indexOf("=") + 1));
+               continue;
+            }
+            if (source.equals(""))
+            {
+               source = arg;
+               continue;
+            }
+            destination = arg;
          }
-         catch (Exception e)
+         if (source.equals(""))
          {
-            System.err.println("Exception: " + e.getMessage());
-            e.printStackTrace(System.err);
+            usage();
          }
+         main.setSource(source);
+         main.setDestination(destination);
+         main.setFailOnInfo(false);
+         main.setFailOnWarn(false);
+         main.setFailOnError(false);
+         main.setDeleteOutputDirectory(true);
+
+         main.execute();
       }
-      else
+      catch (Exception e)
       {
-         usage();
+         System.err.println("Exception: " + e.getMessage());
+         e.printStackTrace(System.err);
       }
    }
-
 
    /**
     * This helper class checks reports to determine whether they should fail,
@@ -1119,10 +1144,9 @@ public class Main
     */
    private class FailureCheck
    {
-
       private boolean foundError = false;
       private boolean first = true;
-      private StringBuilder stringbuffer = new StringBuilder();
+      private StringBuilder sb = new StringBuilder();
 
       /**
        * @return the error report as a String if errors were found, null
@@ -1132,7 +1156,7 @@ public class Main
       {
          if (foundError)
          {
-            return stringbuffer.toString();
+            return sb.toString();
          }
          return null;
       }
@@ -1158,9 +1182,9 @@ public class Main
       void processReport(Report report)
       {
          if ((ReportStatus.YELLOW == report.getStatus() || ReportStatus.RED == report.getStatus())
-               && ((ReportSeverity.INFO == report.getSeverity() && failOnInfo) ||
-                  (ReportSeverity.WARNING == report.getSeverity() && failOnWarn) ||
-                  (ReportSeverity.ERROR == report.getSeverity() && failOnError)))
+             && ((ReportSeverity.INFO == report.getSeverity() && failOnInfo) ||
+                 (ReportSeverity.WARNING == report.getSeverity() && failOnWarn) ||
+                 (ReportSeverity.ERROR == report.getSeverity() && failOnError)))
          {
             appendReportInfo(report);
          }
@@ -1176,20 +1200,10 @@ public class Main
       {
          if (!first)
          {
-            stringbuffer = stringbuffer.append(System.getProperty("line.separator"));
+            sb.append(System.getProperty("line.separator"));
          }
 
-         stringbuffer = stringbuffer.append(report.getId());
-         stringbuffer = stringbuffer.append("=");
-
-         if (ReportStatus.YELLOW == report.getStatus())
-         {
-            stringbuffer = stringbuffer.append("YELLOW");
-         }
-         else if (ReportStatus.RED == report.getStatus())
-         {
-            stringbuffer = stringbuffer.append("RED");
-         }
+         sb.append(report.getId()).append("=").append(report.getStatus().toString());
 
          foundError = true;
          first = false;
@@ -1279,10 +1293,10 @@ public class Main
        *
        * @throws Exception
        */
-      void addReport(Class reportDef) throws Exception
+      void addReport(Class<? extends AbstractReport> reportDef) throws Exception
       {
          // build report from empty constructor
-         Report report = (Report) reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
+         AbstractReport report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
 
          // populate required report parameters
          Method[] allMethods = reportDef.getMethods();
@@ -1321,7 +1335,7 @@ public class Main
       {
          // Verify ending slash
          outputDir = !outputDir.substring(outputDir.length() - 1).equals(File.separator)
-                     ? outputDir + File.separator : outputDir;
+            ? outputDir + File.separator : outputDir;
          // Verify output directory exists & create if it does not
          File outputDirFile = new File(outputDir);
 
@@ -1359,24 +1373,14 @@ public class Main
       {
          if (f != null && f.exists())
          {
-            File[] files = f.listFiles();
-            if (files != null)
+            if (f.isDirectory())
             {
-               for (int i = 0; i < files.length; i++)
+               for (File file : f.listFiles())
                {
-                  if (files[i].isDirectory())
-                  {
-                     recursiveDelete(files[i]);
-                  }
-                  else
-                  {
-                     if (!files[i].delete())
-                     {
-                        throw new IOException("Could not delete " + files[i]);
-                     }
-                  }
+                  recursiveDelete(file);
                }
             }
+
             if (!f.delete())
             {
                throw new IOException("Could not delete " + f);
@@ -1385,4 +1389,3 @@ public class Main
       }
    }
 }
-

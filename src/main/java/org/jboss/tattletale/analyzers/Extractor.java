@@ -157,19 +157,11 @@ public class Extractor
    {
       if (file != null && file.exists())
       {
-         File[] files = file.listFiles();
-         if (files != null)
+         if (file.isDirectory())
          {
-            for (int i = 0; i < files.length; i++)
+            for (File f : file.listFiles())
             {
-               if (files[i].isDirectory())
-               {
-                  recursiveDelete(files[i]);
-               }
-               else if (!files[i].delete())
-               {
-                  throw new IOException("Could not delete the file of: " + files[i]);
-               }
+               recursiveDelete(f);
             }
          }
 

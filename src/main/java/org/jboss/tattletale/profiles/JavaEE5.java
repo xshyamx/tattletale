@@ -38,7 +38,7 @@ public class JavaEE5 extends AbstractProfile
    private static final String PROFILE_CODE = "ee5";
    private static final String PROFILE_LOCATION = "javaee-api-5.jar";
    private static final String MODULE_IDENTIFIER = "javaee.api";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */
@@ -65,4 +65,3 @@ public class JavaEE5 extends AbstractProfile
       return MODULE_IDENTIFIER;
    }
 }
-

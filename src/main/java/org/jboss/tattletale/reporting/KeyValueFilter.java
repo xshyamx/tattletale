@@ -22,10 +22,8 @@
 package org.jboss.tattletale.reporting;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 /**
@@ -95,11 +93,8 @@ public class KeyValueFilter implements Filter
 
          query = query.replace('.', '/');
 
-         Iterator<String> it = ss.iterator();
-         while (it.hasNext())
+         for (String v : ss)
          {
-            String v = it.next();
-
             if (query.startsWith(v))
             {
                return true;
@@ -119,11 +114,8 @@ public class KeyValueFilter implements Filter
    {
       if (filter != null)
       {
-         StringTokenizer st = new StringTokenizer(filter, ";");
-         while (st.hasMoreTokens())
+         for (String token : filter.split(";"))
          {
-            String token = st.nextToken();
-
             int equal = token.indexOf("=");
 
             String key = token.substring(0, equal);
@@ -131,11 +123,8 @@ public class KeyValueFilter implements Filter
 
             SortedSet<String> v = new TreeSet<String>(new SizeComparator());
 
-            StringTokenizer vt = new StringTokenizer(values, ",");
-            while (vt.hasMoreTokens())
+            for (String value : values.split(","))
             {
-               String value = vt.nextToken();
-
                boolean includeAll = false;
 
                if (value.endsWith(".class"))

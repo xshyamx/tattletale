@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.zip.GZIPInputStream;
 
 import javassist.bytecode.ClassFile;
@@ -46,7 +45,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
    private static final String PROFILE_NAME = "JBoss AS 7";
    private static final String PROFILE_CODE = "as7";
    private static final String PROFILE_LOCATION = "jboss-modules.jar";
-   private static final int ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_6;
 
    /** Constructor */
@@ -124,13 +123,23 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
          String s = br.readLine();
          while (s != null)
          {
-            StringTokenizer tokenizer = new StringTokenizer(s, ",");
-            String className = tokenizer.nextToken();
-            String archiveName = tokenizer.nextToken();
+            String className = "";
+            String archiveName = "";
             String moduleIdentifier = "";
-
-            if (tokenizer.hasMoreTokens())
-               moduleIdentifier = tokenizer.nextToken();
+            for (String value : s.split(","))
+            {
+               if (className.equals(""))
+               {
+                  className = value;
+                  continue;
+               }
+               if (archiveName.equals(""))
+               {
+                  archiveName = value;
+                  continue;
+               }
+               moduleIdentifier = value;
+            }
 
             ProfileArchive profileArchive = profileMapping.get(archiveName);
 

@@ -21,9 +21,7 @@
  */
 package org.jboss.tattletale.reporting;
 
-import java.util.Iterator;
 import java.util.SortedSet;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 /**
@@ -77,11 +75,8 @@ public class KeyFilter implements Filter
 
       archive = archive.replace('.', '/');
 
-      Iterator<String> it = keyFilters.iterator();
-      while (it.hasNext())
+      for (String v : keyFilters)
       {
-         String v = it.next();
-
          if (archive.startsWith(v))
          {
             return true;
@@ -112,11 +107,8 @@ public class KeyFilter implements Filter
    {
       if (filter != null)
       {
-         StringTokenizer vt = new StringTokenizer(filter, ",");
-         while (vt.hasMoreTokens())
+         for (String value : filter.split(","))
          {
-            String value = vt.nextToken();
-
             boolean includeAll = false;
 
             if (value.endsWith(".class"))

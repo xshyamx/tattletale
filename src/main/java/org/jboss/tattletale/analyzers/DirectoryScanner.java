@@ -26,11 +26,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 /**
  * Directory scanner
@@ -64,11 +62,8 @@ public class DirectoryScanner
 
       if (scan != null)
       {
-         StringTokenizer st = new StringTokenizer(scan, ",");
-         while (st.hasMoreTokens())
+         for (String token : scan.split("[\\s,]+"))
          {
-            String token = st.nextToken();
-
             if (token.startsWith("*"))
             {
                token = token.substring(1);
@@ -96,7 +91,6 @@ public class DirectoryScanner
       return scan(file, null);
    }
 
-
    /**
     * Scan a directory for JAR files
     *
@@ -118,7 +112,6 @@ public class DirectoryScanner
 
       return null;
    }
-
 
    /**
     * Recursively walk a directory tree and return a List of all
@@ -161,14 +154,12 @@ public class DirectoryScanner
 
                if (excludes != null)
                {
-                  Iterator<String> it = excludes.iterator();
-                  while (include && it.hasNext())
+                  for (String exclude : excludes)
                   {
-                     String exclude = it.next();
-
                      if (file.getName().equals(exclude) || file.getAbsolutePath().indexOf(exclude) != -1)
                      {
                         include = false;
+                        break;
                      }
                   }
                }

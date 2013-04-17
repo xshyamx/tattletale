@@ -27,8 +27,6 @@ import org.jboss.tattletale.core.NestableArchive;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -63,8 +61,8 @@ public class EliminateJarsReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>Location</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
+      bw.write("    <th>Location</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -76,19 +74,13 @@ public class EliminateJarsReport extends AbstractReport
          String extension = archiveName.substring(finalDot + 1);
 
          SortedSet<Location> locations = getLocations(archive);
-         Iterator<Location> lit = locations.iterator();
-
-         Location location = lit.next();
 
          boolean include = false;
-         String version = location.getVersion();
-         boolean filtered = isFiltered(archive.getName());
+         String version = locations.first().getVersion();
+         boolean filtered = isFiltered(archiveName);
 
-         while (!include && lit.hasNext())
+         for (Location location : locations)
          {
-            location = lit.next();
-
-            //noinspection StringEquality
             if (version == location.getVersion() || (version != null && version.equals(location.getVersion())))
             {
                // Same version identifier - just continue
@@ -96,11 +88,11 @@ public class EliminateJarsReport extends AbstractReport
             else
             {
                include = true;
-
                if (!filtered)
                {
                   status = ReportStatus.RED;
                }
+               break;
             }
          }
 
@@ -114,17 +106,14 @@ public class EliminateJarsReport extends AbstractReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
-            bw.write("     <td><a href=\"../" + extension + "/" + archiveName +
+            bw.write("    <td><a href=\"../" + extension + "/" + archiveName +
                      ".html\">" + archiveName + "</a></td>" + Dump.newLine());
-            bw.write("     <td>");
+            bw.write("    <td>" + Dump.newLine());
 
-            bw.write("       <table>" + Dump.newLine());
+            bw.write("      <table>" + Dump.newLine());
 
-            lit = locations.iterator();
-            while (lit.hasNext())
+            for (Location location : locations)
             {
-               location = lit.next();
-
                bw.write("      <tr>" + Dump.newLine());
 
                bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
@@ -149,19 +138,17 @@ public class EliminateJarsReport extends AbstractReport
                bw.write("      </tr>" + Dump.newLine());
             }
 
-            bw.write("       </table>" + Dump.newLine());
+            bw.write("      </table>" + Dump.newLine());
 
-            bw.write("</td>" + Dump.newLine());
+            bw.write("    </td>" + Dump.newLine());
             bw.write("  </tr>" + Dump.newLine());
 
             odd = !odd;
          }
-
       }
 
       bw.write("</table>" + Dump.newLine());
    }
-
 
    private SortedSet<Location> getLocations(Archive archive)
    {
@@ -169,9 +156,8 @@ public class EliminateJarsReport extends AbstractReport
       if (archive instanceof NestableArchive)
       {
          NestableArchive nestableArchive = (NestableArchive) archive;
-         List<Archive> subArchives = nestableArchive.getSubArchives();
 
-         for (Archive sa : subArchives)
+         for (Archive sa : nestableArchive.getSubArchives())
          {
             locations.addAll(getLocations(sa));
          }
@@ -181,23 +167,6 @@ public class EliminateJarsReport extends AbstractReport
          locations.addAll(archive.getLocations());
       }
       return locations;
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
    }
 
    /**

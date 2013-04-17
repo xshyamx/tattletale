@@ -28,7 +28,6 @@ import org.jboss.tattletale.core.NestableArchive;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-
 /**
  * This type of report is to .war files as to {@link JarReport} is to .jar files.
  *
@@ -63,21 +62,10 @@ public class WarReport extends NestableReport
     */
    public WarReport(NestableArchive nestableArchive, int depth)
    {
-      super (DIRECTORY, ReportSeverity.INFO, nestableArchive);
+      super(DIRECTORY, ReportSeverity.INFO, nestableArchive);
       StringBuffer sb = new StringBuffer(nestableArchive.getName());
       setFilename(sb.append(".html").toString());
       this.depth = depth;
-   }
-
-   /**
-    * Get the name of the directory
-    *
-    * @return The directory
-    */
-   @Override
-   public String getDirectory()
-   {
-      return DIRECTORY;
    }
 
    /**
@@ -96,20 +84,19 @@ public class WarReport extends NestableReport
       }
       else
       {
-         bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" +
+         bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" " +
                   "\"http://www.w3.org/TR/html4/loose.dtd\">" + Dump.newLine());
          bw.write("<html>" + Dump.newLine());
          bw.write("<head>" + Dump.newLine());
          bw.write("  <title>" + Version.FULL_VERSION + ": " + getName() + "</title>" + Dump.newLine());
-         bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">" + Dump.newLine());
+         bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>" + Dump.newLine());
          bw.write("  <link rel=\"stylesheet\" type=\"text/css\" href=\"");
          for (int i = 1; i <= depth; i++)
          {
             bw.write("../");
          }
-         bw.write("style.css\">" + Dump.newLine());
+         bw.write("style.css\"/>" + Dump.newLine());
          bw.write("</head>" + Dump.newLine());
-
       }
    }
 
@@ -125,6 +112,7 @@ public class WarReport extends NestableReport
    {
       return getBufferedWriter(getFilename());
    }
+
    private String getFilename()
    {
       return fileName;

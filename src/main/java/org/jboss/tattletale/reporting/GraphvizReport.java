@@ -25,14 +25,12 @@ import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.ClassesArchive;
 import org.jboss.tattletale.core.NestableArchive;
 
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Iterator;
-import java.util.List;
+//import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Properties;
 import java.util.SortedSet;
@@ -58,6 +56,9 @@ public class GraphvizReport extends CLSReport
    /** Path to the dot application */
    private String graphvizDot;
 
+   /** dot application output format */
+   private String convertDotToPic;
+
    /** Constructor */
    public GraphvizReport()
    {
@@ -65,6 +66,7 @@ public class GraphvizReport extends CLSReport
 
       this.enableDot = true;
       this.graphvizDot = "dot";
+      this.convertDotToPic = "svg";
    }
 
    /**
@@ -76,8 +78,8 @@ public class GraphvizReport extends CLSReport
    {
       enableDot = Boolean.valueOf(config.getProperty("enableDot", "true"));
       graphvizDot = config.getProperty("graphvizDot", "dot");
+      convertDotToPic = config.getProperty("convertDotToPic", "svg");
    }
-
 
    /**
     * write out the report's content
@@ -87,24 +89,31 @@ public class GraphvizReport extends CLSReport
     */
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
    {
-      bw.write("<table>" + Dump.newLine());
+      boolean hasDot = testDot();
+
+      bw.write("<a href=\"dependencies.dot\">All dependencies</a>");
+      if (hasDot)
+      {
+         bw.write("&nbsp;");
+         bw.write("(<a href=\"dependencies." + convertDotToPic + "\">." + convertDotToPic + "</a>)");
+      }
+
+      bw.write(Dump.newLine() + "<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>Archives</th>" + Dump.newLine());
-      bw.write("     <th>Packages</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
+      bw.write("    <th>Archives</th>" + Dump.newLine());
+      bw.write("    <th>Packages</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-
-      FileWriter alldotfw = new FileWriter
-      (getOutputDirectory().getAbsolutePath() + File.separator + "dependencies.dot");
+      String alldotName = getOutputDirectory().getAbsolutePath() + File.separator + "dependencies.dot";
+      FileWriter alldotfw = new FileWriter(alldotName);
       BufferedWriter alldotw = new BufferedWriter(alldotfw, 8192);
 
       alldotw.write("digraph dependencies {" + Dump.newLine());
-      alldotw.write("  node [shape = box, fontsize=10.0];" + Dump.newLine());
+      alldotw.write("  node [shape=box, fontsize=10.0];" + Dump.newLine());
 
       boolean odd = true;
-      boolean hasDot = testDot();
 
       for (Archive archive : archives)
       {
@@ -120,27 +129,23 @@ public class GraphvizReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("     <td><a href=\"../" + extension + "/" + archiveName +
-               ".html\">" + archiveName + "</a></td>" + Dump.newLine());
+         bw.write("    <td><a href=\"../" + extension + "/" + archiveName +
+                  ".html\">" + archiveName + "</a></td>" + Dump.newLine());
 
          // Archive level dependencies
-         bw.write("     <td>");
+         bw.write("    <td>");
 
          SortedSet<String> result = new TreeSet<String>();
 
          for (String require : getRequires(archive))
          {
 
-            boolean found = false;
-            Iterator<Archive> ait = archives.iterator();
-            while (!found && ait.hasNext())
+            for (Archive a : archives)
             {
-               Archive a = ait.next();
-
                if (a.doesProvide(require) && (getCLS() == null || getCLS().isVisible(archive, a)))
                {
                   result.add(a.getName());
-                  found = true;
+                  break;
                }
             }
          }
@@ -155,24 +160,23 @@ public class GraphvizReport extends CLSReport
             if (hasDot)
             {
                bw.write("&nbsp;");
-               bw.write("<a href=\"" + archiveName + "/" + archiveName + ".png\">.png</a>");
+               bw.write("<a href=\"" + archiveName + "/" + archiveName + "."
+                        + convertDotToPic + "\">." + convertDotToPic + "</a>");
             }
 
             File doutput = new File(getOutputDirectory(), archiveName);
             doutput.mkdirs();
 
             String dotName = doutput.getAbsolutePath() + File.separator + archiveName + ".dot";
-            String pngName = doutput.getAbsolutePath() + File.separator + archiveName + ".png";
 
             FileWriter dotfw = new FileWriter(dotName);
             BufferedWriter dotw = new BufferedWriter(dotfw, 8192);
 
             dotw.write("digraph " + dotName(archiveName) + "_dependencies {" + Dump.newLine());
-            dotw.write("  node [shape = box, fontsize=10.0];" + Dump.newLine());
+            dotw.write("  node [shape=box, fontsize=10.0];" + Dump.newLine());
 
             for (String aResult : result)
             {
-
                alldotw.write("  " + dotName(archiveName) + " -> " + dotName(aResult) + ";" + Dump.newLine());
                dotw.write("  " + dotName(archiveName) + " -> " + dotName(aResult) + ";" + Dump.newLine());
             }
@@ -184,14 +188,13 @@ public class GraphvizReport extends CLSReport
 
             if (enableDot && hasDot)
             {
-               generatePicture(dotName, pngName, doutput);
+               generatePicture(dotName, doutput);
             }
          }
 
          bw.write("</td>" + Dump.newLine());
-
          // Package level dependencies
-         bw.write("     <td>");
+         bw.write("    <td>");
 
          if (archive.getPackageDependencies().size() == 0)
          {
@@ -203,28 +206,26 @@ public class GraphvizReport extends CLSReport
             if (hasDot)
             {
                bw.write("&nbsp;");
-               bw.write("<a href=\"" + archiveName + "/" + archiveName + "-package.png\">.png</a>");
+               bw.write("<a href=\"" + archiveName + "/" + archiveName + "-package."
+                        + convertDotToPic + "\">." + convertDotToPic + "</a>");
             }
 
             File doutput = new File(getOutputDirectory(), archiveName);
             doutput.mkdirs();
 
             String dotName = doutput.getAbsolutePath() + File.separator + archiveName + "-package.dot";
-            String pngName = doutput.getAbsolutePath() + File.separator + archiveName + "-package.png";
 
             FileWriter dotfw = new FileWriter(dotName);
             BufferedWriter dotw = new BufferedWriter(dotfw, 8192);
 
             dotw.write("digraph " + dotName(archiveName) + "_package_dependencies {" + Dump.newLine());
-            dotw.write("  node [shape = box, fontsize=10.0];" + Dump.newLine());
+            dotw.write("  node [shape=box, fontsize=10.0];" + Dump.newLine());
 
             for (Map.Entry<String, SortedSet<String>> entry : archive.getPackageDependencies().entrySet())
             {
-
                String pkg = dotName(entry.getKey());
-               SortedSet<String> deps = entry.getValue();
 
-               for (String dep : deps)
+               for (String dep : entry.getValue())
                {
                   dotw.write("  " + pkg + " -> " + dotName(dep) + ";" + Dump.newLine());
                }
@@ -237,22 +238,25 @@ public class GraphvizReport extends CLSReport
 
             if (enableDot && hasDot)
             {
-               generatePicture(dotName, pngName, doutput);
+               generatePicture(dotName, doutput);
             }
          }
 
          bw.write("</td>" + Dump.newLine());
-
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;
       }
 
-
       alldotw.write("}" + Dump.newLine());
 
       alldotw.flush();
       alldotw.close();
+
+      if (enableDot && hasDot)
+      {
+         generatePicture(alldotName, getOutputDirectory());
+      }
 
       bw.write("</table>" + Dump.newLine());
    }
@@ -264,9 +268,8 @@ public class GraphvizReport extends CLSReport
       if (archive instanceof NestableArchive)
       {
          NestableArchive nestableArchive = (NestableArchive) archive;
-         List<Archive> subArchives = nestableArchive.getSubArchives();
 
-         for (Archive sa : subArchives)
+         for (Archive sa : nestableArchive.getSubArchives())
          {
             requires.addAll(getRequires(sa));
          }
@@ -281,26 +284,6 @@ public class GraphvizReport extends CLSReport
          requires.addAll(archive.getRequires());
       }
       return requires;
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
-
-      bw.write("<a href=\"dependencies.dot\">All dependencies</a>");
-      bw.write("<p>" + Dump.newLine());
    }
 
    /**
@@ -355,24 +338,24 @@ public class GraphvizReport extends CLSReport
     * Generate picture
     *
     * @param dotName   The .dot file name
-    * @param pngName   The .png file name
     * @param directory The directory
     */
-   private boolean generatePicture(String dotName, String pngName, File directory)
+   private boolean generatePicture(String dotName, File directory)
    {
       try
       {
          ProcessBuilder pb = new ProcessBuilder();
-         pb = pb.command(graphvizDot, "-Tpng", dotName, "-o", pngName);
+         pb = pb.command(graphvizDot, "-T" + convertDotToPic,
+                         dotName, "-o", dotName.replaceFirst("dot$", convertDotToPic));
          pb = pb.directory(directory);
 
          Process proc = pb.redirectErrorStream(true).start();
 
+         /*
          BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
          BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
          String l;
 
-         /*
          while ((l = out.readLine()) != null)
          {
             System.err.println(l);

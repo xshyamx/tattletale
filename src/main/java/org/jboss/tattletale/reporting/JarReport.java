@@ -27,7 +27,6 @@ import org.jboss.tattletale.core.Location;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javassist.bytecode.ClassFile;
@@ -80,7 +79,6 @@ public class JarReport extends ArchiveReport
     * @param bw the buffered writer
     * @throws IOException if an error occurs
     */
-
    @Override
    public void writeHtmlHead(BufferedWriter bw) throws IOException
    {
@@ -90,33 +88,21 @@ public class JarReport extends ArchiveReport
       }
       else
       {
-         bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" +
+         bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" " +
                   "\"http://www.w3.org/TR/html4/loose.dtd\">" + Dump.newLine());
          bw.write("<html>" + Dump.newLine());
          bw.write("<head>" + Dump.newLine());
          bw.write("  <title>" + Version.FULL_VERSION + ": " + getName() + "</title>" + Dump.newLine());
-         bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">" + Dump.newLine());
+         bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>" + Dump.newLine());
          bw.write("  <link rel=\"stylesheet\" type=\"text/css\" href=\"");
          for (int i = 1; i <= depth; i++)
          {
             bw.write("../");
          }
-         bw.write("style.css\">" + Dump.newLine());
+         bw.write("style.css\"/>" + Dump.newLine());
          bw.write("</head>" + Dump.newLine());
 
       }
-   }
-
-
-   /**
-    * Get the name of the directory
-    *
-    * @return The directory
-    */
-   @Override
-   public String getDirectory()
-   {
-      return DIRECTORY;
    }
 
    /**
@@ -143,13 +129,13 @@ public class JarReport extends ArchiveReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Name</td>" + Dump.newLine());
-      bw.write("     <td>" + archive.getName() + "</td>" + Dump.newLine());
+      bw.write("    <td>Name</td>" + Dump.newLine());
+      bw.write("    <td>" + archive.getName() + "</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Class Version</td>" + Dump.newLine());
-      bw.write("     <td>");
+      bw.write("    <td>Class Version</td>" + Dump.newLine());
+      bw.write("    <td>");
 
       if (ClassFile.JAVA_6 == archive.getVersion())
       {
@@ -180,14 +166,13 @@ public class JarReport extends ArchiveReport
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Locations</td>" + Dump.newLine());
-      bw.write("     <td>");
+      bw.write("    <td>Locations</td>" + Dump.newLine());
+      bw.write("    <td>" + Dump.newLine());
 
-      bw.write("       <table>" + Dump.newLine());
+      bw.write("      <table>" + Dump.newLine());
 
       for (Location location : archive.getLocations())
       {
-
          bw.write("      <tr>" + Dump.newLine());
 
          bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
@@ -205,125 +190,73 @@ public class JarReport extends ArchiveReport
          bw.write("      </tr>" + Dump.newLine());
       }
 
-      bw.write("       </table>" + Dump.newLine());
+      bw.write("      </table>" + Dump.newLine());
 
-      bw.write("</td>" + Dump.newLine());
+      bw.write("    </td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Profiles</td>" + Dump.newLine());
-      bw.write("     <td>");
+      bw.write("    <td>Profiles</td>" + Dump.newLine());
+      bw.write("    <td>");
 
-      if (archive.getProfiles() != null)
-      {
-         Iterator<String> pit = archive.getProfiles().iterator();
-         while (pit.hasNext())
-         {
-            String p = pit.next();
-
-            bw.write(p);
-
-            if (pit.hasNext())
-            {
-               bw.write("<br>");
-            }
-         }
-      }
-
-      bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Manifest</td>" + Dump.newLine());
-      bw.write("     <td>");
-
-      if (archive.getManifest() != null)
-      {
-         Iterator<String> mit = archive.getManifest().iterator();
-         while (mit.hasNext())
-         {
-            String m = mit.next();
-
-            bw.write(m);
-
-            if (mit.hasNext())
-            {
-               bw.write("<br>");
-            }
-         }
-      }
-
-      bw.write("</td>" + Dump.newLine());
-      bw.write("  </tr>" + Dump.newLine());
-
-      bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Signing information</td>" + Dump.newLine());
-      bw.write("     <td>");
-
-      if (archive.getSign() != null)
-      {
-         Iterator<String> sit = archive.getSign().iterator();
-         while (sit.hasNext())
-         {
-            String s = sit.next();
-
-            bw.write(s);
-
-            if (sit.hasNext())
-            {
-               bw.write("<br>");
-            }
-         }
-      }
+      bw.write(join(archive.getProfiles(),"<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <td>Requires</td>" + Dump.newLine());
-      bw.write("     <td>");
+      bw.write("    <td>Manifest</td>" + Dump.newLine());
+      bw.write("    <td>");
 
-      Iterator<String> rit = archive.getRequires().iterator();
-      while (rit.hasNext())
-      {
-         String require = rit.next();
-
-         bw.write(require);
-
-         if (rit.hasNext())
-         {
-            bw.write("<br>");
-         }
-      }
+      bw.write(join(archive.getManifest(),"<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("  <tr class=\"roweven\">" + Dump.newLine());
-      bw.write("     <td>Provides</td>" + Dump.newLine());
-      bw.write("     <td>");
+      bw.write("    <td>Signing information</td>" + Dump.newLine());
+      bw.write("    <td>");
 
-      bw.write("       <table>");
+      bw.write(join(archive.getSign(),"<br/>"));
+
+      bw.write("</td>" + Dump.newLine());
+      bw.write("  </tr>" + Dump.newLine());
+
+      bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
+      bw.write("    <td>Requires</td>" + Dump.newLine());
+      bw.write("    <td>");
+
+      bw.write(join(archive.getRequires(),"<br/>"));
+
+      bw.write("</td>" + Dump.newLine());
+      bw.write("  </tr>" + Dump.newLine());
+
+      bw.write("  <tr class=\"roweven\">" + Dump.newLine());
+      bw.write("    <td>Provides</td>" + Dump.newLine());
+      bw.write("    <td>" + Dump.newLine());
+
+      bw.write("      <table>" + Dump.newLine());
 
       for (Map.Entry<String, Long> entry : archive.getProvides().entrySet())
       {
-
-         String name = entry.getKey();
          Long serialVersionUID = entry.getValue();
 
-         bw.write("         <tr>" + Dump.newLine());
-         bw.write("           <td>" + name + "</td>" + Dump.newLine());
+         bw.write("        <tr>" + Dump.newLine());
+         bw.write("          <td>" + entry.getKey() + "</td>" + Dump.newLine());
 
          if (serialVersionUID != null)
          {
-            bw.write("           <td>" + serialVersionUID + "</td>" + Dump.newLine());
+            bw.write("          <td>" + serialVersionUID + "</td>" + Dump.newLine());
          }
          else
          {
-            bw.write("           <td>&nbsp;</td>" + Dump.newLine());
+            bw.write("          <td>&nbsp;</td>" + Dump.newLine());
          }
-         bw.write("         </tr>" + Dump.newLine());
+         bw.write("        </tr>" + Dump.newLine());
       }
-      bw.write("       </table>");
+      bw.write("      </table>" + Dump.newLine());
 
-      bw.write("</td>" + Dump.newLine());
+      bw.write("    </td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       bw.write("</table>" + Dump.newLine());
@@ -335,16 +268,6 @@ public class JarReport extends ArchiveReport
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + archive.getName() + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
-   }
 
    private String getFilename()
    {

@@ -55,5 +55,4 @@ public class Analyzer
 
       return null;
    }
-
 }

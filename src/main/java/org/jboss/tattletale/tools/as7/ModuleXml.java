@@ -58,7 +58,6 @@ public class ModuleXml
             switch (eventCode)
             {
                case XMLStreamReader.START_ELEMENT :
-
                   if ("module".equals(xmlStreamReader.getLocalName()))
                   {
                      for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++)
@@ -70,8 +69,8 @@ public class ModuleXml
                         }
                      }
                   }
-
                   break;
+
                default :
             }
          }
@@ -104,6 +103,7 @@ public class ModuleXml
     * @return The parameter
     * @exception XMLStreamException Thrown if an exception occurs
     */
+   @SuppressWarnings("unused")
    private static String readString(XMLStreamReader xmlStreamReader) throws XMLStreamException
    {
       String result = null;
@@ -117,7 +117,6 @@ public class ModuleXml
             case XMLStreamReader.CHARACTERS :
                if (!xmlStreamReader.getText().trim().equals(""))
                   result = xmlStreamReader.getText().trim();
-
                break;
 
             default :

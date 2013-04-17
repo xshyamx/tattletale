@@ -32,6 +32,7 @@ import java.util.SortedSet;
  *
  * @author Navin Surtani
  */
+@SuppressWarnings("serial")
 public class ClassesArchive extends Archive
 {
 

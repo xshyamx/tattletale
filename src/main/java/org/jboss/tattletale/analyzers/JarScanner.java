@@ -33,7 +33,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -104,7 +103,7 @@ public class JarScanner extends AbstractScanner
                {
                   entryStream = jarFile.getInputStream(jarEntry);
                   classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides, requires,
-                        profiles, classDependencies, packageDependencies, blacklistedDependencies);
+                                             profiles, classDependencies, packageDependencies, blacklistedDependencies);
                }
                catch (Exception ie)
                {
@@ -180,14 +179,11 @@ public class JarScanner extends AbstractScanner
             classVersion = Integer.valueOf(0);
 
          archive = new JarArchive(name, classVersion, lManifest, lSign, requires, provides,
-                     classDependencies, packageDependencies, blacklistedDependencies, location);
+                                  classDependencies, packageDependencies, blacklistedDependencies, location);
          addProfilesToArchive(archive, profiles);
 
-         Iterator<String> it = provides.keySet().iterator();
-         while (it.hasNext())
+         for (String provide : provides.keySet())
          {
-            String provide = it.next();
-
             if (gProvides != null)
             {
                SortedSet<String> ss = gProvides.get(provide);
@@ -229,5 +225,4 @@ public class JarScanner extends AbstractScanner
       }
       return archive;
    }
-
 }

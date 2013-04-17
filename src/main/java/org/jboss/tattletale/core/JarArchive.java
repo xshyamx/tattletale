@@ -30,6 +30,7 @@ import java.util.SortedSet;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
+@SuppressWarnings("serial")
 public class JarArchive extends Archive
 {
    /**

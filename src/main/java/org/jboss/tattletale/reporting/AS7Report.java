@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -58,25 +57,6 @@ public class AS7Report extends CLSReport
       super(NAME, ReportSeverity.INFO, NAME, DIRECTORY);
    }
 
-
-   /**
-    * Build the header of the html file.
-    *
-    * @param bw the writer to use
-    * @throws IOException - if there is an issue with the html writing
-    */
-   @Override
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<body>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("<a href=\"../index.html\">Main</a>" + Dump.newLine());
-      bw.write("<p />" + Dump.newLine());
-   }
-
    /**
     * Write the main html content.
     *
@@ -88,8 +68,8 @@ public class AS7Report extends CLSReport
    {
       bw.write("<table>" + Dump.newLine());
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>JBoss Deployment</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
+      bw.write("    <th>JBoss Deployment</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -112,9 +92,9 @@ public class AS7Report extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("     <td><a href=\"../" + extension + "/" + archiveName + ".html\">" +
+         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" +
                archiveName + "</a></td>" + Dump.newLine());
-         bw.write("     <td><a href=\"" + path + "\">jboss-deployment-structure" +
+         bw.write("    <td><a href=\"" + path + "\">jboss-deployment-structure" +
                ".xml</a></td>" + Dump.newLine());
          bw.write("  </tr>" + Dump.newLine());
 
@@ -129,10 +109,9 @@ public class AS7Report extends CLSReport
       if (a instanceof NestableArchive)
       {
          NestableArchive na = (NestableArchive) a;
-         List<Archive> subArchives = na.getSubArchives();
          provides.addAll(na.getProvides().keySet());
 
-         for (Archive sa : subArchives)
+         for (Archive sa : na.getSubArchives())
          {
             provides.addAll(getProvides(sa));
          }
@@ -150,10 +129,9 @@ public class AS7Report extends CLSReport
       if (a instanceof NestableArchive)
       {
          NestableArchive na = (NestableArchive) a;
-         List<Archive> subArchives = na.getSubArchives();
          requires.addAll(na.getRequires());
 
-         for (Archive sa : subArchives)
+         for (Archive sa : na.getSubArchives())
          {
             requires.addAll(getRequires(sa));
          }
@@ -176,7 +154,7 @@ public class AS7Report extends CLSReport
       bw.write("<?xml version=\"1.0\"?>" + Dump.newLine());
       bw.write("<jboss-deployment-structure>" + Dump.newLine());
       bw.write("  <deployment>" + Dump.newLine());
-      bw.write("     <dependencies>" + Dump.newLine());
+      bw.write("    <dependencies>" + Dump.newLine());
 
       ExtendedProfile as7Profile = new JBossAS7Profile();
       SortedSet<String> moduleIdentifiers = new TreeSet<String>();
@@ -206,9 +184,9 @@ public class AS7Report extends CLSReport
 
       for (String identifier : moduleIdentifiers)
       {
-         bw.write("        <module name=\"" + identifier + "\"/>" + Dump.newLine());
+         bw.write("      <module name=\"" + identifier + "\"/>" + Dump.newLine());
       }
-      bw.write("     </dependencies>" + Dump.newLine());
+      bw.write("    </dependencies>" + Dump.newLine());
       bw.write("  </deployment>" + Dump.newLine());
       bw.write("</jboss-deployment-structure>" + Dump.newLine());
       bw.flush();
@@ -216,5 +194,4 @@ public class AS7Report extends CLSReport
 
       return outputXml;
    }
-
 }

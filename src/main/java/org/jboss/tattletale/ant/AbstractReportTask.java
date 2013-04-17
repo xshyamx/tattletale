@@ -167,5 +167,4 @@ public abstract class AbstractReportTask extends Task
     * @throws BuildException If an error occurs
     */
    public abstract void execute() throws BuildException;
-
 }

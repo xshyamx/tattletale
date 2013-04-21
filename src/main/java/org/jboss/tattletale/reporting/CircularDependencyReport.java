@@ -22,7 +22,7 @@
 package org.jboss.tattletale.reporting;
 
 import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 import org.jboss.tattletale.core.NestableArchive;
 
 import java.io.BufferedWriter;
@@ -181,7 +181,7 @@ public class CircularDependencyReport extends CLSReport
             {
                for (Archive a : archives)
                {
-                  if (a.getType() == ArchiveTypes.JAR)
+                  if (a.getType() == ArchiveType.JAR)
                   {
                      if (a.doesProvide(require) && (getCLS() == null || getCLS().isVisible(archive, a)))
                      {

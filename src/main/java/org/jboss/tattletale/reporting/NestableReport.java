@@ -23,7 +23,7 @@
 package org.jboss.tattletale.reporting;
 
 import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 import org.jboss.tattletale.core.Location;
 import org.jboss.tattletale.core.NestableArchive;
 
@@ -211,7 +211,7 @@ public abstract class NestableReport extends ArchiveReport
          ArchiveReport report = null;
          int depth = 1;
 
-         if (subArchive.getType() == ArchiveTypes.JAR)
+         if (subArchive.getType() == ArchiveType.JAR)
          {
             if (subArchive.getParentArchive() != null && subArchive.getParentArchive().getParentArchive() != null)
             {
@@ -223,7 +223,7 @@ public abstract class NestableReport extends ArchiveReport
             }
             report = new JarReport(subArchive, depth);
          }
-         else if (subArchive.getType() == ArchiveTypes.WAR)
+         else if (subArchive.getType() == ArchiveType.WAR)
          {
             NestableArchive nestedSubArchive = (NestableArchive) subArchive;
 

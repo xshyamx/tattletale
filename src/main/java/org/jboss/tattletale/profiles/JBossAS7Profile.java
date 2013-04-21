@@ -22,7 +22,7 @@
 
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
    private static final String PROFILE_NAME = "JBoss AS 7";
    private static final String PROFILE_CODE = "as7";
    private static final String PROFILE_LOCATION = "jboss-modules.jar";
-   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveType ARCHIVE_TYPE = ArchiveType.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_6;
 
    /** Constructor */

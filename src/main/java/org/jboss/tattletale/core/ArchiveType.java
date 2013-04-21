@@ -26,7 +26,7 @@ package org.jboss.tattletale.core;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public enum ArchiveTypes
+public enum ArchiveType
 {
    CLASS,
    JAR,

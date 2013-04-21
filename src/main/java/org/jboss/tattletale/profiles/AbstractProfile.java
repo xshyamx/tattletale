@@ -21,7 +21,7 @@
  */
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 import org.jboss.tattletale.core.Location;
 
 import java.io.BufferedReader;
@@ -42,7 +42,7 @@ public abstract class AbstractProfile implements Profile
 {
    /** The type of Profile */
    @SuppressWarnings("unused")
-   private ArchiveTypes type;
+   private ArchiveType type;
 
    /** The version */
    @SuppressWarnings("unused")
@@ -69,7 +69,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(String classSet, ArchiveTypes type, String name, int version, String location)
+   public AbstractProfile(String classSet, ArchiveType type, String name, int version, String location)
    {
       this (type, name, version, location);
       loadProfile(classSet);
@@ -83,7 +83,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(ArchiveTypes type, String name, int version, String location)
+   public AbstractProfile(ArchiveType type, String name, int version, String location)
    {
       this.type = type;
       this.name = name;

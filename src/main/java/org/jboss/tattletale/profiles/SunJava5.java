@@ -21,7 +21,7 @@
  */
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 
 import java.util.Set;
 
@@ -40,7 +40,7 @@ public class SunJava5 extends AbstractProfile
    private static final String PROFILE_CODE = "java5";
    private static final String PROFILE_LOCATION = "rt.jar";
    private static final String MODULE_IDENTIFIER = "system";
-   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveType ARCHIVE_TYPE = ArchiveType.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */

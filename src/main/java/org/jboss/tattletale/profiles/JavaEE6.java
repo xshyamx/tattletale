@@ -21,7 +21,7 @@
  */
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 
 import javassist.bytecode.ClassFile;
 
@@ -37,7 +37,7 @@ public class JavaEE6 extends AbstractProfile
    private static final String PROFILE_CODE = "ee6";
    private static final String PROFILE_LOCATION = "javaee-api-6.jar";
    private static final String MODULE_IDENTIFIER = "javaee.api";
-   private static final ArchiveTypes ARCHIVE_TYPE = ArchiveTypes.JAR;
+   private static final ArchiveType ARCHIVE_TYPE = ArchiveType.JAR;
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_6;
 
    /** Constructor */

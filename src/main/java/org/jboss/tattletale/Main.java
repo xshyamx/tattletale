@@ -25,7 +25,7 @@ import org.jboss.tattletale.analyzers.Analyzer;
 import org.jboss.tattletale.analyzers.ArchiveScanner;
 import org.jboss.tattletale.analyzers.DirectoryScanner;
 import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ArchiveTypes;
+import org.jboss.tattletale.core.ArchiveType;
 import org.jboss.tattletale.core.Location;
 import org.jboss.tattletale.core.NestableArchive;
 import org.jboss.tattletale.profiles.AbstractProfile;
@@ -394,19 +394,19 @@ public class Main
     * 
     * @param config The configuration
     */
-   	public void setConfiguration(Properties config)
-   	{
-   		this.config = config;
-   	}
+   public void setConfiguration(Properties config)
+   {
+      this.config = config;
+   }
 
-   	/**
+   /**
     * Execute
     *
     * @throws Exception Thrown if an error occurs
     */
    public void execute() throws Exception
    {
-	  Configuration cfg = new Configuration(config);
+      Configuration cfg = new Configuration(config);
 
       if (configuration != null)
       {
@@ -1068,16 +1068,16 @@ public class Main
    {
       for (Archive a : archives)
       {
-         if (a.getType() == ArchiveTypes.WAR)
+         if (a.getType() == ArchiveType.WAR)
          {
             NestableArchive na = (NestableArchive) a;
             reportSetBuilder.addReport(new WarReport(na));
          }
-         else if (a.getType() == ArchiveTypes.JAR)
+         else if (a.getType() == ArchiveType.JAR)
          {
             reportSetBuilder.addReport(new JarReport(a));
          }
-         else if (a.getType() == ArchiveTypes.EAR)
+         else if (a.getType() == ArchiveType.EAR)
          {
             NestableArchive na = (NestableArchive) a;
             reportSetBuilder.addReport(new EarReport(na));

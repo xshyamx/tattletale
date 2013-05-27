@@ -35,7 +35,6 @@ public class JarArchive extends Archive
 {
    /**
     * Constructor
-    *
     * @param name                    The name
     * @param version                 The version number
     * @param manifest                The manifest

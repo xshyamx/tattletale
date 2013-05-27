@@ -37,13 +37,13 @@ import java.util.Set;
  */
 public class DirectoryScanner
 {
-   /** Archives types that should be scanned */
-   private static Set<String> archives = new HashSet<String>();
+   /** Archive types that should be scanned */
+   private static final Set<String> ARCHIVES = new HashSet<String>();
 
    static
    {
-      archives.add(".jar");
-      archives.add(".war");
+      ARCHIVES.add(".jar");
+      ARCHIVES.add(".war");
    }
 
    /** Constructor */
@@ -53,36 +53,34 @@ public class DirectoryScanner
 
    /**
     * Set archives
-    *
     * @param scan The archives
     */
    public static void setArchives(String scan)
    {
-      archives.clear();
+      ARCHIVES.clear();
 
-      if (scan != null)
+      if (null != scan)
       {
          for (String token : scan.split("[\\s,]+"))
          {
-            if (token.startsWith("*"))
+            if (token.length() > 0 && '*' == token.charAt(0))
             {
                token = token.substring(1);
             }
 
-            archives.add(token.toLowerCase(Locale.US));
+            ARCHIVES.add(token.toLowerCase(Locale.US));
          }
       }
 
-      if (archives.isEmpty())
+      if (ARCHIVES.isEmpty())
       {
-         archives.add(".jar");
-         archives.add(".war");
+         ARCHIVES.add(".jar");
+         ARCHIVES.add(".war");
       }
    }
 
    /**
     * Scan a directory for JAR files
-    *
     * @param file The root directory
     * @return The list of JAR files
     */
@@ -93,7 +91,6 @@ public class DirectoryScanner
 
    /**
     * Scan a directory for JAR files
-    *
     * @param file     The root directory
     * @param excludes The set of excludes
     * @return The list of files
@@ -103,7 +100,6 @@ public class DirectoryScanner
       try
       {
          return getFileListing(file, excludes);
-
       }
       catch (Exception e)
       {
@@ -116,7 +112,6 @@ public class DirectoryScanner
    /**
     * Recursively walk a directory tree and return a List of all
     * Files found; the List is sorted using File.compareTo().
-    *
     * @param aStartingDir is a valid directory, which can be read.
     * @param excludes     The set of excludes
     * @return - the list of the files without the specific exclusions
@@ -124,18 +119,25 @@ public class DirectoryScanner
     */
    private static List<File> getFileListing(File aStartingDir, Set<String> excludes) throws Exception
    {
-      List<File> result = getFileListingNoSort(aStartingDir, excludes);
+      final List<File> result = getFileListingNoSort(aStartingDir, excludes);
       Collections.sort(result);
       return result;
    }
 
+   /**
+    * Method getFileListingNoSort.
+    * @param aStartingDir File
+    * @param excludes Set<String>
+    * @return List<File>
+    * @throws Exception
+    */
    private static List<File> getFileListingNoSort(File aStartingDir, Set<String> excludes) throws Exception
    {
-      List<File> result = new ArrayList<File>();
+      final List<File> result = new ArrayList<File>();
 
-      File[] filesAndDirs = aStartingDir.listFiles();
+      final File[] filesAndDirs = aStartingDir.listFiles();
 
-      List<File> filesDirs = Arrays.asList(filesAndDirs);
+      final List<File> filesDirs = Arrays.asList(filesAndDirs);
 
       for (File file : filesDirs)
       {
@@ -143,16 +145,16 @@ public class DirectoryScanner
          {
             String extension = null;
 
-            if (file.getName().lastIndexOf(".") != -1)
+            if (file.getName().lastIndexOf('.') != -1)
             {
-               extension = file.getName().substring(file.getName().lastIndexOf("."));
+               extension = file.getName().substring(file.getName().lastIndexOf('.'));
             }
 
-            if (extension != null && archives.contains(extension))
+            if (null != extension && ARCHIVES.contains(extension))
             {
                boolean include = true;
 
-               if (excludes != null)
+               if (null != excludes)
                {
                   for (String exclude : excludes)
                   {

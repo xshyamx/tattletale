@@ -22,10 +22,10 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * This type of report is to .ear files as to {@link JarReport} is to .jar files.
@@ -46,21 +46,34 @@ public class EarReport extends NestableReport
    public EarReport(NestableArchive archive)
    {
       super(DIRECTORY, ReportSeverity.INFO, archive);
-      StringBuffer sb = new StringBuffer(archive.getName());
+      final StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
    }
 
+   /**
+    * Method getBufferedWriter.
+    * @return BufferedWriter
+    * @throws IOException
+    */
    @Override
    BufferedWriter getBufferedWriter() throws IOException
    {
       return getBufferedWriter(getFilename());
    }
 
+   /**
+    * Method getFilename.
+    * @return String
+    */
    private String getFilename()
    {
       return fileName;
    }
 
+   /**
+    * Method setFilename.
+    * @param fileName String
+    */
    private void setFilename(String fileName)
    {
       this.fileName = fileName;

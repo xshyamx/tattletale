@@ -21,10 +21,10 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.jboss.tattletale.core.Archive;
 
 /**
  * A report that shows unused JAR archives
@@ -47,7 +47,6 @@ public class UnusedJarReport extends AbstractReport
 
    /**
     * Write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -69,7 +68,7 @@ public class UnusedJarReport extends AbstractReport
          boolean archiveStatus = false;
 
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          for (Archive a : archives)
@@ -155,7 +154,6 @@ public class UnusedJarReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

@@ -57,7 +57,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Get the source
-    *
     * @return The value
     */
    public File getSource()
@@ -67,7 +66,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Set the source
-    *
     * @param source The value
     */
    public void setSource(File source)
@@ -77,7 +75,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Get the destination
-    *
     * @return The value
     */
    public File getDestination()
@@ -87,7 +84,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Set the destination
-    *
     * @param destination The value
     */
    public void setDestination(File destination)
@@ -97,7 +93,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Get the configuration
-    *
     * @return The value
     */
    public File getConfiguration()
@@ -107,7 +102,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Set the configuration
-    *
     * @param configuration The value
     */
    public void setConfiguration(File configuration)
@@ -117,7 +111,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Get the filter
-    *
     * @return The value
     */
    public File getFilter()
@@ -127,7 +120,6 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Set the filter
-    *
     * @param filter The value
     */
    public void setFilter(File filter)
@@ -137,9 +129,9 @@ public abstract class TattletaleMojo extends AbstractMojo
 
    /**
     * Execute
-    *
-    * @throws MojoExecutionException Thrown if the plugin cant be executed
+    * @throws MojoExecutionException Thrown if the plugin cannot be executed
     * @throws MojoFailureException   Thrown if there is an error
+    * @see org.apache.maven.plugin.Mojo#execute()
     */
    public abstract void execute() throws MojoExecutionException, MojoFailureException;
 }

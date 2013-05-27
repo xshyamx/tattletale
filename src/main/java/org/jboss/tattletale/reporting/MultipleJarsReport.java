@@ -52,7 +52,6 @@ public class MultipleJarsReport extends AbstractReport
 
    /**
     * Set the globally provides map to be used in generating this report
-    *
     * @param gProvides the map of global provides
     */
    public void setGlobalProvides(SortedMap<String, SortedSet<String>> gProvides)
@@ -62,7 +61,6 @@ public class MultipleJarsReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -128,7 +126,6 @@ public class MultipleJarsReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

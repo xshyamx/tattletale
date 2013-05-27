@@ -22,8 +22,6 @@
 
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveType;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +32,8 @@ import java.util.zip.GZIPInputStream;
 
 import javassist.bytecode.ClassFile;
 
+import org.jboss.tattletale.core.ArchiveType;
+
 /**
  * Profile for JBoss AS 7.
  *
@@ -41,11 +41,22 @@ import javassist.bytecode.ClassFile;
  */
 public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
 {
+   /** Field CLASS_SET. (value is ""jbossas7.clz.gz"") */
    private static final String CLASS_SET = "jbossas7.clz.gz";
+
+   /** Field PROFILE_NAME. (value is ""JBoss AS 7"") */
    private static final String PROFILE_NAME = "JBoss AS 7";
+
+   /** Field PROFILE_CODE. (value is ""as7"") */
    private static final String PROFILE_CODE = "as7";
+
+   /** Field PROFILE_LOCATION. (value is ""jboss-modules.jar"") */
    private static final String PROFILE_LOCATION = "jboss-modules.jar";
+
+   /** Field ARCHIVE_TYPE. (value is ArchiveType.JAR) */
    private static final ArchiveType ARCHIVE_TYPE = ArchiveType.JAR;
+
+   /** Field CLASSFILE_VERSION. (value is ClassFile.JAVA_6) */
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_6;
 
    /** Constructor */
@@ -57,9 +68,9 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
 
    /**
     * Implementation from {@link ExtendedProfile}.
-    *
     * @param clz  - the class name
     * @return     - the module identifier
+    * @see org.jboss.tattletale.profiles.ExtendedProfile#getModuleIdentifier(String)
     */
 
    public String getModuleIdentifier(String clz)
@@ -76,9 +87,9 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
 
    /**
     * Makes the call on the superclass.
-    *
     * @param clz The class name
     * @return - whether or not the class name is provided or not.
+    * @see org.jboss.tattletale.profiles.Profile#doesProvide(String)
     */
    public boolean doesProvide(String clz)
    {
@@ -87,8 +98,8 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
 
    /**
     * The name of the Profile
-    *
     * @return  - the name of the profile
+    * @see org.jboss.tattletale.profiles.Profile#getName()
     */
 
    public String getName()
@@ -96,18 +107,30 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
       return PROFILE_NAME;
    }
 
+   /**
+    * Method getProfileCode.
+    * @return String
+    */
    @Override
    public String getProfileCode()
    {
       return PROFILE_CODE;
    }
 
+   /**
+    * Method getProfileName.
+    * @return String
+    */
    @Override
    public String getProfileName()
    {
       return PROFILE_NAME;
    }
 
+   /**
+    * Method loadProfile.
+    * @param classSet String
+    */
    @Override
    protected void loadProfile(String classSet)
    {
@@ -115,18 +138,18 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
       try
       {
          inputStream = this.getClass().getClassLoader().getResourceAsStream(classSet);
-         GZIPInputStream gis = new GZIPInputStream(inputStream);
-         InputStreamReader isr = new InputStreamReader(gis);
-         BufferedReader br = new BufferedReader(isr);
-         Map <String, ProfileArchive> profileMapping = new HashMap<String, ProfileArchive>();
+         final GZIPInputStream gis = new GZIPInputStream(inputStream);
+         final InputStreamReader isr = new InputStreamReader(gis);
+         final BufferedReader br = new BufferedReader(isr);
+         final Map <String, ProfileArchive> profileMapping = new HashMap<String, ProfileArchive>();
 
-         String s = br.readLine();
-         while (s != null)
+         String line = br.readLine();
+         while (null != line)
          {
             String className = "";
             String archiveName = "";
             String moduleIdentifier = "";
-            for (String value : s.split(","))
+            for (String value : line.split(","))
             {
                if (className.equals(""))
                {
@@ -143,14 +166,14 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
 
             ProfileArchive profileArchive = profileMapping.get(archiveName);
 
-            if (profileArchive == null)
+            if (null == profileArchive)
             {
                profileArchive = new ProfileArchive(archiveName, moduleIdentifier);
                profileMapping.put(archiveName, profileArchive);
             }
 
             profileArchive.addClass(className);
-            s = br.readLine();
+            line = br.readLine();
          }
          subProfiles.addAll(profileMapping.values());
       }
@@ -162,7 +185,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
       {
          try
          {
-            if (inputStream != null)
+            if (null != inputStream)
             {
                inputStream.close();
             }

@@ -52,17 +52,17 @@ public class Main
     */
    public static void main(String[] args)
    {
-      if (args != null && args.length == 2)
+      if (null != args && 2 == args.length)
       {
          FileWriter fw = null;
          try
          {
-            File root = new File(args[0], "modules");
-            File outputFile = new File(args[1]);
-            
+            final File root = new File(args[0], "modules");
+            final File outputFile = new File(args[1]);
+
             fw = new FileWriter(outputFile);
 
-            List<File> jars = getFileListing(root);
+            final List<File> jars = getFileListing(root);
 
             for (File f : jars)
             {
@@ -100,7 +100,7 @@ public class Main
          }
          finally
          {
-            if (fw != null)
+            if (null != fw)
             {
                try
                {
@@ -122,23 +122,30 @@ public class Main
    /**
     * Recursively walk a directory tree and return a List of all
     * Files found; the List is sorted using File.compareTo().
-    *
     * @param aStartingDir is a valid directory, which can be read.
+    * @return List<File>
+    * @throws Exception
     */
    private static List<File> getFileListing(File aStartingDir) throws Exception
    {
-      List<File> result = getFileListingNoSort(aStartingDir);
+      final List<File> result = getFileListingNoSort(aStartingDir);
       Collections.sort(result);
       return result;
    }
 
+   /**
+    * Method getFileListingNoSort.
+    * @param aStartingDir File
+    * @return List<File>
+    * @throws Exception
+    */
    private static List<File> getFileListingNoSort(File aStartingDir) throws Exception
    {
-      List<File> result = new ArrayList<File>();
+      final List<File> result = new ArrayList<File>();
 
-      File[] filesAndDirs = aStartingDir.listFiles();
+      final File[] filesAndDirs = aStartingDir.listFiles();
 
-      List<File> filesDirs = Arrays.asList(filesAndDirs);
+      final List<File> filesDirs = Arrays.asList(filesAndDirs);
 
       for (File file : filesDirs)
       {
@@ -146,12 +153,12 @@ public class Main
          {
             String extension = null;
 
-            if (file.getName().lastIndexOf(".") != -1)
+            if (file.getName().lastIndexOf('.') != -1)
             {
-               extension = file.getName().substring(file.getName().lastIndexOf("."));
+               extension = file.getName().substring(file.getName().lastIndexOf('.'));
             }
 
-            if (extension != null && ".jar".equals(extension))
+            if (null != extension && ".jar".equals(extension))
             {
                result.add(file);
             }

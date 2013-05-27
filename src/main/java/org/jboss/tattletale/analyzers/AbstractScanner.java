@@ -22,9 +22,6 @@
 
 package org.jboss.tattletale.analyzers;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,37 +42,39 @@ import javassist.CtClass;
 import javassist.CtField;
 import javassist.NotFoundException;
 
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.profiles.Profile;
+
 /**
  * Abstract class that contains utility methods that other scanner extensions can use.
  *
  * @author Navin Surtani
- * */
+ */
 public abstract class AbstractScanner implements ArchiveScanner
 {
    /**
     * Read the manifest
-    *
     * @param manifest The manifest
     * @return The manifest as strings
     */
    protected List<String> readManifest(Manifest manifest)
    {
-      List<String> result = new ArrayList<String>();
+      final List<String> result = new ArrayList<String>();
 
       try
       {
-         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
          manifest.write(baos);
 
-         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-         InputStreamReader isr = new InputStreamReader(bais);
-         LineNumberReader lnr = new LineNumberReader(isr);
+         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+         final InputStreamReader isr = new InputStreamReader(bais);
+         final LineNumberReader lnr = new LineNumberReader(isr);
 
-         String s = lnr.readLine();
-         while (s != null)
+         String line = lnr.readLine();
+         while (null != line)
          {
-            result.add(s);
-            s = lnr.readLine();
+            result.add(line);
+            line = lnr.readLine();
          }
       }
       catch (IOException ioe)
@@ -88,42 +87,41 @@ public abstract class AbstractScanner implements ArchiveScanner
 
    /**
     * Returns the version as a String once read from the manifest.
-    *
     * @param manifest - the manifest obtained from the JarFile
     * @return - the version as a String.
     */
    protected String versionFromManifest(Manifest manifest)
    {
 
-      Attributes mainAttributes = manifest.getMainAttributes();
+      final Attributes mainAttributes = manifest.getMainAttributes();
       String version = mainAttributes.getValue("Specification-Version");
-      if (version == null)
+      if (null == version)
       {
          version = mainAttributes.getValue("Implementation-Version");
       }
 
-      if (version == null)
+      if (null == version)
       {
          version = mainAttributes.getValue("Version");
       }
 
-      if (version == null && manifest.getEntries() != null)
+      if (null == version && null != manifest.getEntries())
       {
          for (Attributes attributes : manifest.getEntries().values())
          {
             version = attributes.getValue("Specification-Version");
 
-            if (version == null)
+            if (null == version)
             {
                version = attributes.getValue("Implementation-Version");
             }
 
-            if (version == null)
+            if (null == version)
             {
                version = attributes.getValue("Version");
             }
 
-            if (version != null)
+            if (null != version)
             {
                break;
             }
@@ -138,7 +136,6 @@ public abstract class AbstractScanner implements ArchiveScanner
     * @param archive - the archive
     * @param profiles - the set of Strings.
     */
-
    protected void addProfilesToArchive(Archive archive, SortedSet<String> profiles)
    {
       for (String profile : profiles)
@@ -147,10 +144,8 @@ public abstract class AbstractScanner implements ArchiveScanner
       }
    }
 
-/**
+   /**
     * Static method called to scan class files within an input stream and populate the data structure parameters.
-    *
-    *
     * @param is - input stream
     * @param blacklisted The set of black listed packages
     * @param known       The set of known archives
@@ -161,12 +156,9 @@ public abstract class AbstractScanner implements ArchiveScanner
     * @param classDependencies - the map of class dependencies
     * @param packageDependencies - the map of package dependencies
     * @param blacklistedDependencies - the map of blacklisted dependencies
-    *
     * @return An {@link Integer} representing the class version.
-    *
     * @throws IOException - if the Javassist ClassPool cannot make the CtClass based on the input stream.
     */
-
    public Integer scanClasses(InputStream is, Set<String> blacklisted, List<Profile> known, Integer classVersion,
                               SortedMap<String, Long> provides, SortedSet<String> requires,
                               SortedSet<String> profiles, SortedMap<String, SortedSet<String>> classDependencies,
@@ -174,10 +166,10 @@ public abstract class AbstractScanner implements ArchiveScanner
                               SortedMap<String, SortedSet<String>> blacklistedDependencies)
       throws IOException
    {
-      ClassPool classPool = new ClassPool();
-      CtClass ctClz = classPool.makeClass(is);
+      final ClassPool classPool = new ClassPool();
+      final CtClass ctClz = classPool.makeClass(is);
 
-      if (classVersion == null)
+      if (null == classVersion)
       {
          classVersion = Integer.valueOf(ctClz.getClassFile2().getMajorVersion());
       }
@@ -185,7 +177,7 @@ public abstract class AbstractScanner implements ArchiveScanner
       Long serialVersionUID = null;
       try
       {
-         CtField field = ctClz.getField("serialVersionUID");
+         final CtField field = ctClz.getField("serialVersionUID");
          serialVersionUID = (Long) field.getConstantValue();
       }
       catch (NotFoundException nfe)
@@ -195,7 +187,7 @@ public abstract class AbstractScanner implements ArchiveScanner
 
       provides.put(ctClz.getName(), serialVersionUID);
 
-      int pkgIdx = ctClz.getName().lastIndexOf(".");
+      final int pkgIdx = ctClz.getName().lastIndexOf('.');
       String pkg = null;
 
       if (pkgIdx != -1)
@@ -205,31 +197,31 @@ public abstract class AbstractScanner implements ArchiveScanner
 
       for (Object c : ctClz.getRefClasses())
       {
-         String s = (String) c;
-         requires.add(s);
+         String clzName = (String) c;
+         requires.add(clzName);
 
          SortedSet<String> cd = classDependencies.get(ctClz.getName());
-         if (cd == null)
+         if (null == cd)
          {
             cd = new TreeSet<String>();
          }
-         cd.add(s);
+         cd.add(clzName);
          classDependencies.put(ctClz.getName(), cd);
 
-         int rPkgIdx = s.lastIndexOf(".");
+         int rPkgIdx = clzName.lastIndexOf('.');
          String rPkg = null;
          if (rPkgIdx != -1)
          {
-            rPkg = s.substring(0, rPkgIdx);
+            rPkg = clzName.substring(0, rPkgIdx);
          }
 
          boolean include = true;
 
-         if (known != null)
+         if (null != known)
          {
             for (Profile p : known)
             {
-               if (p.doesProvide(s))
+               if (p.doesProvide(clzName))
                {
                   profiles.add(p.getName());
                   include = false;
@@ -238,10 +230,10 @@ public abstract class AbstractScanner implements ArchiveScanner
             }
          }
 
-         if (pkg != null && rPkg != null && !pkg.equals(rPkg) && include)
+         if (null != pkg && null != rPkg && !pkg.equals(rPkg) && include)
          {
             SortedSet<String> pd = packageDependencies.get(pkg);
-            if (pd == null)
+            if (null == pd)
             {
                pd = new TreeSet<String>();
             }
@@ -249,13 +241,13 @@ public abstract class AbstractScanner implements ArchiveScanner
             packageDependencies.put(pkg, pd);
          }
 
-         if (blacklisted != null)
+         if (null != blacklisted)
          {
             boolean bl = false;
 
             for (String blp: blacklisted)
             {
-               if (s.startsWith(blp))
+               if (clzName.startsWith(blp))
                {
                   bl = true;
                   break;
@@ -266,13 +258,13 @@ public abstract class AbstractScanner implements ArchiveScanner
             {
                String key = pkg;
 
-               if (key == null)
+               if (null == key)
                {
                   key = "";
                }
 
                SortedSet<String> bld = blacklistedDependencies.get(key);
-               if (bld == null)
+               if (null == bld)
                {
                   bld = new TreeSet<String>();
                }

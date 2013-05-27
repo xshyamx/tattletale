@@ -32,7 +32,7 @@ import java.util.TreeSet;
 public class KeyFilter implements Filter
 {
    /** Key Filters */
-   private SortedSet<String> keyFilters;
+   private final SortedSet<String> keyFilters;
 
    /** Constructor */
    public KeyFilter()
@@ -42,8 +42,8 @@ public class KeyFilter implements Filter
 
    /**
     * Is filtered
-    *
     * @return True if filtered; otherwise false
+    * @see org.jboss.tattletale.reporting.Filter#isFiltered()
     */
    public boolean isFiltered()
    {
@@ -52,9 +52,9 @@ public class KeyFilter implements Filter
 
    /**
     * Is filtered
-    *
     * @param archive The archive
     * @return True if filtered; otherwise false
+    * @see org.jboss.tattletale.reporting.Filter#isFiltered(String)
     */
    public boolean isFiltered(String archive)
    {
@@ -88,10 +88,10 @@ public class KeyFilter implements Filter
 
    /**
     * Is filtered
-    *
     * @param archive The archive
     * @param query   The query
     * @return True if filtered; otherwise false
+    * @see org.jboss.tattletale.reporting.Filter#isFiltered(String, String)
     */
    public boolean isFiltered(String archive, String query)
    {
@@ -100,12 +100,12 @@ public class KeyFilter implements Filter
 
    /**
     * Init the filter
-    *
     * @param filter The filter value
+    * @see org.jboss.tattletale.reporting.Filter#init(String)
     */
    public void init(String filter)
    {
-      if (filter != null)
+      if (null != filter)
       {
          for (String value : filter.split(","))
          {
@@ -131,7 +131,7 @@ public class KeyFilter implements Filter
 
             if (includeAll)
             {
-               value = value + '/';
+               value += '/';
             }
 
             keyFilters.add(value);

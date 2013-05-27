@@ -22,10 +22,6 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
@@ -33,6 +29,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.profiles.Profile;
 
 /**
  * Class level Dependants report
@@ -55,7 +55,6 @@ public class ClassDependantsReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -68,7 +67,7 @@ public class ClassDependantsReport extends CLSReport
       bw.write("    <th>Dependants</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
 
       boolean odd = true;
 
@@ -99,7 +98,7 @@ public class ClassDependantsReport extends CLSReport
                   {
                      SortedSet<String> deps = result.get(dep);
 
-                     if (deps == null)
+                     if (null == deps)
                      {
                         deps = new TreeSet<String>();
                      }
@@ -118,7 +117,7 @@ public class ClassDependantsReport extends CLSReport
          String clz = entry.getKey();
          SortedSet<String> deps = entry.getValue();
 
-         if (deps != null && deps.size() > 0)
+         if (null != deps && deps.size() > 0)
          {
             if (odd)
             {
@@ -149,13 +148,18 @@ public class ClassDependantsReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getClassDependencies.
+    * @param archive Archive
+    * @return SortedMap<String,SortedSet<String>>
+    */
    private SortedMap<String, SortedSet<String>> getClassDependencies(Archive archive)
    {
-      SortedMap<String, SortedSet<String>> classDeps = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> classDeps = new TreeMap<String, SortedSet<String>>();
 
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
+         final NestableArchive nestableArchive = (NestableArchive) archive;
 
          for (Archive sa : nestableArchive.getSubArchives())
          {

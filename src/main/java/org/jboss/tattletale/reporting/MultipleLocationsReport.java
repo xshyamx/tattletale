@@ -21,13 +21,13 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Multiple locations report
@@ -51,7 +51,6 @@ public class MultipleLocationsReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -67,6 +66,12 @@ public class MultipleLocationsReport extends AbstractReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method recursivelyWriteContent.
+    * @param bw BufferedWriter
+    * @param archives Collection<Archive>
+    * @throws IOException
+    */
    private void recursivelyWriteContent(BufferedWriter bw, Collection<Archive> archives) throws IOException
    {
       boolean odd = true;
@@ -124,7 +129,6 @@ public class MultipleLocationsReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

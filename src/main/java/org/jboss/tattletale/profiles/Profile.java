@@ -31,23 +31,20 @@ public interface Profile
 {
    /**
     * Method to check whether or not the String representation of the class parameter is provided or not.
-    *
     * @param clz - the string representation of the class.
     * @return whether or not the class is provided.
     */
-   public boolean doesProvide(String clz);
+   boolean doesProvide(String clz);
 
    /**
     * Simple getter.
-    *
     * @return - the name of the profile.
     */
-   public String getName();
+   String getName();
 
    /**
     * Simple get call to obtain the module identifier for a given implementation.
-    *
     * @return - the module identifier.
     */
-   public String getModuleIdentifier();
+   String getModuleIdentifier();
 }

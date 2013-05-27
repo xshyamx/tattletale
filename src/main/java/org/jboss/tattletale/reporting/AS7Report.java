@@ -22,12 +22,6 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-import org.jboss.tattletale.profiles.ExtendedProfile;
-import org.jboss.tattletale.profiles.JBossAS7Profile;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -36,6 +30,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.profiles.ExtendedProfile;
+import org.jboss.tattletale.profiles.JBossAS7Profile;
+import org.jboss.tattletale.profiles.Profile;
 
 /**
  * Report type that makes use of the {@link org.jboss.tattletale.profiles.ExtendedProfile} to find which module
@@ -59,7 +59,6 @@ public class AS7Report extends CLSReport
 
    /**
     * Write the main html content.
-    *
     * @param bw the writer to use
     * @throws IOException - if there is an issue with the html writing
     */
@@ -79,7 +78,7 @@ public class AS7Report extends CLSReport
          Set<String> requires = getRequires(archive);
          requires.removeAll(provides);
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
          File deploymentXml = buildDeploymentXml(requires, archiveName);
          String path = "./" + archiveName + "/" + deploymentXml.getName();
@@ -103,12 +102,17 @@ public class AS7Report extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getProvides.
+    * @param a Archive
+    * @return Set<String>
+    */
    private Set<String> getProvides(Archive a)
    {
-      Set<String> provides = new HashSet<String>();
+      final Set<String> provides = new HashSet<String>();
       if (a instanceof NestableArchive)
       {
-         NestableArchive na = (NestableArchive) a;
+         final NestableArchive na = (NestableArchive) a;
          provides.addAll(na.getProvides().keySet());
 
          for (Archive sa : na.getSubArchives())
@@ -123,12 +127,17 @@ public class AS7Report extends CLSReport
       return provides;
    }
 
+   /**
+    * Method getRequires.
+    * @param a Archive
+    * @return Set<String>
+    */
    private Set<String> getRequires(Archive a)
    {
-      Set<String> requires = new HashSet<String>();
+      final Set<String> requires = new HashSet<String>();
       if (a instanceof NestableArchive)
       {
-         NestableArchive na = (NestableArchive) a;
+         final NestableArchive na = (NestableArchive) a;
          requires.addAll(na.getRequires());
 
          for (Archive sa : na.getSubArchives())
@@ -143,26 +152,33 @@ public class AS7Report extends CLSReport
       return requires;
    }
 
+   /**
+    * Method buildDeploymentXml.
+    * @param requires Set<String>
+    * @param archiveName String
+    * @return File
+    * @throws IOException
+    */
    private File buildDeploymentXml(Set<String> requires, String archiveName) throws IOException
    {
-      File deployedDir = new File(getOutputDirectory(), archiveName);
+      final File deployedDir = new File(getOutputDirectory(), archiveName);
       deployedDir.mkdirs();
-      File outputXml = new File(deployedDir.getAbsolutePath() + File.separator + "jboss-deployment-structure.xml");
-      FileWriter fw = new FileWriter(outputXml);
-      BufferedWriter bw = new BufferedWriter(fw, 8192);
+      final File outputXml = new File(deployedDir.getAbsolutePath() + File.separator + "jboss-deployment-structure.xml");
+      final FileWriter fw = new FileWriter(outputXml);
+      final BufferedWriter bw = new BufferedWriter(fw, 8192);
 
       bw.write("<?xml version=\"1.0\"?>" + Dump.newLine());
       bw.write("<jboss-deployment-structure>" + Dump.newLine());
       bw.write("  <deployment>" + Dump.newLine());
       bw.write("    <dependencies>" + Dump.newLine());
 
-      ExtendedProfile as7Profile = new JBossAS7Profile();
-      SortedSet<String> moduleIdentifiers = new TreeSet<String>();
+      final ExtendedProfile as7Profile = new JBossAS7Profile();
+      final SortedSet<String> moduleIdentifiers = new TreeSet<String>();
 
       for (String requiredClass : requires)
       {
          String moduleIdentifier = as7Profile.getModuleIdentifier(requiredClass);
-         if (moduleIdentifier != null)
+         if (null != moduleIdentifier)
          {
             moduleIdentifiers.add(moduleIdentifier);
          }
@@ -173,7 +189,7 @@ public class AS7Report extends CLSReport
                if (p.doesProvide(requiredClass))
                {
                   moduleIdentifier = p.getModuleIdentifier();
-                  if (moduleIdentifier != null)
+                  if (null != moduleIdentifier)
                   {
                      moduleIdentifiers.add(moduleIdentifier);
                   }

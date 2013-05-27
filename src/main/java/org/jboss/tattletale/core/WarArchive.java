@@ -37,7 +37,6 @@ public class WarArchive extends NestableArchive
 
    /**
     * Constructor
-    *
     * @param name                    The name
     * @param version                 The version number
     * @param manifest                The manifest

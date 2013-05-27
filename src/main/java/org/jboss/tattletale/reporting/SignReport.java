@@ -21,10 +21,10 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.jboss.tattletale.core.Archive;
 
 /**
  * Signing information report
@@ -48,7 +48,6 @@ public class SignReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -69,7 +68,7 @@ public class SignReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -82,7 +81,7 @@ public class SignReport extends AbstractReport
          }
          bw.write("    <td><a href=\"../" + extension + "/" + archiveName +
                   ".html\">" + archive.getName() + "</a></td>" + Dump.newLine());
-         if (archive.getSign() != null)
+         if (null != archive.getSign())
          {
             bw.write("    <td style=\"color: red;\">Signed</td>" + Dump.newLine());
             signed++;
@@ -146,7 +145,6 @@ public class SignReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

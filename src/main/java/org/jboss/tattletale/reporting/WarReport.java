@@ -22,11 +22,11 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.Version;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.jboss.tattletale.Version;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * This type of report is to .war files as to {@link JarReport} is to .jar files.
@@ -46,7 +46,6 @@ public class WarReport extends NestableReport
 
    /**
     * Constructor
-    *
     * @param nestableArchive - the war nestableArchive.
     */
    public WarReport(NestableArchive nestableArchive)
@@ -56,29 +55,26 @@ public class WarReport extends NestableReport
 
    /**
     * Constructor
-    *
     * @param nestableArchive The nestableArchive
     * @param depth   The level of depth at which this report would lie
     */
    public WarReport(NestableArchive nestableArchive, int depth)
    {
       super(DIRECTORY, ReportSeverity.INFO, nestableArchive);
-      StringBuffer sb = new StringBuffer(nestableArchive.getName());
+      final StringBuffer sb = new StringBuffer(nestableArchive.getName());
       setFilename(sb.append(".html").toString());
       this.depth = depth;
    }
 
    /**
     * write the header of a html file.
-    *
     * @param bw the buffered writer
     * @throws IOException if an error occurs
     */
-
    @Override
    public void writeHtmlHead(BufferedWriter bw) throws IOException
    {
-      if (depth == 1)
+      if (1 == depth)
       {
          super.writeHtmlHead(bw);
       }
@@ -103,7 +99,6 @@ public class WarReport extends NestableReport
    /**
     * returns a war report specific writer.
     * war reports don't use a index.html but a html per archive.
-    *
     * @return the BufferedWriter
     * @throws IOException if an error occurs
     */
@@ -113,11 +108,19 @@ public class WarReport extends NestableReport
       return getBufferedWriter(getFilename());
    }
 
+   /**
+    * Method getFilename.
+    * @return String
+    */
    private String getFilename()
    {
       return fileName;
    }
 
+   /**
+    * Method setFilename.
+    * @param fileName String
+    */
    private void setFilename(String fileName)
    {
       this.fileName = fileName;

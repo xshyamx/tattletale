@@ -21,15 +21,15 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Blacklisted report
@@ -53,7 +53,6 @@ public class BlackListedReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -71,14 +70,14 @@ public class BlackListedReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          SortedMap<String, SortedSet<String>> blacklisted = getBlackListedDeps(archive);
          boolean include = false;
          boolean filtered = isFiltered(archive.getName());
 
-         if (blacklisted != null && blacklisted.size() > 0)
+         if (null != blacklisted && blacklisted.size() > 0)
          {
             include = true;
 
@@ -140,13 +139,18 @@ public class BlackListedReport extends AbstractReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getBlackListedDeps.
+    * @param a Archive
+    * @return SortedMap<String,SortedSet<String>>
+    */
    private SortedMap<String, SortedSet<String>> getBlackListedDeps(Archive a)
    {
-      SortedMap<String, SortedSet<String>> deps = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> deps = new TreeMap<String, SortedSet<String>>();
       if (a instanceof NestableArchive)
       {
-         NestableArchive na = (NestableArchive) a;
- 
+         final NestableArchive na = (NestableArchive) a;
+
          for (Archive sa : na.getSubArchives())
          {
             deps.putAll(getBlackListedDeps(sa));

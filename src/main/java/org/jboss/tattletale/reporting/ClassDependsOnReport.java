@@ -22,9 +22,6 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
@@ -32,6 +29,9 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Class level Depends On report
@@ -54,7 +54,6 @@ public class ClassDependsOnReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -67,7 +66,7 @@ public class ClassDependsOnReport extends CLSReport
       bw.write("    <th>Depends On</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
 
       for (Archive archive : archives)
       {
@@ -129,13 +128,18 @@ public class ClassDependsOnReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getClassDependencies.
+    * @param archive Archive
+    * @return SortedMap<String,SortedSet<String>>
+    */
    private SortedMap<String, SortedSet<String>> getClassDependencies(Archive archive)
    {
-      SortedMap<String, SortedSet<String>> classDeps = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> classDeps = new TreeMap<String, SortedSet<String>>();
 
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
+         final NestableArchive nestableArchive = (NestableArchive) archive;
 
          for (Archive sa : nestableArchive.getSubArchives())
          {

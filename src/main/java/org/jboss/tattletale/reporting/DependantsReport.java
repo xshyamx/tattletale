@@ -21,14 +21,14 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Dependants report
@@ -38,7 +38,6 @@ import java.util.TreeSet;
  */
 public class DependantsReport extends CLSReport
 {
-
    /** NAME */
    private static final String NAME = "Dependants";
 
@@ -53,7 +52,6 @@ public class DependantsReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -71,7 +69,7 @@ public class DependantsReport extends CLSReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -92,14 +90,14 @@ public class DependantsReport extends CLSReport
          {
             for (String require : getRequires(archive))
             {
-               if (archive.doesProvide(require) && (getCLS() == null || getCLS().isVisible(a, archive)))
+               if (archive.doesProvide(require) && (null == getCLS() || getCLS().isVisible(a, archive)))
                {
                   result.add(a.getName());
                }
             }
          }
 
-         if (result.size() == 0)
+         if (0 == result.size())
          {
             bw.write("&nbsp;");
          }
@@ -131,13 +129,18 @@ public class DependantsReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getRequires.
+    * @param archive Archive
+    * @return SortedSet<String>
+    */
    private SortedSet<String> getRequires(Archive archive)
    {
-      SortedSet<String> requires = new TreeSet<String>();
+      final SortedSet<String> requires = new TreeSet<String>();
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
-         List<Archive> subArchives = nestableArchive.getSubArchives();
+         final NestableArchive nestableArchive = (NestableArchive) archive;
+         final List<Archive> subArchives = nestableArchive.getSubArchives();
          requires.addAll(nestableArchive.getRequires());
          for (Archive sa : subArchives)
          {

@@ -21,11 +21,6 @@
 */
 package org.jboss.tattletale.analyzers;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.JarArchive;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +39,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.JarArchive;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.profiles.Profile;
+
 /**
  * Java archive scanner
  *
@@ -52,11 +52,11 @@ import java.util.jar.Manifest;
  */
 public class JarScanner extends AbstractScanner
 {
-
    /**
     * Scan an archive
-    * @param file        The file
+    * @param file The file
     * @return The archive
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File)
     */
    public Archive scan(File file)
    {
@@ -65,32 +65,32 @@ public class JarScanner extends AbstractScanner
 
    /**
     * Scan an archive
-    *
     * @param file        The file
     * @param gProvides   The global provides map
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages
     * @return The archive
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map<String,SortedSet<String>>, List<Profile>, Set<String>)
     */
    public Archive scan(File file, Map<String, SortedSet<String>> gProvides, List<Profile> known,
                        Set<String> blacklisted)
    {
       Archive archive = null;
       JarFile jarFile = null;
-      String name = file.getName();
+      final String name = file.getName();
       try
       {
-         String canonicalPath = file.getCanonicalPath();
+         final String canonicalPath = file.getCanonicalPath();
          jarFile = new JarFile(file);
          Integer classVersion = null;
-         SortedSet<String> requires = new TreeSet<String>();
-         SortedMap<String, Long> provides = new TreeMap<String, Long>();
-         SortedSet<String> profiles = new TreeSet<String>();
-         SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
-         SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
-         SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedSet<String> requires = new TreeSet<String>();
+         final SortedMap<String, Long> provides = new TreeMap<String, Long>();
+         final SortedSet<String> profiles = new TreeSet<String>();
+         final SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
          List<String> lSign = null;
-         Enumeration<JarEntry> jarEntries = jarFile.entries();
+         final Enumeration<JarEntry> jarEntries = jarFile.entries();
 
          while (jarEntries.hasMoreElements())
          {
@@ -111,7 +111,7 @@ public class JarScanner extends AbstractScanner
                }
                finally
                {
-                  if (entryStream != null)
+                  if (null != entryStream)
                   {
                      entryStream.close();
                   }
@@ -127,16 +127,16 @@ public class JarScanner extends AbstractScanner
                   InputStreamReader isr = new InputStreamReader(is);
                   LineNumberReader lnr = new LineNumberReader(isr);
 
-                  if (lSign == null)
+                  if (null == lSign)
                   {
                      lSign = new ArrayList<String>();
                   }
 
-                  String s = lnr.readLine();
-                  while (s != null)
+                  String line = lnr.readLine();
+                  while (null != line)
                   {
-                     lSign.add(s);
-                     s = lnr.readLine();
+                     lSign.add(line);
+                     line = lnr.readLine();
                   }
                }
                catch (Exception ie)
@@ -147,7 +147,7 @@ public class JarScanner extends AbstractScanner
                {
                   try
                   {
-                     if (is != null)
+                     if (null != is)
                      {
                         is.close();
                      }
@@ -160,23 +160,25 @@ public class JarScanner extends AbstractScanner
             }
          }
 
-         if (provides.size() == 0)
+         if (0 == provides.size())
          {
             return null;
          }
 
          String version = null;
          List<String> lManifest = null;
-         Manifest manifest = jarFile.getManifest();
-         if (manifest != null)
+         final Manifest manifest = jarFile.getManifest();
+         if (null != manifest)
          {
             version = versionFromManifest(manifest);
             lManifest = readManifest(manifest);
          }
-         Location location = new Location(canonicalPath, version);
+         final Location location = new Location(canonicalPath, version);
 
-         if (classVersion == null)
+         if (null == classVersion)
+         {
             classVersion = Integer.valueOf(0);
+         }
 
          archive = new JarArchive(name, classVersion, lManifest, lSign, requires, provides,
                                   classDependencies, packageDependencies, blacklistedDependencies, location);
@@ -184,10 +186,10 @@ public class JarScanner extends AbstractScanner
 
          for (String provide : provides.keySet())
          {
-            if (gProvides != null)
+            if (null != gProvides)
             {
                SortedSet<String> ss = gProvides.get(provide);
-               if (ss == null)
+               if (null == ss)
                {
                   ss = new TreeSet<String>();
                }
@@ -213,7 +215,7 @@ public class JarScanner extends AbstractScanner
       {
          try
          {
-            if (jarFile != null)
+            if (null != jarFile)
             {
                jarFile.close();
             }

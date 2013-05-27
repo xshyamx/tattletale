@@ -22,16 +22,16 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ArchiveType;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 
 import javassist.bytecode.ClassFile;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.ArchiveType;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Report type used when generating an {@link ArchiveReport} for a {@link org.jboss.tattletale.core.NestableArchive}.
@@ -40,11 +40,11 @@ import javassist.bytecode.ClassFile;
  */
 public abstract class NestableReport extends ArchiveReport
 {
-   private NestableArchive nestableArchive;
+   /** Field nestableArchive. */
+   private final NestableArchive nestableArchive;
 
    /**
     * Constructor
-    *
     * @param id                  The report id
     * @param severity            The severity
     * @param nestableArchive     The nestable archive
@@ -55,6 +55,11 @@ public abstract class NestableReport extends ArchiveReport
       this.nestableArchive = nestableArchive;
    }
 
+   /**
+    * Method writeHtmlBodyContent.
+    * @param bw BufferedWriter
+    * @throws IOException
+    */
    @Override
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
    {
@@ -109,7 +114,7 @@ public abstract class NestableReport extends ArchiveReport
 
          bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
          bw.write("        <td>");
-         if (location.getVersion() != null)
+         if (null != location.getVersion())
          {
             bw.write(location.getVersion());
          }
@@ -177,7 +182,7 @@ public abstract class NestableReport extends ArchiveReport
          bw.write("        <tr>" + Dump.newLine());
          bw.write("          <td>" + entry.getKey() + "</td>" + Dump.newLine());
 
-         if (serialVersionUID != null)
+         if (null != serialVersionUID)
          {
             bw.write("          <td>" + serialVersionUID + "</td>" + Dump.newLine());
          }
@@ -200,12 +205,12 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("      <table>" + Dump.newLine());
 
       // The base output path for all of the sub archives.
-      String outputPath = getOutputDirectory().getPath();
+      final String outputPath = getOutputDirectory().getPath();
 
       for (Archive subArchive : nestableArchive.getSubArchives())
       {
          String archiveName = subArchive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          ArchiveReport report = null;
@@ -213,11 +218,11 @@ public abstract class NestableReport extends ArchiveReport
 
          if (subArchive.getType() == ArchiveType.JAR)
          {
-            if (subArchive.getParentArchive() != null && subArchive.getParentArchive().getParentArchive() != null)
+            if (null != subArchive.getParentArchive() && null != subArchive.getParentArchive().getParentArchive())
             {
                depth = 3;
             }
-            else if (subArchive.getParentArchive() != null)
+            else if (null != subArchive.getParentArchive())
             {
                depth = 2;
             }
@@ -227,7 +232,7 @@ public abstract class NestableReport extends ArchiveReport
          {
             NestableArchive nestedSubArchive = (NestableArchive) subArchive;
 
-            if (subArchive.getParentArchive() != null)
+            if (null != subArchive.getParentArchive())
             {
                depth = 2;
             }

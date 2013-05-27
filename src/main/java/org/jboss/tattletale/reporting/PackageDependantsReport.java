@@ -22,10 +22,6 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
@@ -34,6 +30,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.profiles.Profile;
 
 /**
  * Reporting class that will generate package level
@@ -49,9 +49,7 @@ public class PackageDependantsReport extends CLSReport
    /** DIRECTORY */
    private static final String DIRECTORY = "packagedependants";
 
-   /**
-    * Constructor
-    */
+   /** Constructor */
    public PackageDependantsReport()
    {
       super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
@@ -60,7 +58,7 @@ public class PackageDependantsReport extends CLSReport
    /**
     * write out the report's content
     * @param bw the writer to use
-    * @exception IOException if an error occurs
+    * @throws IOException if an error occurs
     */
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
    {
@@ -71,14 +69,14 @@ public class PackageDependantsReport extends CLSReport
       bw.write("    <th>Dependants</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
+      final SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
       boolean odd = true;
 
       for (Map.Entry<String, SortedSet<String>> entry : result.entrySet())
       {
          SortedSet<String> packDeps = entry.getValue();
 
-         if (packDeps != null && packDeps.size() > 0)
+         if (null != packDeps && packDeps.size() > 0)
          {
             if (odd)
             {
@@ -101,7 +99,7 @@ public class PackageDependantsReport extends CLSReport
 
             bw.write("</td>" + Dump.newLine());
             bw.write("  </tr>" + Dump.newLine());
-            
+
             odd = !odd;
          }
       }
@@ -109,9 +107,14 @@ public class PackageDependantsReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method recursivelyBuildResultFromArchive.
+    * @param archives Collection<Archive>
+    * @return SortedMap<String,SortedSet<String>>
+    */
    private SortedMap<String, SortedSet<String>> recursivelyBuildResultFromArchive(Collection<Archive> archives)
    {
-      SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
 
       for (Archive archive : archives)
       {
@@ -148,8 +151,10 @@ public class PackageDependantsReport extends CLSReport
                      {
                         SortedSet<String> deps = result.get(dep);
 
-                        if (deps == null)
+                        if (null == deps)
+                        {
                            deps = new TreeSet<String>();
+                        }
 
                         deps.add(pack);
 

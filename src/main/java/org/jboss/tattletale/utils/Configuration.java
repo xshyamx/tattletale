@@ -60,7 +60,7 @@ public class Configuration
     */
    public void loadFromFile(String fileName)
    {
-      Properties properties = new Properties();
+      final Properties properties = new Properties();
 
       FileInputStream fis = null;
       try
@@ -74,7 +74,7 @@ public class Configuration
       }
       finally
       {
-         if (fis != null)
+         if (null != fis)
          {
             try
             {
@@ -97,11 +97,11 @@ public class Configuration
     */
    public void load(String key)
    {
-      Properties properties = new Properties();
-      String propertiesFile = System.getProperty(key);
+      final Properties properties = new Properties();
+      final String propertiesFile = System.getProperty(key);
       boolean loaded = false;
 
-      if (propertiesFile != null)
+      if (null != propertiesFile)
       {
          FileInputStream fis = null;
          try
@@ -116,7 +116,7 @@ public class Configuration
          }
          finally
          {
-            if (fis != null)
+            if (null != fis)
             {
                try
                {
@@ -144,7 +144,7 @@ public class Configuration
          }
          finally
          {
-            if (fis != null)
+            if (null != fis)
             {
                try
                {
@@ -162,7 +162,7 @@ public class Configuration
          InputStream is = null;
          try
          {
-            ClassLoader cl = Configuration.class.getClassLoader();
+            final ClassLoader cl = Configuration.class.getClassLoader();
             is = cl.getResourceAsStream(key);
             properties.load(is);
             loaded = true;
@@ -173,7 +173,7 @@ public class Configuration
          }
          finally
          {
-            if (is != null)
+            if (null != is)
             {
                try
                {
@@ -189,8 +189,18 @@ public class Configuration
       addConfig(properties);
    }
 
+   /**
+    * Method addConfig.
+    * @param cfg Properties
+    */
    private void addConfig(Properties cfg)
    {
+      if (null == config)
+      {
+         config = cfg;
+         return;
+      }
+
       for (String name : cfg.stringPropertyNames())
       {
          if (!config.containsKey(name))

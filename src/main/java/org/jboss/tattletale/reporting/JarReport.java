@@ -21,15 +21,15 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.Version;
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 
 import javassist.bytecode.ClassFile;
+
+import org.jboss.tattletale.Version;
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.Location;
 
 /**
  * JAR report
@@ -50,7 +50,6 @@ public class JarReport extends ArchiveReport
 
    /**
     * Constructor
-    *
     * @param archive The archive
     */
    public JarReport(Archive archive)
@@ -60,7 +59,6 @@ public class JarReport extends ArchiveReport
 
    /**
     * Constructor
-    *
     * @param archive The archive
     * @param depth   The level of depth at which this report would lie
     */
@@ -68,21 +66,20 @@ public class JarReport extends ArchiveReport
    {
       super(DIRECTORY, ReportSeverity.INFO, archive);
 
-      StringBuffer sb = new StringBuffer(archive.getName());
+      final StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
       this.depth = depth;
    }
 
    /**
     * write the header of a html file.
-    *
     * @param bw the buffered writer
     * @throws IOException if an error occurs
     */
    @Override
    public void writeHtmlHead(BufferedWriter bw) throws IOException
    {
-      if (depth == 1)
+      if (1 == depth)
       {
          super.writeHtmlHead(bw);
       }
@@ -107,8 +104,7 @@ public class JarReport extends ArchiveReport
 
    /**
     * returns a Jar report specific writer.
-    * Jar reports don't use a index.html but a html per archive.
-    *
+    * Jar reports do not use an index but write one html file per archive.
     * @return the BufferedWriter
     * @throws IOException if an error occurs
     */
@@ -120,7 +116,6 @@ public class JarReport extends ArchiveReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -177,7 +172,7 @@ public class JarReport extends ArchiveReport
 
          bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
          bw.write("        <td>");
-         if (location.getVersion() != null)
+         if (null != location.getVersion())
          {
             bw.write(location.getVersion());
          }
@@ -244,7 +239,7 @@ public class JarReport extends ArchiveReport
          bw.write("        <tr>" + Dump.newLine());
          bw.write("          <td>" + entry.getKey() + "</td>" + Dump.newLine());
 
-         if (serialVersionUID != null)
+         if (null != serialVersionUID)
          {
             bw.write("          <td>" + serialVersionUID + "</td>" + Dump.newLine());
          }
@@ -264,16 +259,18 @@ public class JarReport extends ArchiveReport
 
    /**
     * write out the header of the report's content
-    *
-    * @param bw the writer to use
+    * @return String
     * @throws IOException if an error occurs
     */
-
    private String getFilename()
    {
       return filename;
    }
 
+   /**
+    * Method setFilename.
+    * @param filename String
+    */
    private void setFilename(String filename)
    {
       this.filename = filename;

@@ -21,10 +21,10 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.jboss.tattletale.core.Archive;
 
 /**
  * Sealed information report
@@ -48,7 +48,6 @@ public class SealedReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -69,7 +68,7 @@ public class SealedReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -147,7 +146,6 @@ public class SealedReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

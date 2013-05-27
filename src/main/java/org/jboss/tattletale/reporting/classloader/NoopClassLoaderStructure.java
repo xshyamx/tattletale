@@ -37,10 +37,10 @@ public class NoopClassLoaderStructure implements ClassLoaderStructure
 
    /**
     * Can one archive see the other
-    *
     * @param from The from archive
     * @param to   The to archive
     * @return True if from can see to; otherwise false
+    * @see org.jboss.tattletale.reporting.classloader.ClassLoaderStructure#isVisible(Archive, Archive)
     */
    public boolean isVisible(Archive from, Archive to)
    {

@@ -21,10 +21,6 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ArchiveType;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashSet;
@@ -34,6 +30,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.ArchiveType;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Transitive Depends On report
@@ -57,7 +57,6 @@ public class TransitiveDependsOnReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -70,7 +69,7 @@ public class TransitiveDependsOnReport extends CLSReport
       bw.write("    <th>Depends On</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> dependsOnMap = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> dependsOnMap = new TreeMap<String, SortedSet<String>>();
 
       for (Archive archive : archives)
       {
@@ -82,7 +81,7 @@ public class TransitiveDependsOnReport extends CLSReport
             {
                for (String require : getRequires(a))
                {
-                  if (archive.doesProvide(require) && (getCLS() == null || getCLS().isVisible(a, archive)))
+                  if (archive.doesProvide(require) && (null == getCLS() || getCLS().isVisible(a, archive)))
                   {
                      result.add(a.getName());
                   }
@@ -93,7 +92,7 @@ public class TransitiveDependsOnReport extends CLSReport
          dependsOnMap.put(archive.getName(), result);
       }
 
-      SortedMap<String, SortedSet<String>> transitiveDependsOnMap = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> transitiveDependsOnMap = new TreeMap<String, SortedSet<String>>();
 
       for (Map.Entry<String, SortedSet<String>> entry : dependsOnMap.entrySet())
       {
@@ -113,6 +112,8 @@ public class TransitiveDependsOnReport extends CLSReport
       for (Map.Entry<String,SortedSet<String>> entry : transitiveDependsOnMap.entrySet())
       {
          String archive = entry.getKey();
+         int finalDot = archive.lastIndexOf('.');
+         String extension = archive.substring(finalDot + 1);
          SortedSet<String> value = entry.getValue();
 
          if (odd)
@@ -123,10 +124,10 @@ public class TransitiveDependsOnReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../jar/" + archive + ".html\">" + archive + "</a></td>" + Dump.newLine());
+         bw.write("    <td><a href=\"../" + extension + "/" + archive + ".html\">" + archive + "</a></td>" + Dump.newLine());
          bw.write("    <td>");
 
-         if (value.size() == 0)
+         if (0 == value.size())
          {
             bw.write("&nbsp;");
          }
@@ -166,12 +167,17 @@ public class TransitiveDependsOnReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getRequires.
+    * @param a Archive
+    * @return Set<String>
+    */
    private Set<String> getRequires(Archive a)
    {
-      Set<String> requires = new HashSet<String>();
+      final Set<String> requires = new HashSet<String>();
       if (a instanceof NestableArchive)
       {
-         NestableArchive na = (NestableArchive) a;
+         final NestableArchive na = (NestableArchive) a;
          requires.addAll(na.getRequires());
 
          for (Archive sa : na.getSubArchives())
@@ -188,7 +194,6 @@ public class TransitiveDependsOnReport extends CLSReport
 
    /**
     * Get depends on
-    *
     * @param scanArchive The scan archive
     * @param archive     The archive
     * @param map         The depends on map

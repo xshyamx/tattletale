@@ -29,28 +29,39 @@ import java.io.File;
  * {@link ArchiveScanner}
  *
  * @author Navin Surtani
- * */
+ */
 public class Analyzer
 {
    /**
-    * Returns the appropriate scanner implementation based on the type of file that is passed as a parameter.
+    * Returns the appropriate scanner implementation based on the extension of file that is passed as a parameter.
     * @param file - the .jar, .war file etc.
-    * @return the implementation of {@link ArchiveScanner}
     */
    public ArchiveScanner getScanner(File file)
    {
-      String fileName = file.getName();
-      if (fileName.contains(".jar"))
+      return this.getScanner(file, ".*");
+   }
+	
+   /**
+    * Returns the appropriate scanner implementation based on the extension of file that is passed as a parameter.
+    * @param file - the .jar, .war file etc.
+    * @param pattern - extract only matching entries
+    * @return the implementation of {@link ArchiveScanner}
+    */
+   public ArchiveScanner getScanner(File file, String pattern)
+   {
+      final String fileName = file.getName();
+
+      if (fileName.endsWith(".jar"))
       {
          return new JarScanner();
       }
-      else if (fileName.contains(".war"))
+      else if (fileName.endsWith(".war") || fileName.endsWith(".rar"))
       {
-         return new WarScanner();
+         return new WarScanner(pattern);
       }
-      else if (fileName.contains(".ear"))
+      else if (fileName.endsWith(".ear"))
       {
-         return new EarScanner();
+         return new EarScanner(pattern);
       }
 
       return null;

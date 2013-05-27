@@ -42,7 +42,6 @@ public abstract class NestableArchive extends Archive
 
    /**
     * Constructor
-    *
     * @param type                    The type
     * @param name                    The name
     * @param version                 The version number
@@ -64,12 +63,11 @@ public abstract class NestableArchive extends Archive
       super(type, name, version, manifest, sign, requires, provides,
             classDependencies, packageDependencies, blacklistedDependencies, location);
 
-      this.subArchives = null;
+      subArchives = null;
    }
 
    /**
     * Constructor
-    *
     * @param type                    The type
     * @param name                    The name
     * @param version                 The version number
@@ -99,24 +97,22 @@ public abstract class NestableArchive extends Archive
 
    /**
     * Get the sub-archives
-    *
     * @return The value
     */
    public List<Archive> getSubArchives()
    {
-      return subArchives != null ? subArchives : Collections.unmodifiableList(new ArrayList<Archive>(1));
+      return (null != subArchives) ? subArchives : Collections.unmodifiableList(new ArrayList<Archive>(1));
    }
 
    /**
     * Add a sub-archive
-    *
     * @param value The value
     */
    public void addSubArchive(Archive value)
    {
-      if (value != null)
+      if (null != value)
       {
-         if (subArchives == null)
+         if (null == subArchives)
          {
             subArchives = new ArrayList<Archive>(1);
          }
@@ -125,9 +121,13 @@ public abstract class NestableArchive extends Archive
       }
    }
 
+   /**
+    * Method addParentArchive.
+    * @param subArchives List<Archive>
+    */
    private void addParentArchive(List<Archive> subArchives)
    {
-      if (subArchives != null)
+      if (null != subArchives)
       {
          for (Archive archive : subArchives)
          {

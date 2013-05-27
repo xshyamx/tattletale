@@ -22,15 +22,15 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.profiles.Profile;
 
 /**
  * Depends On report
@@ -54,7 +54,6 @@ public class DependsOnReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -72,7 +71,7 @@ public class DependsOnReport extends CLSReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -95,7 +94,7 @@ public class DependsOnReport extends CLSReport
 
             for (Archive a : archives)
             {
-               if (a.doesProvide(require) && (getCLS() == null || getCLS().isVisible(archive, a)))
+               if (a.doesProvide(require) && (null == getCLS() || getCLS().isVisible(archive, a)))
                {
                   result.add(a.getName());
                   found = true;
@@ -121,7 +120,7 @@ public class DependsOnReport extends CLSReport
             }
          }
 
-         if (result.size() == 0)
+         if (0 == result.size())
          {
             bw.write("&nbsp;");
          }
@@ -130,7 +129,7 @@ public class DependsOnReport extends CLSReport
             StringBuffer list = new StringBuffer();
             for (String r : result)
             {
-               if (r.endsWith(".jar") || r.endsWith(".war") || r.endsWith(".ear"))
+               if (r.endsWith(".jar") || r.endsWith(".war") || r.endsWith(".rar") || r.endsWith(".ear"))
                {
                   list.append("<a href=\"../" + extension + "/" + r + ".html\">" + r + "</a>");
                }
@@ -161,13 +160,18 @@ public class DependsOnReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getRequires.
+    * @param archive Archive
+    * @return SortedSet<String>
+    */
    private SortedSet<String> getRequires(Archive archive)
    {
-      SortedSet<String> requires = new TreeSet<String>();
+      final SortedSet<String> requires = new TreeSet<String>();
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
-         List<Archive> subArchives = nestableArchive.getSubArchives();
+         final NestableArchive nestableArchive = (NestableArchive) archive;
+         final List<Archive> subArchives = nestableArchive.getSubArchives();
          for (Archive sa : subArchives)
          {
             requires.addAll(getRequires(sa));

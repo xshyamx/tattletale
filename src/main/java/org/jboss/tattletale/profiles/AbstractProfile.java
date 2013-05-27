@@ -21,9 +21,6 @@
  */
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveType;
-import org.jboss.tattletale.core.Location;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +28,9 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+
+import org.jboss.tattletale.core.ArchiveType;
+import org.jboss.tattletale.core.Location;
 
 /**
  * Base profile class.
@@ -62,7 +62,6 @@ public abstract class AbstractProfile implements Profile
 
    /**
     * Constructor
-    *
     * @param classSet The .gz file with the classes
     * @param type     Archive type
     * @param name     Profile name
@@ -93,9 +92,9 @@ public abstract class AbstractProfile implements Profile
 
    /**
     * Checks whether or not the class is provided by the profile.
-    *
     * @param clz The class name
     * @return True if the class is provided; otherwise false
+    * @see org.jboss.tattletale.profiles.Profile#doesProvide(String)
     */
    public boolean doesProvide(String clz)
    {
@@ -103,7 +102,7 @@ public abstract class AbstractProfile implements Profile
       {
          return true;
       }
-      else if (subProfiles != null)
+      else if (null != subProfiles)
       {
          for (Profile subProfile : subProfiles)
          {
@@ -118,8 +117,8 @@ public abstract class AbstractProfile implements Profile
 
    /**
     * Simple getter that will return the name of the Profile.
-    *
     * @return the name of the profile.
+    * @see org.jboss.tattletale.profiles.Profile#getName()
     */
    public String getName()
    {
@@ -128,30 +127,28 @@ public abstract class AbstractProfile implements Profile
 
    /**
     * Adds the location parameter to the private collection of Locations.
-    *
     * @param location - the location object.
     */
 
    public void addLocation(Location location)
    {
-      this.locations.add(location);
+      locations.add(location);
    }
 
    /**
     * Adds the profile passed to the private collection of sub subProfiles.
-    *
     * @param profile - the profile object.
     */
    public void addSubProfile(Profile profile)
    {
-      this.subProfiles.add(profile);
+      subProfiles.add(profile);
    }
 
    /**
     * Getter call to return the module identifier. Default implementation here is to return null ALWAYS. For
     * different implementations, this method call MUST be overridden.
-    *
     * @return null.
+    * @see org.jboss.tattletale.profiles.Profile#getModuleIdentifier()
     */
 
    public String getModuleIdentifier()
@@ -162,7 +159,6 @@ public abstract class AbstractProfile implements Profile
 
    /**
     * Loads this profile's class list from the resources.
-    *
     * @param resourceFile File name
     */
    protected void loadProfile(String resourceFile)
@@ -172,15 +168,15 @@ public abstract class AbstractProfile implements Profile
       {
          is = this.getClass().getClassLoader().getResourceAsStream(resourceFile);
 
-         GZIPInputStream gis = new GZIPInputStream(is);
-         InputStreamReader isr = new InputStreamReader(gis);
-         BufferedReader br = new BufferedReader(isr);
+         final GZIPInputStream gis = new GZIPInputStream(is);
+         final InputStreamReader isr = new InputStreamReader(gis);
+         final BufferedReader br = new BufferedReader(isr);
 
-         String s = br.readLine();
-         while (s != null)
+         String line = br.readLine();
+         while (null != line)
          {
-            classSet.add(s);
-            s = br.readLine();
+            classSet.add(line);
+            line = br.readLine();
          }
       }
       catch (Exception e)
@@ -191,7 +187,7 @@ public abstract class AbstractProfile implements Profile
       {
          try
          {
-            if (is != null)
+            if (null != is)
             {
                is.close();
             }
@@ -206,20 +202,23 @@ public abstract class AbstractProfile implements Profile
    /**
     * Returns true if this profile is selected by the supplied configuration
     * information.
-    *
     * @param allProfiles All-Profiles flag
     * @param profileSet  Selected subProfiles as specified in the configuration
     * @return True if the Profile is to be included
     */
    public boolean included(boolean allProfiles, Set<String> profileSet)
    {
-      return allProfiles || profileSet != null && (profileSet.contains(getProfileCode())
+      return allProfiles || null != profileSet && (profileSet.contains(getProfileCode())
                                                    || profileSet.contains(getProfileName()));
    }
 
-   /** @return The code name of the profile */
+   /**
+    * @return The code name of the profile
+    */
    public abstract String getProfileCode();
 
-   /** @return The long name of the profile */
+   /**
+    * @return The long name of the profile
+    */
    protected abstract String getProfileName();
 }

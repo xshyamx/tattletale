@@ -21,9 +21,9 @@
  */
 package org.jboss.tattletale.profiles;
 
-import org.jboss.tattletale.core.ArchiveType;
-
 import javassist.bytecode.ClassFile;
+
+import org.jboss.tattletale.core.ArchiveType;
 
 /**
  * Java Enterprise 5
@@ -32,13 +32,25 @@ import javassist.bytecode.ClassFile;
  */
 public class JavaEE5 extends AbstractProfile
 {
-
+   /** Field CLASS_SET. (value is ""ee5.clz.gz"") */
    private static final String CLASS_SET = "ee5.clz.gz";
+
+   /** Field PROFILE_NAME. (value is ""Java Enterprise 5"") */
    private static final String PROFILE_NAME = "Java Enterprise 5";
+
+   /** Field PROFILE_CODE. (value is ""ee5"") */
    private static final String PROFILE_CODE = "ee5";
+
+   /** Field PROFILE_LOCATION. (value is ""javaee-api-5.jar"") */
    private static final String PROFILE_LOCATION = "javaee-api-5.jar";
+
+   /** Field MODULE_IDENTIFIER. (value is ""javaee.api"") */
    private static final String MODULE_IDENTIFIER = "javaee.api";
+
+   /** Field ARCHIVE_TYPE. */
    private static final ArchiveType ARCHIVE_TYPE = ArchiveType.JAR;
+
+   /** Field CLASSFILE_VERSION. */
    private static final int CLASSFILE_VERSION = ClassFile.JAVA_5;
 
    /** Constructor */
@@ -47,18 +59,31 @@ public class JavaEE5 extends AbstractProfile
       super(CLASS_SET, ARCHIVE_TYPE, PROFILE_NAME, CLASSFILE_VERSION, PROFILE_LOCATION);
    }
 
+   /**
+    * Method getProfileCode.
+    * @return String
+    */
    @Override
    public String getProfileCode()
    {
       return PROFILE_CODE;
    }
 
+   /**
+    * Method getProfileName.
+    * @return String
+    */
    @Override
    protected String getProfileName()
    {
       return PROFILE_NAME;
    }
 
+   /**
+    * Method getModuleIdentifier.
+    * @return String
+    * @see org.jboss.tattletale.profiles.Profile#getModuleIdentifier()
+    */
    @Override
    public String getModuleIdentifier()
    {

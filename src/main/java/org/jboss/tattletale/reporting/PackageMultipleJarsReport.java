@@ -54,7 +54,6 @@ public class PackageMultipleJarsReport extends AbstractReport
 
    /**
     * Set the globally provides map to be used in generating this report
-    *
     * @param gProvides the map of global provides
     */
    public void setGlobalProvides(SortedMap<String, SortedSet<String>> gProvides)
@@ -64,7 +63,6 @@ public class PackageMultipleJarsReport extends AbstractReport
 
    /**
     * write the report's content
-    *
     * @param bw the BufferedWriter to use
     * @throws IOException if an error occurs
     */
@@ -78,7 +76,7 @@ public class PackageMultipleJarsReport extends AbstractReport
       bw.write("    <th>Jar files</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> packageProvides = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> packageProvides = new TreeMap<String, SortedSet<String>>();
 
       for (Map.Entry<String, SortedSet<String>> entry : gProvides.entrySet())
       {
@@ -97,7 +95,7 @@ public class PackageMultipleJarsReport extends AbstractReport
          }
 
          SortedSet<String> packageJars = packageProvides.get(packageName);
-         if (packageJars == null)
+         if (null == packageJars)
          {
             packageJars = new TreeSet<String>();
          }
@@ -162,7 +160,6 @@ public class PackageMultipleJarsReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

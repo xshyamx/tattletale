@@ -39,7 +39,6 @@ public abstract class ArchiveReport extends AbstractReport
 
    /**
     * Constructor
-    *
     * @param id       The report id
     * @param severity The severity
     * @param archive  The archive
@@ -52,34 +51,46 @@ public abstract class ArchiveReport extends AbstractReport
 
    /**
     * Get the name of the report
-    *
     * @return The name
+    * @see org.jboss.tattletale.reporting.Report#getName()
     */
    public String getName()
    {
       return archive.getName();
    }
 
+   /**
+    * Method join.
+    * @param input SortedSet<String>
+    * @param joiner String
+    * @return String
+    */
    protected String join(SortedSet<String> input, String joiner)
    {
-      if (input == null)
+      if (null == input)
       {
          return "";
       }
       return join(new ArrayList<String>(input),joiner);
    }
 
+   /**
+    * Method join.
+    * @param input List<String>
+    * @param joiner String
+    * @return String
+    */
    protected String join(List<String> input, String joiner)
    {
-      if (input == null || input.size() == 0)
+      if (null == input || 0 == input.size())
       {
          return "";
       }
-      if (joiner == null)
+      if (null == joiner)
       {
          joiner = "";
       }
-      StringBuffer list = new StringBuffer();
+      final StringBuffer list = new StringBuffer();
       for (String m : input)
       {
          list.append(m).append(joiner);

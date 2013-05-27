@@ -21,14 +21,14 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Multiple locations report
@@ -52,9 +52,7 @@ public class InvalidVersionReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
-    *
     * @throws IOException if an error occurs
     */
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
@@ -71,13 +69,13 @@ public class InvalidVersionReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          SortedSet<Location> locations = getLocations(archive);
          String version = locations.first().getVersion();
 
-         if (version != null && !version.matches("\\d+(\\.\\d+(\\.\\d+(\\.[\\w\\-]+)?)?)?"))
+         if (null != version && !version.matches("\\d+(\\.\\d+(\\.\\d+(\\.[\\w\\-]+)?)?)?"))
          {
             boolean filtered = isFiltered(archiveName);
 
@@ -113,7 +111,7 @@ public class InvalidVersionReport extends AbstractReport
                {
                   bw.write("        <td style=\"text-decoration: line-through;\">");
                }
-               if (location.getVersion() != null)
+               if (null != location.getVersion())
                {
                   bw.write(location.getVersion());
                }
@@ -137,12 +135,17 @@ public class InvalidVersionReport extends AbstractReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getLocations.
+    * @param archive Archive
+    * @return SortedSet<Location>
+    */
    private SortedSet<Location> getLocations(Archive archive)
    {
-      SortedSet<Location> locations = new TreeSet<Location>();
+      final SortedSet<Location> locations = new TreeSet<Location>();
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
+         final NestableArchive nestableArchive = (NestableArchive) archive;
 
          for (Archive sa : nestableArchive.getSubArchives())
          {
@@ -158,7 +161,6 @@ public class InvalidVersionReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

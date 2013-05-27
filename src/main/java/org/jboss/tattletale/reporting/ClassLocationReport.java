@@ -52,7 +52,6 @@ public class ClassLocationReport extends AbstractReport
 
    /**
     * Set the globally provides map to be used in generating this report
-    *
     * @param gProvides the map of global provides
     */
    public void setGlobalProvides(SortedMap<String, SortedSet<String>> gProvides)
@@ -62,7 +61,6 @@ public class ClassLocationReport extends AbstractReport
 
    /**
     * write the report's content
-    *
     * @param bw the BufferedWriter to use
     * @throws IOException if an error occurs
     */
@@ -110,7 +108,7 @@ public class ClassLocationReport extends AbstractReport
             bw.write("    <td style=\"text-decoration: line-through;\">");
          }
 
-         if (archives.size() == 0)
+         if (0 == archives.size())
          {
             bw.write("&nbsp;");
          }
@@ -119,7 +117,7 @@ public class ClassLocationReport extends AbstractReport
             StringBuffer list = new StringBuffer();
             for (String archive : archives)
             {
-               int finalDot = archive.lastIndexOf(".");
+               int finalDot = archive.lastIndexOf('.');
                String extension = archive.substring(finalDot + 1);
                list.append("<a href=\"../" + extension + "/" + archive + ".html\">" + archive + "</a>, ");
             }
@@ -138,7 +136,6 @@ public class ClassLocationReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

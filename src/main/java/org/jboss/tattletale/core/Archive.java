@@ -38,40 +38,40 @@ public abstract class Archive implements Serializable, Comparable<Archive>
    static final long serialVersionUID = 8349128019949046037L;
 
    /** Archive type */
-   private ArchiveType type;
+   private final ArchiveType type;
 
    /** The name */
-   private String name;
+   private final String name;
 
    /** The version */
-   private int version;
+   private final int version;
 
    /** Manifest */
-   private List<String> manifest;
+   private final List<String> manifest;
 
    /** Signing information */
-   private List<String> sign;
+   private final List<String> sign;
 
    /** Requires */
-   private SortedSet<String> requires;
+   private final SortedSet<String> requires;
 
    /** Provides */
-   private SortedMap<String, Long> provides;
+   private final SortedMap<String, Long> provides;
 
    /** Profiles */
-   private SortedSet<String> profiles;
+   private final SortedSet<String> profiles;
 
    /** Class dependencies */
-   private SortedMap<String, SortedSet<String>> classDependencies;
+   private final SortedMap<String, SortedSet<String>> classDependencies;
 
    /** Package dependencies */
-   private SortedMap<String, SortedSet<String>> packageDependencies;
+   private final SortedMap<String, SortedSet<String>> packageDependencies;
 
    /** Blacklisted dependencies */
-   private SortedMap<String, SortedSet<String>> blacklistedDependencies;
+   private final SortedMap<String, SortedSet<String>> blacklistedDependencies;
 
    /** Locations */
-   private SortedSet<Location> locations;
+   private final SortedSet<Location> locations;
 
    /** OSGi archive */
    private transient Boolean osgi;
@@ -84,7 +84,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Constructor
-    *
     * @param type                    The type
     * @param name                    The name
     * @param version                 The version number
@@ -111,23 +110,22 @@ public abstract class Archive implements Serializable, Comparable<Archive>
       this.sign = sign;
       this.requires = requires;
       this.provides = provides;
-      this.profiles = new TreeSet<String>();
       this.classDependencies = classDependencies;
       this.packageDependencies = packageDependencies;
       this.blacklistedDependencies = blacklistedDependencies;
-      this.locations = new TreeSet<Location>();
-      this.osgi = null;
-      this.moduleIdentifier = name;
+      profiles = new TreeSet<String>();
+      locations = new TreeSet<Location>();
+      osgi = null;
+      moduleIdentifier = name;
 
-      if (location != null)
+      if (null != location)
       {
-         this.locations.add(location);
+         locations.add(location);
       }
    }
 
    /**
     * Get the type
-    *
     * @return The value
     */
    public ArchiveType getType()
@@ -137,7 +135,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the name
-    *
     * @return The value
     */
    public String getName()
@@ -147,7 +144,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the version
-    *
     * @return The value
     */
    public int getVersion()
@@ -157,7 +153,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the manifest
-    *
     * @return The value
     */
    public List<String> getManifest()
@@ -167,13 +162,12 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Has manifest key
-    *
     * @param key The manifest key
     * @return True if the key is found; otherwise false
     */
    public boolean hasManifestKey(String key)
    {
-      if (manifest != null)
+      if (null != manifest)
       {
          for (String s : manifest)
          {
@@ -189,28 +183,27 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get manifest value
-    *
     * @param key The manifest key
     * @return The value; <code>null</code> if not found
     */
    public String getManifestValue(String key)
    {
-      if (manifest != null)
+      if (null != manifest)
       {
-         StringBuffer value = new StringBuffer();
+         final StringBuffer value = new StringBuffer();
          boolean found = false;
 
          for (String s : manifest)
          {
             if (s.startsWith(key))
             {
-               int idx = s.indexOf(":");
+               int idx = s.indexOf(':');
                value.append(s.substring(idx + 1).trim());
                found = true;
             }
             else if (found)
             {
-               int idx = s.indexOf(":");
+               int idx = s.indexOf(':');
                if (idx != -1)
                {
                   return value.toString().trim();
@@ -228,7 +221,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the signing information
-    *
     * @return The value
     */
    public List<String> getSign()
@@ -238,7 +230,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the requires
-    *
     * @return The value
     */
    public SortedSet<String> getRequires()
@@ -248,7 +239,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the provides
-    *
     * @return The value
     */
    public SortedMap<String, Long> getProvides()
@@ -258,7 +248,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the profiles
-    *
     * @return The value
     */
    public SortedSet<String> getProfiles()
@@ -268,7 +257,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Add a profile
-    *
     * @param profile The profile
     */
    public void addProfile(String profile)
@@ -278,7 +266,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the class dependencies
-    *
     * @return The value
     */
    public SortedMap<String, SortedSet<String>> getClassDependencies()
@@ -288,7 +275,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the package dependencies
-    *
     * @return The value
     */
    public SortedMap<String, SortedSet<String>> getPackageDependencies()
@@ -298,7 +284,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the blacklisted dependencies
-    *
     * @return The value
     */
    public SortedMap<String, SortedSet<String>> getBlackListedDependencies()
@@ -308,7 +293,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Get the locations
-    *
     * @return The value
     */
    public SortedSet<Location> getLocations()
@@ -318,7 +302,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Add a location
-    *
     * @param value The value
     */
    public void addLocation(Location value)
@@ -328,7 +311,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Does the archives provide this class
-    *
     * @param clz The class name
     * @return True if the class is provided; otherwise false
     */
@@ -339,12 +321,11 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Is this an OSGi archive ?
-    *
     * @return True if OSGi; otherwise false
     */
    public boolean isOSGi()
    {
-      if (osgi == null)
+      if (null == osgi)
       {
          initOSGi();
       }
@@ -356,22 +337,24 @@ public abstract class Archive implements Serializable, Comparable<Archive>
     * Simple setter
     * @param moduleIdentifier - the custom module identifier name.
     */
-
    public void setModuleIdentifier(String moduleIdentifier)
    {
       this.moduleIdentifier = moduleIdentifier;
    }
+
    /**
     * Simple getter
+    *
     * @return - the module identifier string. The archive name by default unless the setter was previously called.
     */
-
    public String getModuleIdentifier()
    {
       return moduleIdentifier;
    }
 
-   /** Init OSGi */
+   /**
+    *  Init OSGi
+    */
    private void initOSGi()
    {
       osgi = hasManifestKey("Bundle-SymbolicName");
@@ -379,7 +362,6 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Comparable
-    *
     * @param a The other archive
     * @return The compareTo value
     */
@@ -390,25 +372,23 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * Equals
-    *
     * @param obj The other object
     * @return True if equals; otherwise false
     */
    public boolean equals(Object obj)
    {
-      if (obj == null || !(obj instanceof Archive))
+      if (null == obj || !(obj instanceof Archive))
       {
          return false;
       }
 
-      Archive a = (Archive) obj;
+      final Archive archive = (Archive) obj;
 
-      return name.equals(a.getName());
+      return name.equals(archive.getName());
    }
 
    /**
     * Hash code
-    *
     * @return The hash code
     */
    public int hashCode()
@@ -418,15 +398,14 @@ public abstract class Archive implements Serializable, Comparable<Archive>
 
    /**
     * String representation
-    *
     * @return The string
     */
    public String toString()
    {
-      StringBuffer sb = new StringBuffer();
-      String newline = System.getProperty("line.separator");
+      final StringBuffer sb = new StringBuffer();
+      final String newline = System.getProperty("line.separator");
 
-      sb.append(getClass().getName()).append("(").append(newline);
+      sb.append(getClass().getName()).append('(').append(newline);
       sb.append("type=").append(type).append(newline);
       sb.append("name=").append(name).append(newline);
       sb.append("version=").append(version).append(newline);
@@ -438,14 +417,13 @@ public abstract class Archive implements Serializable, Comparable<Archive>
       sb.append("classdependencies=").append(classDependencies).append(newline);
       sb.append("packagedependencies=").append(packageDependencies).append(newline);
       sb.append("blacklisteddependencies=").append(blacklistedDependencies).append(newline);
-      sb.append("locations=").append(locations).append(newline).append(")");
+      sb.append("locations=").append(locations).append(newline).append(')');
 
       return sb.toString();
    }
 
    /**
     * Simple getter.
-    *
     * @return - the parent archive.
     */
    public Archive getParentArchive()
@@ -454,8 +432,7 @@ public abstract class Archive implements Serializable, Comparable<Archive>
    }
 
    /**
-    * Simple setter,
-    *
+    * Simple setter.
     * @param parentArchive - the parent archive.
     */
    public void setParentArchive(Archive parentArchive)

@@ -21,10 +21,6 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ClassesArchive;
-import org.jboss.tattletale.core.NestableArchive;
-
 //import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,6 +31,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.ClassesArchive;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Graphviz report
@@ -64,14 +64,13 @@ public class GraphvizReport extends CLSReport
    {
       super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
 
-      this.enableDot = true;
-      this.graphvizDot = "dot";
-      this.convertDotToPic = "svg";
+      enableDot = true;
+      graphvizDot = "dot";
+      convertDotToPic = "svg";
    }
 
    /**
     * Set the configuration properties to use in generating the report
-    *
     * @param config The configuration properties
     */
    public void setConfig(Properties config)
@@ -83,13 +82,12 @@ public class GraphvizReport extends CLSReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
    {
-      boolean hasDot = testDot();
+      final boolean hasDot = testDot();
 
       bw.write("<a href=\"dependencies.dot\">All dependencies</a>");
       if (hasDot)
@@ -106,9 +104,9 @@ public class GraphvizReport extends CLSReport
       bw.write("    <th>Packages</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      String alldotName = getOutputDirectory().getAbsolutePath() + File.separator + "dependencies.dot";
-      FileWriter alldotfw = new FileWriter(alldotName);
-      BufferedWriter alldotw = new BufferedWriter(alldotfw, 8192);
+      final String alldotName = getOutputDirectory().getAbsolutePath() + File.separator + "dependencies.dot";
+      final FileWriter alldotfw = new FileWriter(alldotName);
+      final BufferedWriter alldotw = new BufferedWriter(alldotfw, 8192);
 
       alldotw.write("digraph dependencies {" + Dump.newLine());
       alldotw.write("  node [shape=box, fontsize=10.0];" + Dump.newLine());
@@ -118,7 +116,7 @@ public class GraphvizReport extends CLSReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -142,7 +140,7 @@ public class GraphvizReport extends CLSReport
 
             for (Archive a : archives)
             {
-               if (a.doesProvide(require) && (getCLS() == null || getCLS().isVisible(archive, a)))
+               if (a.doesProvide(require) && (null == getCLS() || getCLS().isVisible(archive, a)))
                {
                   result.add(a.getName());
                   break;
@@ -150,7 +148,7 @@ public class GraphvizReport extends CLSReport
             }
          }
 
-         if (result.size() == 0)
+         if (0 == result.size())
          {
             bw.write("&nbsp;");
          }
@@ -196,7 +194,7 @@ public class GraphvizReport extends CLSReport
          // Package level dependencies
          bw.write("    <td>");
 
-         if (archive.getPackageDependencies().size() == 0)
+         if (0 == archive.getPackageDependencies().size())
          {
             bw.write("&nbsp;");
          }
@@ -261,13 +259,18 @@ public class GraphvizReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getRequires.
+    * @param archive Archive
+    * @return SortedSet<String>
+    */
    private SortedSet<String> getRequires(Archive archive)
    {
-      SortedSet<String> requires = new TreeSet<String>();
+      final SortedSet<String> requires = new TreeSet<String>();
 
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
+         final NestableArchive nestableArchive = (NestableArchive) archive;
 
          for (Archive sa : nestableArchive.getSubArchives())
          {
@@ -288,13 +291,12 @@ public class GraphvizReport extends CLSReport
 
    /**
     * The dot name for an archive
-    *
     * @param name The name
     * @return The dot name
     */
    private String dotName(String name)
    {
-      int idx = name.indexOf(".jar");
+      final int idx = name.indexOf(".jar");
       if (idx != -1)
       {
          name = name.substring(0, idx);
@@ -303,7 +305,10 @@ public class GraphvizReport extends CLSReport
       return name.replace('-', '_').replace('.', '_');
    }
 
-   /** Test for the dot application */
+   /**
+    * Test for the dot application
+    * @return boolean
+    */
    private boolean testDot()
    {
       try
@@ -311,11 +316,11 @@ public class GraphvizReport extends CLSReport
          ProcessBuilder pb = new ProcessBuilder();
          pb = pb.command(graphvizDot, "-V");
 
-         Process proc = pb.redirectErrorStream(true).start();
+         final Process proc = pb.redirectErrorStream(true).start();
 
          proc.waitFor();
 
-         if (proc.exitValue() != 0)
+         if (0 != proc.exitValue())
          {
             return false;
          }
@@ -336,9 +341,9 @@ public class GraphvizReport extends CLSReport
 
    /**
     * Generate picture
-    *
     * @param dotName   The .dot file name
-    * @param directory The directory
+    * @param directory The working directory
+    * @return boolean
     */
    private boolean generatePicture(String dotName, File directory)
    {
@@ -349,7 +354,7 @@ public class GraphvizReport extends CLSReport
                          dotName, "-o", dotName.replaceFirst("dot$", convertDotToPic));
          pb = pb.directory(directory);
 
-         Process proc = pb.redirectErrorStream(true).start();
+         final Process proc = pb.redirectErrorStream(true).start();
 
          /*
          BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -369,7 +374,7 @@ public class GraphvizReport extends CLSReport
 
          proc.waitFor();
 
-         if (proc.exitValue() != 0)
+         if (0 != proc.exitValue())
          {
             return false;
          }

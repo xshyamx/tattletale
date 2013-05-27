@@ -21,8 +21,6 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.Version;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.SortedSet;
+
+import org.jboss.tattletale.Version;
 
 /**
  * Dump
@@ -42,16 +42,17 @@ public class Dump
 {
    /** New line character */
    private static final String NEW_LINE = System.getProperty("line.separator");
+
+   /** Field TITLE. (value is "Version.FULL_VERSION") */
    private static final String TITLE = Version.FULL_VERSION;
 
    /**
     * Generate CSS files
-    *
     * @param outputDir where the reports go
     */
    public static void generateCSS(String outputDir)
    {
-      byte buffer[] = new byte[8192];
+      final byte[] buffer = new byte[8192];
       int bytesRead;
 
       InputStream is = null;
@@ -77,7 +78,7 @@ public class Dump
       {
          try
          {
-            if (is != null)
+            if (null != is)
             {
                is.close();
             }
@@ -89,7 +90,7 @@ public class Dump
 
          try
          {
-            if (os != null)
+            if (null != os)
             {
                os.close();
             }
@@ -101,6 +102,14 @@ public class Dump
       }
    }
 
+   /**
+    * Method generateIndex.
+    * @param dependenciesReports SortedSet<Report>
+    * @param generalReports SortedSet<Report>
+    * @param archiveReports SortedSet<Report>
+    * @param customReports SortedSet<Report>
+    * @param outputDir String
+    */
    @Deprecated
    public static void generateIndex(SortedSet<Report> dependenciesReports,
            SortedSet<Report> generalReports,
@@ -113,12 +122,12 @@ public class Dump
 
    /**
     * Generate index.html
-    *
     * @param dependenciesReports The dependencies reports
     * @param generalReports      The general reports
     * @param archiveReports      The archive reports
     * @param customReports       The custom reports as defined by the user in jboss-tattletale.properties
     * @param outputDir           where the reports go
+    * @param t String
     */
    public static void generateIndex(SortedSet<Report> dependenciesReports,
                                     SortedSet<Report> generalReports,
@@ -127,13 +136,15 @@ public class Dump
                                     String outputDir,
                                     String t)
    {
-      if (t == null || t.equals(""))
+      if (null == t || t.equals(""))
+      {
          t = TITLE;
+      }
 
       try
       {
-         FileWriter fw = new FileWriter(outputDir + "index.html");
-         BufferedWriter bw = new BufferedWriter(fw, 8192);
+         final FileWriter fw = new FileWriter(outputDir + "index.html");
+         final BufferedWriter bw = new BufferedWriter(fw, 8192);
 
          bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" " +
                   "\"http://www.w3.org/TR/html4/loose.dtd\">" + newLine());
@@ -172,7 +183,6 @@ public class Dump
 
    /**
     * Simple static method to return the System property of line separator.
-    *
     * @return - the line separator from System properties.
     */
    public static String newLine()
@@ -180,10 +190,18 @@ public class Dump
       return NEW_LINE;
    }
 
+   /**
+    * Method generateReportItems.
+    * @param bw BufferedWriter
+    * @param reports SortedSet<Report>
+    * @param heading String
+    * @param useReportName boolean
+    * @throws IOException
+    */
    private static void generateReportItems(BufferedWriter bw, SortedSet<Report> reports,
                                            String heading, boolean useReportName) throws IOException
    {
-      if (reports != null && reports.size() > 0)
+      if (null != reports && reports.size() > 0)
       {
          bw.write("<h2>" + heading + "</h2>" + newLine());
          bw.write("<ul>" + newLine());
@@ -210,9 +228,14 @@ public class Dump
       }
    }
 
+   /**
+    * Method getIndexHtmlSize.
+    * @param r Report
+    * @return String
+    */
    private static String getIndexHtmlSize(Report r)
    {
-      File indexFile = new File(r.getOutputDirectory().getAbsolutePath() + File.separator + r.getIndexName());
+      final File indexFile = new File(r.getOutputDirectory().getAbsolutePath() + File.separator + r.getIndexName());
       return ((indexFile.length() / 1024) + 1) + "KB";
    }
 }

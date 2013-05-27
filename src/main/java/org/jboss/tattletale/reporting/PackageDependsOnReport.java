@@ -22,9 +22,6 @@
 
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Collection;
@@ -34,11 +31,14 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.NestableArchive;
+
 /**
  * Reporting class that will generate package level
  * reports like how {@link ClassDependsOnReport}
  * does on class level reports.
- * <br />
+ *
  * @author Navin Surtani
  */
 
@@ -50,9 +50,7 @@ public class PackageDependsOnReport extends CLSReport
    /**DIRECTORY*/
    private static final String DIRECTORY = "packagedependson";
 
-   /**
-    * Constructor
-    */
+   /** Constructor */
    public PackageDependsOnReport()
    {
       super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
@@ -61,7 +59,7 @@ public class PackageDependsOnReport extends CLSReport
    /**
     * write out the report's content
     * @param bw the writer to use
-    * @exception IOException if an error occurs
+    * @throws IOException if an error occurs
     */
    @Override
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
@@ -73,7 +71,7 @@ public class PackageDependsOnReport extends CLSReport
       bw.write("    <th>Depends On</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
-      SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
+      final SortedMap<String, SortedSet<String>> result = recursivelyBuildResultFromArchive(archives);
       boolean odd = true;
 
       for (Map.Entry<String, SortedSet<String>> entry : result.entrySet())
@@ -111,9 +109,14 @@ public class PackageDependsOnReport extends CLSReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method recursivelyBuildResultFromArchive.
+    * @param archives Collection<Archive>
+    * @return SortedMap<String,SortedSet<String>>
+    */
    private SortedMap<String, SortedSet<String>> recursivelyBuildResultFromArchive(Collection<Archive> archives)
    {
-      SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
+      final SortedMap<String, SortedSet<String>> result = new TreeMap<String, SortedSet<String>>();
       for (Archive archive : archives)
       {
          if (archive instanceof NestableArchive)
@@ -135,7 +138,9 @@ public class PackageDependsOnReport extends CLSReport
                for (String dep : entry.getValue())
                {
                   if (!dep.equals(pack))
+                  {
                      newDeps.add(dep);
+                  }
                }
 
                result.put(pack, newDeps);

@@ -21,14 +21,14 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.core.NestableArchive;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.core.NestableArchive;
 
 /**
  * Eliminate JAR files with multiple versions
@@ -52,7 +52,6 @@ public class EliminateJarsReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -70,7 +69,7 @@ public class EliminateJarsReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          SortedSet<Location> locations = getLocations(archive);
@@ -81,11 +80,7 @@ public class EliminateJarsReport extends AbstractReport
 
          for (Location location : locations)
          {
-            if (version == location.getVersion() || (version != null && version.equals(location.getVersion())))
-            {
-               // Same version identifier - just continue
-            }
-            else
+            if (null != version && !version.equals(location.getVersion()))
             {
                include = true;
                if (!filtered)
@@ -125,7 +120,7 @@ public class EliminateJarsReport extends AbstractReport
                {
                   bw.write("        <td style=\"text-decoration: line-through;\">");
                }
-               if (location.getVersion() != null)
+               if (null != location.getVersion())
                {
                   bw.write(location.getVersion());
                }
@@ -150,12 +145,17 @@ public class EliminateJarsReport extends AbstractReport
       bw.write("</table>" + Dump.newLine());
    }
 
+   /**
+    * Method getLocations.
+    * @param archive Archive
+    * @return SortedSet<Location>
+    */
    private SortedSet<Location> getLocations(Archive archive)
    {
-      SortedSet<Location> locations = new TreeSet<Location>();
+      final SortedSet<Location> locations = new TreeSet<Location>();
       if (archive instanceof NestableArchive)
       {
-         NestableArchive nestableArchive = (NestableArchive) archive;
+         final NestableArchive nestableArchive = (NestableArchive) archive;
 
          for (Archive sa : nestableArchive.getSubArchives())
          {
@@ -171,7 +171,6 @@ public class EliminateJarsReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

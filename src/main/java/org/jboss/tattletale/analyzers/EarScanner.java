@@ -22,11 +22,6 @@
 
 package org.jboss.tattletale.analyzers;
 
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.EarArchive;
-import org.jboss.tattletale.core.Location;
-import org.jboss.tattletale.profiles.Profile;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +40,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.EarArchive;
+import org.jboss.tattletale.core.Location;
+import org.jboss.tattletale.profiles.Profile;
+
 /**
  * Scanner type that will be used to make scan calls on .ear files.
  *
@@ -52,59 +52,71 @@ import java.util.jar.Manifest;
  */
 public class EarScanner extends AbstractScanner
 {
+   /** Field pattern */
+   private final String pattern;
+
+   /**
+    * Constructor
+    * @param pattern select matching entries
+    */
+   public EarScanner(String pattern) {
+      this.pattern = pattern;
+   }
 
    /**
     * Scan a .ear archive
-    *
     * @param file -  The file to be scanned.
-    *
     * @return the archive
-    *
     * @throws IOException - if there is a problem with the file parameter
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File)
     */
-   public Archive scan(File file) throws IOException
+   public Archive scan(File file)
    {
       return this.scan(file, null, null, null);
    }
 
    /**
     * Scan a .ear archive
-    *
     * @param ear         The ear file
     * @param gProvides   The global provides map
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages
-    *
     * @return the archive
     * @throws IOException - if there is a problem with the file parameter
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map<String,SortedSet<String>>, List<Profile>, Set<String>)
     */
    public Archive scan(File ear, Map<String, SortedSet<String>> gProvides, List<Profile> known,
-                       Set<String> blacklisted) throws IOException
+                       Set<String> blacklisted)
    {
-      if (ear == null || !ear.exists())
+      if (null == ear || !ear.exists())
+      {
          return null;
+      }
 
       EarArchive earArchive = null;
-      List<Archive> subArchiveList = new ArrayList<Archive>();
-      ArchiveScanner jarScanner = new JarScanner();
-      ArchiveScanner warScanner = new WarScanner();
+      final List<Archive> subArchiveList = new ArrayList<Archive>();
+      final ArchiveScanner jarScanner = new JarScanner();
+      final ArchiveScanner warScanner = new WarScanner(pattern);
       JarFile earFile = null;
-      String name = ear.getName();
+      final String name = ear.getName();
       try
       {
-         String canonicalPath = ear.getCanonicalPath();
-         earFile = new JarFile(ear);
-         File extractedDir = ear.isFile() ? Extractor.extract(earFile) : ear;
+         final String canonicalPath = ear.getCanonicalPath();
+         final Extractor xt = new Extractor(ear, pattern);
+         xt.extract();
+         earFile = xt.getArchive();
+         final File extractedDir = xt.getTarget();
+
          Integer classVersion = null;
-         SortedSet<String> requires = new TreeSet<String>();
-         SortedMap<String, Long> provides = new TreeMap<String, Long>();
-         SortedSet<String> profiles = new TreeSet<String>();
-         SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
-         SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
-         SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedSet<String> requires = new TreeSet<String>();
+         final SortedMap<String, Long> provides = new TreeMap<String, Long>();
+         final SortedSet<String> profiles = new TreeSet<String>();
+         final SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
          List<String> lSign = null;
 
-         Enumeration<JarEntry> earEntries = earFile.entries();
+         final Enumeration<JarEntry> earEntries = earFile.entries();
 
          while (earEntries.hasMoreElements())
          {
@@ -126,7 +138,7 @@ public class EarScanner extends AbstractScanner
                }
                finally
                {
-                  if (entryStream != null)
+                  if (null != entryStream)
                   {
                      entryStream.close();
                   }
@@ -142,16 +154,16 @@ public class EarScanner extends AbstractScanner
                   InputStreamReader isr = new InputStreamReader(is);
                   LineNumberReader lnr = new LineNumberReader(isr);
 
-                  if (lSign == null)
+                  if (null == lSign)
                   {
                      lSign = new ArrayList<String>();
                   }
 
-                  String s = lnr.readLine();
-                  while (s != null)
+                  String line = lnr.readLine();
+                  while (null != line)
                   {
-                     lSign.add(s);
-                     s = lnr.readLine();
+                     lSign.add(line);
+                     line = lnr.readLine();
                   }
                }
                catch (Exception ie)
@@ -162,7 +174,7 @@ public class EarScanner extends AbstractScanner
                {
                   try
                   {
-                     if (is != null)
+                     if (null != is)
                      {
                         is.close();
                      }
@@ -177,44 +189,50 @@ public class EarScanner extends AbstractScanner
             {
                File jarFile = new File(extractedDir.getCanonicalPath(), entryName);
                Archive jarArchive = jarScanner.scan(jarFile, gProvides, known, blacklisted);
-               if (jarArchive != null)
+               if (null != jarArchive)
+               {
                   subArchiveList.add(jarArchive);
+               }
             }
-            else if (entryName.endsWith(".war"))
+            else if (entryName.endsWith(".war") || entryName.endsWith(".rar"))
             {
                File warFile = new File(extractedDir.getCanonicalPath(), entryName);
                Archive warArchive = warScanner.scan(warFile, gProvides, known, blacklisted);
-               if (warArchive != null)
+               if (null != warArchive)
+               {
                   subArchiveList.add(warArchive);
+               }
             }
          }
 
-         if (provides.size() == 0 && subArchiveList.size() == 0)
+         if (0 == provides.size() && 0 == subArchiveList.size())
          {
             return null;
          }
 
          String version = null;
          List<String> lManifest = null;
-         Manifest manifest = earFile.getManifest();
+         final Manifest manifest = earFile.getManifest();
 
-         if (manifest != null)
+         if (null != manifest)
          {
             version = super.versionFromManifest(manifest);
             lManifest = super.readManifest(manifest);
          }
 
-         Location location = new Location(canonicalPath, version);
+         final Location location = new Location(canonicalPath, version);
 
          // Obtain the class version if it is null. In other words, if there aren't any .class files in a
          // WEB-INF/classes directory. This would get the class version from the first archive in the list of sub
          // archives.
-         if (subArchiveList.size() > 0 && classVersion == null)
+         if (subArchiveList.size() > 0 && null == classVersion)
          {
             classVersion = subArchiveList.get(0).getVersion();
          }
-         if (classVersion == null)
+         if (null == classVersion)
+         {
             classVersion = Integer.valueOf(0);
+         }
 
          earArchive = new EarArchive(name, classVersion, lManifest, lSign, requires, provides, classDependencies,
                                      packageDependencies, blacklistedDependencies, location, subArchiveList);
@@ -222,10 +240,10 @@ public class EarScanner extends AbstractScanner
 
          for (String provide : provides.keySet())
          {
-            if (gProvides != null)
+            if (null != gProvides)
             {
                SortedSet<String> ss = gProvides.get(provide);
-               if (ss == null)
+               if (null == ss)
                {
                   ss = new TreeSet<String>();
                }
@@ -248,7 +266,7 @@ public class EarScanner extends AbstractScanner
       {
          try
          {
-            if (earFile != null)
+            if (null != earFile)
             {
                earFile.close();
             }

@@ -32,16 +32,13 @@ import java.util.Comparator;
 @SuppressWarnings("serial")
 public class SizeComparator implements Comparator<String>, Serializable
 {
-
    /** Constructor */
    public SizeComparator()
    {
-
    }
 
    /**
     * Compare two objects
-    *
     * @param sa String
     * @param sb String
     * @return Positive if sb greater than sa; zero if equal; otherwise negative

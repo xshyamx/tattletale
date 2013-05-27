@@ -21,10 +21,6 @@
  */
 package org.jboss.tattletale.reporting;
 
-import org.jboss.tattletale.Version;
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -35,6 +31,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+
+import org.jboss.tattletale.Version;
+import org.jboss.tattletale.core.Archive;
+import org.jboss.tattletale.core.Location;
 
 /**
  * OSGi report
@@ -58,8 +58,8 @@ public class OSGiReport extends AbstractReport
 
    /**
     * Generate the report(s)
-    *
     * @param outputDirectory The top-level output directory
+    * @see org.jboss.tattletale.reporting.Report#generate(String)
     */
    @Override
    public void generate(String outputDirectory)
@@ -84,13 +84,20 @@ public class OSGiReport extends AbstractReport
       }
    }
 
+   /**
+    * Method writeArchiveOSGIManifest.
+    * @param archive Archive
+    * @param osgiInformation List<String>
+    * @param archiveOutput File
+    * @throws IOException
+    */
    private void writeArchiveOSGIManifest(Archive archive, List<String> osgiInformation, File archiveOutput)
       throws IOException
    {
       FileWriter mfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "MANIFEST.MF");
       BufferedWriter mbw = new BufferedWriter(mfw, 8192);
 
-      if (archive.getManifest() != null)
+      if (null != archive.getManifest())
       {
          for (String s : archive.getManifest())
          {
@@ -99,7 +106,7 @@ public class OSGiReport extends AbstractReport
          }
       }
 
-      if (!archive.isOSGi() && osgiInformation != null && osgiInformation.size() > 0)
+      if (!archive.isOSGi() && null != osgiInformation && osgiInformation.size() > 0)
       {
          mbw.write(Dump.newLine());
          mbw.write("### OSGi information" + Dump.newLine());
@@ -137,6 +144,13 @@ public class OSGiReport extends AbstractReport
       mbw.close();
    }
 
+   /**
+    * Method writeArchiveOSGIHtml.
+    * @param archive Archive
+    * @param osgiInformation List<String>
+    * @return File
+    * @throws IOException
+    */
    private File writeArchiveOSGIHtml(Archive archive, List<String> osgiInformation) throws IOException
    {
       File archiveOutput = new File(getOutputDirectory(), archive.getName());
@@ -184,7 +198,7 @@ public class OSGiReport extends AbstractReport
       rbw.write("    <td>Manifest</td>" + Dump.newLine());
       rbw.write("    <td><pre>");
 
-      if (archive.getManifest() != null)
+      if (null != archive.getManifest())
       {
          for (String s : archive.getManifest())
          {
@@ -202,7 +216,7 @@ public class OSGiReport extends AbstractReport
          rbw.write("    <td>OSGi Manifest</td>" + Dump.newLine());
          rbw.write("    <td><pre>");
 
-         if (osgiInformation != null && osgiInformation.size() > 0)
+         if (null != osgiInformation && osgiInformation.size() > 0)
          {
             for (String anOsgiInformation : osgiInformation)
             {
@@ -230,6 +244,11 @@ public class OSGiReport extends AbstractReport
       return archiveOutput;
    }
 
+   /**
+    * Method getOSGIInfo.
+    * @param archive Archive
+    * @return List<String>
+    */
    private List<String> getOSGIInfo(Archive archive)
    {
       List<String> osgiInformation = null;
@@ -242,16 +261,16 @@ public class OSGiReport extends AbstractReport
 
          for (String provide : archive.getProvides().keySet())
          {
-            if (provide.lastIndexOf(".") != -1)
+            if (provide.lastIndexOf('.') != -1)
             {
-               String packageName = provide.substring(0, provide.lastIndexOf("."));
+               String packageName = provide.substring(0, provide.lastIndexOf('.'));
                Integer number = exportPackages.get(packageName);
-               if (number == null)
+               if (null == number)
                {
                   number = 0;
                }
 
-               number = number + 1;
+               number += 1;
                exportPackages.put(packageName, number);
             }
          }
@@ -260,11 +279,11 @@ public class OSGiReport extends AbstractReport
 
          for (String require : archive.getRequires())
          {
-            if (require.lastIndexOf(".") != -1)
+            if (require.lastIndexOf('.') != -1)
             {
-               String packageName = require.substring(0, require.lastIndexOf("."));
+               String packageName = require.substring(0, require.lastIndexOf('.'));
 
-               if (importPackages.get(packageName) == null)
+               if (null == importPackages.get(packageName))
                {
                   String version = null;
 
@@ -273,7 +292,7 @@ public class OSGiReport extends AbstractReport
                      if (a.doesProvide(require))
                      {
                         version = a.getLocations().first().getVersion();
-                        if (version == null)
+                        if (null == version)
                         {
                            version = "0.0.0";
                         }
@@ -297,19 +316,19 @@ public class OSGiReport extends AbstractReport
             for (Map.Entry<String, Integer> entry : exportPackages.entrySet())
             {
                String pkg = entry.getKey();
-               Integer v = entry.getValue();
+               Integer number = entry.getValue();
 
-               if (bsn == null)
+               if (null == bsn)
                {
                   bsn = pkg;
-                  bsnv = v;
+                  bsnv = number;
                }
                else
                {
-                  if (v > bsnv)
+                  if (number > bsnv)
                   {
                      bsn = pkg;
-                     bsnv = v;
+                     bsnv = number;
                   }
                }
             }
@@ -322,14 +341,14 @@ public class OSGiReport extends AbstractReport
          }
          osgiInformation.add("Bundle-SymbolicName: " + bundleSymbolicName);
 
-         String bundleDescription = archive.getName().substring(0, archive.getName().lastIndexOf("."));
+         String bundleDescription = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
          osgiInformation.add("Bundle-Description: " + bundleDescription);
 
-         String bName = archive.getName().substring(0, archive.getName().lastIndexOf("."));
+         String bName = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
          StringBuffer bundleName = new StringBuffer();
          for (char c : bName.toCharArray())
          {
-            if (c != '\n' && c != '\r' && c != ' ')
+            if ('\n' != c && '\r' != c && ' ' != c)
             {
                bundleName.append(c);
             }
@@ -346,19 +365,19 @@ public class OSGiReport extends AbstractReport
             exportPackage.append(ep);
 
             SortedSet<String> epd = archive.getPackageDependencies().get(ep);
-            if (epd != null && epd.size() > 0)
+            if (null != epd && epd.size() > 0)
             {
                exportPackage.append(";uses:=\"");
 
                for (String epds : epd)
                {
-                  exportPackage.append(epds).append(",");
+                  exportPackage.append(epds).append(',');
                }
                exportPackage.setLength(exportPackage.length() - 1);
 
-               exportPackage.append("\"");
+               exportPackage.append('\"');
             }
-            exportPackage.append(",");
+            exportPackage.append(',');
          }
          if (exportPackage.length() > 0)
          {
@@ -371,13 +390,13 @@ public class OSGiReport extends AbstractReport
          {
             importPackage.append(entry.getKey());
 
-            String v = entry.getValue();
-            if (v != null)
+            String version = entry.getValue();
+            if (null != version)
             {
-               importPackage.append(";version=\"").append(getOSGiVersion(v)).append("\"");
+               importPackage.append(";version=\"").append(getOSGiVersion(version)).append('\"');
             }
 
-            importPackage.append(",");
+            importPackage.append(',');
          }
          if (importPackage.length() > 0)
          {
@@ -390,7 +409,6 @@ public class OSGiReport extends AbstractReport
 
    /**
     * write out the report's content
-    *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
@@ -413,7 +431,7 @@ public class OSGiReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
+         int finalDot = archiveName.lastIndexOf('.');
          String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
@@ -480,7 +498,6 @@ public class OSGiReport extends AbstractReport
 
    /**
     * Get Bundle-Version
-    *
     * @param version The archive version
     * @return OSGi version
     */
@@ -501,7 +518,6 @@ public class OSGiReport extends AbstractReport
 
    /**
     * Create filter
-    *
     * @return The filter
     */
    @Override

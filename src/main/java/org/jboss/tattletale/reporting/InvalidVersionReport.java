@@ -39,7 +39,7 @@ import org.jboss.tattletale.core.NestableArchive;
 public class InvalidVersionReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Invalid version";
+   private static final String NAME = "Invalid Version";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "invalidversion";

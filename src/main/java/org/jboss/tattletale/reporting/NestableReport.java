@@ -239,7 +239,7 @@ public abstract class NestableReport extends ArchiveReport
             report = new WarReport(nestedSubArchive, 2);
          }
 
-         if (!archiveName.contains("WEB-INF/classes"))
+         if (subArchive.getType() != ArchiveType.CLASS)
          {
             report.generate(outputPath);
             bw.write("        <tr>" + Dump.newLine());

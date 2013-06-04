@@ -138,7 +138,7 @@ public class Configuration
             properties.load(fis);
             loaded = true;
          }
-         catch (IOException ignore)
+         catch (IOException ioe)
          {
             // Nothing to do
          }
@@ -167,7 +167,7 @@ public class Configuration
             properties.load(is);
             loaded = true;
          }
-         catch (Exception ie)
+         catch (IOException ioe)
          {
             // Properties file not found
          }

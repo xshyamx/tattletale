@@ -75,7 +75,7 @@ public class ModuleXml
             }
          }
       }
-      catch (Throwable t)
+      catch (Exception e)
       {
          // Nothing to do
       }

@@ -35,7 +35,7 @@ import org.jboss.tattletale.core.Archive;
 public class SealedReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Sealed information";
+   private static final String NAME = "Sealed";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "sealed";

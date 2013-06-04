@@ -33,7 +33,7 @@ import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.profiles.Profile;
 
 /**
- * Interface that will be used on the top level in order to scan different archive types (.jar, .war, .ear etc).
+ * Interface that will be used on the top level in order to scan different archive types (.jar, .war/.rar, .ear).
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author Navin Surtani
  */
@@ -57,5 +57,5 @@ public interface ArchiveScanner
     * @throws IOException - If there is an error with the input streams.
     */
    Archive scan(File file, Map<String, SortedSet<String>> gProvides,
-                       List<Profile> known, Set<String> blacklisted) throws IOException;
+                List<Profile> known, Set<String> blacklisted) throws IOException;
 }

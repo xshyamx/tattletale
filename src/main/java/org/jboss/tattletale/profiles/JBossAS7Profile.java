@@ -190,7 +190,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
                inputStream.close();
             }
          }
-         catch (IOException closeException)
+         catch (IOException ioe)
          {
             // No op.
          }

@@ -39,7 +39,7 @@ import org.jboss.tattletale.core.NestableArchive;
 public class NoVersionReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "No version";
+   private static final String NAME = "No Version";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "noversion";

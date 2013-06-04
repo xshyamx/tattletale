@@ -31,16 +31,16 @@ import org.jboss.tattletale.core.Archive;
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public class UnusedJarReport extends AbstractReport
+public class UnusedReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Unused Jar";
+   private static final String NAME = "Unused";
 
    /** DIRECTORY */
-   private static final String DIRECTORY = "unusedjar";
+   private static final String DIRECTORY = "unused";
 
    /** Constructor */
-   public UnusedJarReport()
+   public UnusedReport()
    {
       super(DIRECTORY, ReportSeverity.WARNING, NAME, DIRECTORY);
    }

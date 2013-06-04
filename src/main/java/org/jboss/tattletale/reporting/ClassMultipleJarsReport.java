@@ -33,19 +33,19 @@ import java.util.SortedSet;
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public class MultipleJarsReport extends AbstractReport
+public class ClassMultipleJarsReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Multiple Jar files";
+   private static final String NAME = "Multiple Classes";
 
    /** DIRECTORY */
-   private static final String DIRECTORY = "multiplejars";
+   private static final String DIRECTORY = "multiplejarsclass";
 
    /** Globally provides */
    private SortedMap<String, SortedSet<String>> gProvides;
 
    /** Constructor */
-   public MultipleJarsReport()
+   public ClassMultipleJarsReport()
    {
       super(DIRECTORY, ReportSeverity.WARNING, NAME, DIRECTORY);
    }

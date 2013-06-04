@@ -38,7 +38,7 @@ import java.util.TreeSet;
 public class PackageMultipleJarsReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Multiple Jar files (Packages)";
+   private static final String NAME = "Multiple Packages";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "multiplejarspackage";

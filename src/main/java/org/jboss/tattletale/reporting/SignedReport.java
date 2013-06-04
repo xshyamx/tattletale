@@ -32,16 +32,16 @@ import org.jboss.tattletale.core.Archive;
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public class SignReport extends AbstractReport
+public class SignedReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Signing information";
+   private static final String NAME = "Signed";
 
    /** DIRECTORY */
-   private static final String DIRECTORY = "sign";
+   private static final String DIRECTORY = "signed";
 
    /** Constructor */
-   public SignReport()
+   public SignedReport()
    {
       super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
    }

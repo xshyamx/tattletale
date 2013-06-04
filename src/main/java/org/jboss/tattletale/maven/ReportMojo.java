@@ -66,6 +66,15 @@ public class ReportMojo extends TattletaleMojo
    /** Title */
    private String title;
 
+   /** Extract pattern */
+   private String extractPattern;
+
+   /** Bundle pattern */
+   private String bundlePattern;
+
+   /** Analyze components */
+   private boolean analyzeComponents;
+
    /** Constructor */
    public ReportMojo()
    {
@@ -80,6 +89,9 @@ public class ReportMojo extends TattletaleMojo
       reports = null;
       scan = null;
       title = null;
+      extractPattern = null;
+      bundlePattern = null;
+      analyzeComponents = false;
    }
 
    /**
@@ -281,6 +293,60 @@ public class ReportMojo extends TattletaleMojo
    }
 
    /**
+    * Get the extractPattern
+    * @return The value
+    */
+   public String getExtractPattern()
+   {
+      return extractPattern;
+   }
+
+   /**
+    * Set the extractPattern
+    * @param extractPattern The value
+    */
+   public void setExtractPattern(String extractPattern)
+   {
+      this.extractPattern = extractPattern;
+   }
+
+   /**
+    * Get the bundlePattern
+    * @return The value
+    */
+   public String getBundlePattern()
+   {
+      return bundlePattern;
+   }
+
+   /**
+    * Set the bundlePattern
+    * @param bundlePattern The value
+    */
+   public void setBundlePattern(String bundlePattern)
+   {
+      this.bundlePattern = bundlePattern;
+   }
+
+   /**
+    * Get the analyzeComponents
+    * @return The value
+    */
+   public boolean getAnalyzeComponents()
+   {
+      return analyzeComponents;
+   }
+
+   /**
+    * Set the analyzeComponents
+    * @param analyzeComponents The value
+    */
+   public void setAnalyzeComponents(boolean analyzeComponents)
+   {
+      this.analyzeComponents = analyzeComponents;
+   }
+
+   /**
     * Execute
     * @throws MojoExecutionException Thrown if the plugin cant be executed
     * @throws MojoFailureException   Thrown if there is an error
@@ -359,10 +425,12 @@ public class ReportMojo extends TattletaleMojo
 
          main.setScan(getScan());
          main.setTitle(getTitle());
+         main.setExtractPattern(getExtractPattern());
+         main.setBundlePattern(getBundlePattern());
 
          getLog().info("Scanning: " + getSource().getAbsolutePath());
 
-         main.execute();
+         main.execute(analyzeComponents);
       }
       catch (Throwable t)
       {

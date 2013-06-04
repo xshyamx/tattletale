@@ -67,11 +67,11 @@ import org.jboss.tattletale.reporting.DependantsReport;
 import org.jboss.tattletale.reporting.DependsOnReport;
 import org.jboss.tattletale.reporting.Dump;
 import org.jboss.tattletale.reporting.EarReport;
-import org.jboss.tattletale.reporting.EliminateJarsReport;
+import org.jboss.tattletale.reporting.MultipleVersionsReport;
 import org.jboss.tattletale.reporting.GraphvizReport;
 import org.jboss.tattletale.reporting.InvalidVersionReport;
 import org.jboss.tattletale.reporting.JarReport;
-import org.jboss.tattletale.reporting.MultipleJarsReport;
+import org.jboss.tattletale.reporting.ClassMultipleJarsReport;
 import org.jboss.tattletale.reporting.MultipleLocationsReport;
 import org.jboss.tattletale.reporting.NoVersionReport;
 import org.jboss.tattletale.reporting.OSGiReport;
@@ -82,10 +82,10 @@ import org.jboss.tattletale.reporting.Report;
 import org.jboss.tattletale.reporting.ReportSeverity;
 import org.jboss.tattletale.reporting.ReportStatus;
 import org.jboss.tattletale.reporting.SealedReport;
-import org.jboss.tattletale.reporting.SignReport;
+import org.jboss.tattletale.reporting.SignedReport;
 import org.jboss.tattletale.reporting.TransitiveDependantsReport;
 import org.jboss.tattletale.reporting.TransitiveDependsOnReport;
-import org.jboss.tattletale.reporting.UnusedJarReport;
+import org.jboss.tattletale.reporting.UnusedReport;
 import org.jboss.tattletale.reporting.WarReport;
 import org.jboss.tattletale.utils.Configuration;
 
@@ -106,7 +106,7 @@ public class Main
    private static final String DEFAULT_TT_SCAN = ".jar, .war, .ear";
 
    /** Default list of matching files to extract from nested (war or ear) archives */
-   private static final String DEFAULT_TT_EXTRACT = ".*(-INF/.*|\\.class|\\.jar|\\.war|\\.rar|\\.jspf?)$";
+   private static final String DEFAULT_TT_EXTRACT = ".*\\.(j|w|r)ar$";
 
    /** Source */
    private String source;
@@ -156,6 +156,9 @@ public class Main
    /** Extract pattern */
    private String extractPattern;
 
+   /** Bundle depth */
+   private String bundlePattern;
+
    /** Configuration **/
    private Properties configuration;
 
@@ -168,7 +171,9 @@ public class Main
    /** A List of the Constructors used to create custom reports */
    private final List<Class<? extends AbstractReport>> customReports;
 
-   /** Constructor */
+   /**
+    * Constructor
+    */
    public Main()
    {
       source = ".";
@@ -187,6 +192,7 @@ public class Main
       scan = null;
       title = "";
       extractPattern = null;
+      bundlePattern = null;
       configuration = null;
 
       dependencyReports = new ArrayList<Class<? extends AbstractReport>>();
@@ -203,18 +209,18 @@ public class Main
 
       generalReports = new ArrayList<Class<? extends AbstractReport>>();
       addGeneralReport(AS7Report.class);
-      addGeneralReport(MultipleJarsReport.class);
+      addGeneralReport(ClassMultipleJarsReport.class);
       addGeneralReport(MultipleLocationsReport.class);
       addGeneralReport(PackageMultipleJarsReport.class);
-      addGeneralReport(EliminateJarsReport.class);
+      addGeneralReport(MultipleVersionsReport.class);
       addGeneralReport(NoVersionReport.class);
       addGeneralReport(ClassLocationReport.class);
       addGeneralReport(OSGiReport.class);
-      addGeneralReport(SignReport.class);
+      addGeneralReport(SignedReport.class);
       addGeneralReport(SealedReport.class);
       addGeneralReport(InvalidVersionReport.class);
       addGeneralReport(BlackListedReport.class);
-      addGeneralReport(UnusedJarReport.class);
+      addGeneralReport(UnusedReport.class);
 
       customReports = new ArrayList<Class<? extends AbstractReport>>();
    }
@@ -382,12 +388,21 @@ public class Main
    }
 
    /**
-    * Set the title
+    * Set the extract pattern
     * @param extractPattern The value
     */
    public void setExtractPattern(String extractPattern)
    {
       this.extractPattern = extractPattern;
+   }
+
+   /**
+    * Set the bundle pattern
+    * @param bundlePattern The value
+    */
+   public void setBundlePattern(String bundlePattern)
+   {
+      this.bundlePattern = bundlePattern;
    }
 
    /**
@@ -404,6 +419,16 @@ public class Main
     * @throws Exception Thrown if an error occurs
     */
    public void execute() throws Exception
+   {
+      execute(false);
+   }
+
+   /**
+    * Execute
+    * @param analyzeComponents analyze subarchives if true
+    * @throws Exception Thrown if an error occurs
+    */
+   public void execute(boolean analyzeComponents) throws Exception
    {
       final Configuration cfg = new Configuration(configuration);
 
@@ -553,6 +578,28 @@ public class Main
          extractPattern = DEFAULT_TT_EXTRACT;
       }
 
+      String ac = configuration.getProperty("analyzeComponents");
+      if (null != ac && ac.trim().equals("true"))
+      {
+         analyzeComponents = true;
+      }
+
+      if (null == bundlePattern && analyzeComponents)
+      {
+         bundlePattern = configuration.getProperty("bundlePattern");
+      }
+
+      if (null != bundlePattern && bundlePattern.trim().equals(""))
+      {
+         bundlePattern = null;
+      }
+
+      if (null != bundlePattern && !analyzeComponents)
+      {
+         System.err.println("Ignoring bundlePattern: " + bundlePattern);
+         bundlePattern = null;
+      }
+
       DirectoryScanner.setArchives(scan);
 
       final Map<String, SortedSet<Location>> locationsMap = new HashMap<String, SortedSet<Location>>();
@@ -594,24 +641,36 @@ public class Main
 
       for (File file : fileList)
       {
-         ArchiveScanner scanner = analyzer.getScanner(file, extractPattern);
+         ArchiveScanner scanner = (analyzeComponents) ? analyzer.getScanner(file, extractPattern, bundlePattern) :
+            analyzer.getScanner(file, extractPattern);
 
          if (null != scanner)
          {
             Archive archive = scanner.scan(file, gProvides, known, blacklistedSet);
             if (null != archive)
             {
-               SortedSet<Location> locations = locationsMap.get(archive.getName());
-               if (null == locations)
+               List<Archive> archs = new ArrayList<Archive>();
+               if (analyzeComponents && archive instanceof NestableArchive)
                {
-                  locations = new TreeSet<Location>();
+                  NestableArchive na = (NestableArchive) archive;
+                  archs.addAll(na.getSubArchives());
+               } else {
+                  archs.add(archive);
                }
-               locations.addAll(archive.getLocations());
-               locationsMap.put(archive.getName(), locations);
-
-               if (!archives.contains(archive))
+               for (Archive a : archs)
                {
-                  archives.add(archive);
+                  SortedSet<Location> locations = locationsMap.get(a.getName());
+                  if (null == locations)
+                  {
+                     locations = new TreeSet<Location>();
+                  }
+                  locations.addAll(a.getLocations());
+                  locationsMap.put(a.getName(), locations);
+
+                  if (!archives.contains(a))
+                  {
+                     archives.add(a);
+                  }
                }
             }
          }
@@ -681,7 +740,7 @@ public class Main
             {
                inputStream.close();
             }
-            catch (IOException e)
+            catch (IOException ioe)
             {
                // No op.
             }
@@ -772,7 +831,7 @@ public class Main
             properties.load(fis);
             loaded = true;
          }
-         catch (IOException ignore)
+         catch (IOException ioe)
          {
             // Nothing to do
          }
@@ -823,10 +882,9 @@ public class Main
          reportSetBuilder.addReport(reportDef);
       }
       final SortedSet<Report> customReportSet = reportSetBuilder.getReportSet();
+
       reportSetBuilder.clear();
-
       addJarReports(archives, reportSetBuilder);
-
       final SortedSet<Report> archiveReports = reportSetBuilder.getReportSet();
 
       final String outputDir = reportSetBuilder.getOutputDir();
@@ -880,35 +938,34 @@ public class Main
     */
    private static void usage()
    {
-      System.out.println("Usage: Tattletale [-exclude=<excludes>] [-title=<title>]"
+      System.out.println("Usage: Tattletale [-exclude=<excludes>] [-title=<title>] [-components[=<regex>]]"
                          + " <source>[#<source>]* [output-directory]");
       System.exit(0);
    }
 
    /**
-    * Add the reports based on the archive that we have.
+    * Add the reports based on the archives that we have.
     * @param archives - the collection of Archives.
-    * @param reportSetBuilder - the Report Set Builder required to add a new JarReport if there is a JarArchive found.
+    * @param reportSetBuilder - the ReportSetBuilder to add a set of Reports to (corresponding to ArchiveType of each archive).
     */
 
    private void addJarReports(Collection<Archive> archives, ReportSetBuilder reportSetBuilder)
    {
       for (Archive a : archives)
       {
-         if (a.getType() == ArchiveType.JAR)
+         if (a.getType() == ArchiveType.WAR)
          {
-            reportSetBuilder.addReport(new JarReport(a));
+            reportSetBuilder.addReport(new WarReport((NestableArchive) a));
+            continue;
          }
-         else if (a.getType() == ArchiveType.WAR)
+
+         if (a.getType() == ArchiveType.EAR)
          {
-            NestableArchive na = (NestableArchive) a;
-            reportSetBuilder.addReport(new WarReport(na));
+            reportSetBuilder.addReport(new EarReport((NestableArchive) a));
+            continue;
          }
-         else if (a.getType() == ArchiveType.EAR)
-         {
-            NestableArchive na = (NestableArchive) a;
-            reportSetBuilder.addReport(new EarReport(na));
-         }
+
+         reportSetBuilder.addReport(new JarReport(a));
       }
    }
 
@@ -923,8 +980,19 @@ public class Main
          Main main = new Main();
          String source = "";
          String destination = ".";
+         boolean analyzeComponents = false;
          for (String arg: args)
          {
+            if (arg.startsWith("-components"))
+            {
+                analyzeComponents = true;
+                int index = arg.indexOf('=');
+                if (index > 0)
+                {
+                   main.setBundlePattern(arg.substring(index + 1));
+                }
+                continue;
+            }
             if (arg.startsWith("-exclude="))
             {
                main.setExcludes(arg.substring(arg.indexOf('=') + 1));
@@ -953,7 +1021,7 @@ public class Main
          main.setFailOnError(false);
          main.setDeleteOutputDirectory(true);
 
-         main.execute();
+         main.execute(analyzeComponents);
       }
       catch (Exception e)
       {

@@ -36,16 +36,16 @@ import org.jboss.tattletale.core.NestableArchive;
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public class EliminateJarsReport extends AbstractReport
+public class MultipleVersionsReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Eliminate Jar files with different versions";
+   private static final String NAME = "Multiple Versions";
 
    /** DIRECTORY */
-   private static final String DIRECTORY = "eliminatejars";
+   private static final String DIRECTORY = "multipleversions";
 
    /** Constructor */
-   public EliminateJarsReport()
+   public MultipleVersionsReport()
    {
       super(DIRECTORY, ReportSeverity.WARNING, NAME, DIRECTORY);
    }
@@ -74,7 +74,9 @@ public class EliminateJarsReport extends AbstractReport
 
          SortedSet<Location> locations = getLocations(archive);
 
-         boolean include = false;
+         // Bug-for-bug compatibility: print out a list of locations for nested archives
+         // even if it is not the purpose of this report
+         boolean include = (archive instanceof NestableArchive) ? true : false;
          String version = locations.first().getVersion();
          boolean filtered = isFiltered(archiveName);
 

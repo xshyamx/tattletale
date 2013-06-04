@@ -179,7 +179,7 @@ public abstract class AbstractProfile implements Profile
             line = br.readLine();
          }
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
          // Ignore
       }

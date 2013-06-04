@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,45 +40,89 @@ import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.ClassesArchive;
+import org.jboss.tattletale.core.JarArchive;
 import org.jboss.tattletale.core.Location;
 import org.jboss.tattletale.core.WarArchive;
 import org.jboss.tattletale.profiles.Profile;
 
 /**
- * Class that would be used to scan .war files.
+ * Scanner for .war (and .rar) files.
  *
  * @author Navin Surtani
  */
 public class WarScanner extends AbstractScanner
 {
-   /** Field pattern */
-   private final String pattern;
+   /** Field extractPattern */
+   private final String extractPattern;
+
+   /** Field bundlePattern */
+   private final Pattern bundlePattern;
+
+   /** Final placeholderClasses */
+   private final boolean placeholderClasses;
+
+   /** Field CLASSES_DEFAULT_PATTERN. (value is ""WEB-INF/classes"") */
+   private final static String CLASSES_DEFAULT_PATTERN = "WEB-INF/classes";
 
    /**
     * Constructor
-    * @param pattern select matching entries
     */
-   public WarScanner(String pattern) {
-      this.pattern = pattern;
+   public WarScanner()
+   {
+      extractPattern = ".*";
+      bundlePattern = Pattern.compile("(" + CLASSES_DEFAULT_PATTERN + ")/");
+      placeholderClasses = true;
+   }
+
+   /**
+    * Constructor
+    * @param extractPattern select matching entries
+    */
+   public WarScanner(String extractPattern)
+   {
+      this.extractPattern = extractPattern;
+      bundlePattern = Pattern.compile("(" + CLASSES_DEFAULT_PATTERN + ")/");
+      placeholderClasses = true;
+   }
+
+   /**
+    * Constructor
+    * @param extractPattern select matching entries
+    * @param pattern bundle matching entries into JarArchives (ClassArchive is a placeholder)
+    */
+   public WarScanner(String extractPattern, String pattern)
+   {
+      this.extractPattern = extractPattern;
+      placeholderClasses = false;
+      if (null == pattern)
+      {
+         bundlePattern = Pattern.compile("(" + CLASSES_DEFAULT_PATTERN + ")/");
+      }
+      else
+      {
+         bundlePattern = Pattern.compile("(" + CLASSES_DEFAULT_PATTERN + "/(" + pattern + "))/");
+      }
    }
 
    /**
     * Scan a .war archive
-    * @param war The file
+    * @param war The war file to be scanned
     * @return The archive
     * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File)
     */
    public Archive scan(File war)
    {
-      return scan(war, null, null, null);
+      return this.scan(war, null, null, null);
    }
 
    /**
     * Scan a .war archive
-    * @param war         The file
+    * @param war         The war file
     * @param gProvides   The global provides map
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages
@@ -101,20 +146,14 @@ public class WarScanner extends AbstractScanner
 
       try
       {
-         final String canonicalPath = war.getCanonicalPath();
-         xt = new Extractor(war, pattern);
+         xt = new Extractor(war, extractPattern);
          xt.extract();
          warFile = xt.getArchive();
          final File extractedDir = xt.getTarget();
 
          Integer classVersion = null;
-         final SortedSet<String> requires = new TreeSet<String>();
-         final SortedMap<String, Long> provides = new TreeMap<String, Long>();
-         final SortedSet<String> profiles = new TreeSet<String>();
-         final SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
-         final SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
-         final SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
          List<String> lSign = null;
+         Map<String, ClassScanner> classBundles = new HashMap<String, ClassScanner>();
 
          final Enumeration<JarEntry> warEntries = warFile.entries();
 
@@ -125,14 +164,26 @@ public class WarScanner extends AbstractScanner
             InputStream entryStream = null;
             if (entryName.endsWith(".class"))
             {
+               Matcher match = bundlePattern.matcher(entryName);
+               String bundleName = null;
+               while (match.find())
+               {
+                  bundleName = match.group(1);
+               }
+               if (null == bundleName)
+               {
+                  bundleName = "unmatched_" + name;
+               }
+
+               ClassScanner cs = (!classBundles.isEmpty() && classBundles.containsKey(bundleName)) ?
+                  classBundles.get(bundleName) : new ClassScanner(bundleName);
+
                try
                {
                   entryStream = warFile.getInputStream(warEntry);
-                  classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides, requires,
-                                             profiles, classDependencies, packageDependencies, blacklistedDependencies);
-
+                  classVersion = cs.scan(entryStream, known, blacklisted);
                }
-               catch (Exception openException)
+               catch (IOException openException)
                {
                   openException.printStackTrace();
                }
@@ -143,6 +194,8 @@ public class WarScanner extends AbstractScanner
                      entryStream.close();
                   }
                }
+
+               classBundles.put(bundleName, cs);
             }
             else if (entryName.contains("META-INF") && entryName.endsWith(".SF"))
             {
@@ -166,7 +219,7 @@ public class WarScanner extends AbstractScanner
                      line = lnr.readLine();
                   }
                }
-               catch (Exception ie)
+               catch (IOException ioe)
                {
                   // Ignore
                }
@@ -195,10 +248,6 @@ public class WarScanner extends AbstractScanner
                }
             }
          }
-         if (0 == provides.size() && 0 == subArchiveList.size())
-         {
-            return null;
-         }
 
          String version = null;
          List<String> lManifest = null;
@@ -210,8 +259,115 @@ public class WarScanner extends AbstractScanner
             lManifest = super.readManifest(manifest);
          }
 
-         final Location location = new Location(canonicalPath, version);
+         final SortedSet<String> requires = new TreeSet<String>();
+         final SortedMap<String, Long> provides = new TreeMap<String, Long>();
+         final SortedSet<String> profiles = new TreeSet<String>();
+         final SortedMap<String, SortedSet<String>> classDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
+         final SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
 
+         for (ClassScanner cs : classBundles.values())
+         {
+            final Location location = new Location(war.getCanonicalPath() + cs.getLocation(), version);
+            if (placeholderClasses)
+            {
+               // ClassesArchive is a placeholder that is excluded from analysis
+               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar",""), cs.getClassVersion(), lManifest, lSign,
+                                                                        cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
+                                                                        cs.getPackageDependencies(),
+                                                                        cs.getBlacklistedDependencies(), location);
+               subArchiveList.add(classesArchive);
+            }
+            else
+            {
+               final JarArchive classesArchive = new JarArchive(cs.getName(), cs.getClassVersion(), lManifest, lSign,
+                                                                cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
+                                                                cs.getPackageDependencies(),
+                                                                cs.getBlacklistedDependencies(), location);
+               subArchiveList.add(classesArchive);
+            }
+
+            requires.addAll(cs.getRequires());
+
+            for (Map.Entry<String, Long> entry : cs.getProvides().entrySet())
+            {
+               String className = entry.getKey();
+               if (null != gProvides)
+               {
+                  SortedSet<String> ss = gProvides.get(className);
+                  if (null == ss)
+                  {
+                     ss = new TreeSet<String>();
+                  }
+                  if (placeholderClasses)
+                  {
+                     ss.add(name);
+                  }
+                  else
+                  {
+                     ss.add(cs.getName());
+                  }
+                  gProvides.put(className, ss);
+               }
+               if (!provides.containsKey(className))
+               {
+                  provides.put(className, entry.getValue());
+                  requires.remove(className);
+               }
+               else
+               {
+                  System.err.println("Class " + className + " already seen!");
+               }
+            }
+
+            profiles.addAll(cs.getProfiles());
+
+            for (Map.Entry<String, SortedSet<String>> entry : cs.getClassDependencies().entrySet())
+            {
+               String className = entry.getKey();
+               if (!classDependencies.containsKey(className))
+               {
+                  classDependencies.put(className, entry.getValue());
+               }
+               else
+               {
+                  System.err.println("Dependencies of class " + className + " already seen!");
+               }
+            }
+
+            for (Map.Entry<String, SortedSet<String>> entry : cs.getPackageDependencies().entrySet())
+            {
+               String className = entry.getKey();
+               if (!packageDependencies.containsKey(className))
+               {
+                  packageDependencies.put(className, entry.getValue());
+               }
+               else
+               {
+                  System.err.println("Package dependencies of class " + className + " already seen!");
+               }
+            }
+
+            for (Map.Entry<String, SortedSet<String>> entry : cs.getBlacklistedDependencies().entrySet())
+            {
+               String className = entry.getKey();
+               if (!blacklistedDependencies.containsKey(className))
+               {
+                  blacklistedDependencies.put(className, entry.getValue());
+               }
+               else
+               {
+                  System.err.println("Blacklisted dependencies of class " + className + " already seen!");
+               }
+            }
+         }
+
+         if (0 == provides.size() && 0 == subArchiveList.size())
+         {
+            return null;
+         }
+
+         // Obtain the class version from the first archive in the list of subarchives if it is null.
          if (subArchiveList.size() > 0 && null == classVersion)
          {
             classVersion = subArchiveList.get(0).getVersion();
@@ -221,36 +377,15 @@ public class WarScanner extends AbstractScanner
             classVersion = Integer.valueOf(0);
          }
 
-         final String classesName = name + "/WEB-INF/classes";
-         final ClassesArchive classesArchive = new ClassesArchive(classesName, classVersion, lManifest, lSign, requires,
-                                                                  provides, classDependencies, packageDependencies,
-                                                                  blacklistedDependencies, location);
-         subArchiveList.add(classesArchive);
-
          warArchive = new WarArchive(name, classVersion, lManifest, lSign, requires, provides,
                                      classDependencies, packageDependencies, blacklistedDependencies,
-                                     location, subArchiveList);
+                                     new Location(war.getCanonicalPath(), version), subArchiveList);
          super.addProfilesToArchive(warArchive, profiles);
-
-         for (String provide : provides.keySet())
-         {
-            if (null != gProvides)
-            {
-               SortedSet<String> ss = gProvides.get(provide);
-               if (null == ss)
-               {
-                  ss = new TreeSet<String>();
-               }
-               ss.add(warArchive.getName());
-               gProvides.put(provide, ss);
-            }
-            requires.remove(provide);
-         }
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
-         System.err.println("Scan: " + e.getMessage());
-         e.printStackTrace(System.err);
+         System.err.println("Scan: " + ioe.getMessage());
+         ioe.printStackTrace(System.err);
       }
       finally
       {

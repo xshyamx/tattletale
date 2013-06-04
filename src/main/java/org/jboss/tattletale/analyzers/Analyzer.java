@@ -25,29 +25,46 @@ package org.jboss.tattletale.analyzers;
 import java.io.File;
 
 /**
- * Class used to figure out if a given file would be a .jar, .war and then return the appropriate implementation of
- * {@link ArchiveScanner}
+ * Class that returns an appropriate implementation of {@link ArchiveScanner}
  *
  * @author Navin Surtani
  */
 public class Analyzer
 {
+   /** Field placeholder */
+   private boolean placeholder = false;
+
    /**
     * Returns the appropriate scanner implementation based on the extension of file that is passed as a parameter.
     * @param file - the .jar, .war file etc.
+    * @return the implementation of {@link ArchiveScanner}
     */
    public ArchiveScanner getScanner(File file)
    {
-      return this.getScanner(file, ".*");
+      placeholder = true;
+      return this.getScanner(file, ".*", null);
    }
-	
+
    /**
     * Returns the appropriate scanner implementation based on the extension of file that is passed as a parameter.
     * @param file - the .jar, .war file etc.
-    * @param pattern - extract only matching entries
+    * @param extractPattern - extract only matching entries
     * @return the implementation of {@link ArchiveScanner}
     */
-   public ArchiveScanner getScanner(File file, String pattern)
+   public ArchiveScanner getScanner(File file, String extractPattern)
+   {
+      placeholder = true;
+      return this.getScanner(file, extractPattern, null);
+   }
+
+   /**
+    * Returns the appropriate scanner implementation based on the extension of file that is passed as a parameter.
+    * @param file - the .jar, .war file etc.
+    * @param extractPattern - extract only matching entries
+    * @param bundlePattern - bundle classes with matching name into separate ClassesArchives
+    * @return the implementation of {@link ArchiveScanner}
+    */
+   public ArchiveScanner getScanner(File file, String extractPattern, String bundlePattern)
    {
       final String fileName = file.getName();
 
@@ -57,11 +74,11 @@ public class Analyzer
       }
       else if (fileName.endsWith(".war") || fileName.endsWith(".rar"))
       {
-         return new WarScanner(pattern);
+         return (placeholder) ? new WarScanner(extractPattern) : new WarScanner(extractPattern, bundlePattern);
       }
       else if (fileName.endsWith(".ear"))
       {
-         return new EarScanner(pattern);
+         return (placeholder) ? new EarScanner(extractPattern) : new EarScanner(extractPattern, bundlePattern);
       }
 
       return null;

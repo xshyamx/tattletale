@@ -40,7 +40,7 @@ import org.jboss.tattletale.core.NestableArchive;
 public class BlackListedReport extends AbstractReport
 {
    /** NAME */
-   private static final String NAME = "Black listed";
+   private static final String NAME = "Blacklisted";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "blacklisted";

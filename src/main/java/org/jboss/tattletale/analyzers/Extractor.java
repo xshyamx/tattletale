@@ -205,7 +205,7 @@ public class Extractor
                      out.close();
                   }
                }
-               catch (IOException ignore)
+               catch (IOException ioe)
                {
                   // Ignore
                }
@@ -217,7 +217,7 @@ public class Extractor
                      in.close();
                   }
                }
-               catch (IOException ignore)
+               catch (IOException ioe)
                {
                   // Ignore
                }

@@ -33,7 +33,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.ClassesArchive;
+import org.jboss.tattletale.core.ArchiveType;
 import org.jboss.tattletale.core.NestableArchive;
 
 /**
@@ -45,7 +45,7 @@ import org.jboss.tattletale.core.NestableArchive;
 public class GraphvizReport extends CLSReport
 {
    /** NAME */
-   private static final String NAME = "Graphical dependencies";
+   private static final String NAME = "Graphical Dependencies";
 
    /** DIRECTORY */
    private static final String DIRECTORY = "graphviz";
@@ -278,12 +278,9 @@ public class GraphvizReport extends CLSReport
          }
          requires.addAll(nestableArchive.getRequires());
       }
-      else if (archive instanceof ClassesArchive)
+      else if (archive.getType() != ArchiveType.CLASS)
       {
-         // No op
-      }
-      else
-      {
+         // CLASS is a placeholder -> no op
          requires.addAll(archive.getRequires());
       }
       return requires;

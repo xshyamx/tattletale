@@ -131,7 +131,7 @@ public class DependsOnReport extends CLSReport
             {
                if (r.endsWith(".jar") || r.endsWith(".war") || r.endsWith(".rar") || r.endsWith(".ear"))
                {
-                  list.append("<a href=\"../" + extension + "/" + r + ".html\">" + r + "</a>");
+                  list.append("<a href=\"../" + r.substring(r.lastIndexOf('.') + 1) + "/" + r + ".html\">" + r + "</a>");
                }
                else
                {

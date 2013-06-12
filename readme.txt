@@ -14,3 +14,19 @@ builds HTML reports that
 * Locate a class in an archive
 * Show the OSGi status of your project
 * Identify blacklisted API usage
+
+Command line invocation
+-----------------------
+
+java -jar tattletale.jar [-title=\<title>] [-components[=\<regex>]] [-exclude=\<excludes>] <input>[#\<input>]* [\<output-directory>]
+
+* -title puts *\<title>* on report index page
+* -components tells tattletale to analyze nested archives (ear, war,
+   rar) on a component level; *\<regex>* is used to group class files
+   in classes directory by matching their (POSIX/SUS-style) paths,
+   for instance, "com|org/\w+"
+* -exclude removes archives with names or paths matching
+   comma-separated list *\<excludes>* from analysis
+* *\<input>* may be a directory containing Java archives or an archive
+
+If *\<output-directory>* is not provided, current directory is used.

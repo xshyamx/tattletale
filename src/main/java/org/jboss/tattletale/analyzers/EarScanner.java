@@ -148,7 +148,7 @@ public class EarScanner extends AbstractScanner
       EarArchive earArchive = null;
       final List<Archive> subArchiveList = new ArrayList<Archive>();
       final ArchiveScanner jarScanner = new JarScanner();
-      final ArchiveScanner warScanner = new WarScanner(extractPattern, pattern);
+      final ArchiveScanner warScanner = (null == bundlePattern) ? new WarScanner(extractPattern) : new WarScanner(extractPattern, pattern);
       JarFile earFile = null;
       final String name = ear.getName();
       try

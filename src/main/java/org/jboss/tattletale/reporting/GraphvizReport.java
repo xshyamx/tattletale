@@ -21,12 +21,12 @@
  */
 package org.jboss.tattletale.reporting;
 
-//import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-//import java.io.InputStreamReader;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Properties;
 import java.util.SortedSet;
@@ -137,7 +137,6 @@ public class GraphvizReport extends CLSReport
 
          for (String require : getRequires(archive))
          {
-
             for (Archive a : archives)
             {
                if (a.doesProvide(require) && (null == getCLS() || getCLS().isVisible(archive, a)))
@@ -352,17 +351,17 @@ public class GraphvizReport extends CLSReport
          pb = pb.directory(directory);
 
          final Process proc = pb.redirectErrorStream(true).start();
-
-         /*
-         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-         BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
          String l;
 
+         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
          while ((l = out.readLine()) != null)
          {
             System.err.println(l);
          }
+         out.close();
 
+         /*
+         BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
          while ((l = err.readLine()) != null)
          {
             System.err.println(l);

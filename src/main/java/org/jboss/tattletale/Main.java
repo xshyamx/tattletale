@@ -650,11 +650,12 @@ public class Main
             if (null != archive)
             {
                List<Archive> archs = new ArrayList<Archive>();
-               if (analyzeComponents && archive instanceof NestableArchive)
+               if (analyzeComponents)
                {
-                  NestableArchive na = (NestableArchive) archive;
-                  archs.addAll(na.getSubArchives());
-               } else {
+                  addArchives(archs, archive);
+               }
+               else
+               {
                   archs.add(archive);
                }
                for (Archive a : archs)
@@ -699,6 +700,27 @@ public class Main
 
          loadCustomReports(configuration);
          outputReport(reportSetBuilder, archives);
+      }
+   }
+
+   /**
+    * Method for recursively adding subarchives in nested archives to an archive list
+    * @param archiveList the archive list
+    * @param archive an archive
+    */
+   private void addArchives(List<Archive> archiveList, Archive archive)
+   {
+      if (archive instanceof NestableArchive)
+      {
+         NestableArchive na = (NestableArchive) archive;
+         for (Archive a : na.getSubArchives())
+         {
+            addArchives(archiveList, a);
+         }
+      }
+      else
+      {
+         archiveList.add(archive);
       }
    }
 
@@ -762,7 +784,7 @@ public class Main
          fis = new FileInputStream(filter);
          properties.load(fis);
       }
-      catch (IOException e)
+      catch (IOException ioe)
       {
          System.err.println("Unable to open " + filter);
       }
@@ -803,7 +825,7 @@ public class Main
             properties.load(fis);
             loaded = true;
          }
-         catch (IOException e)
+         catch (IOException ioe)
          {
             System.err.println("Unable to open " + propertiesFile);
          }
@@ -939,7 +961,7 @@ public class Main
    private static void usage()
    {
       System.out.println("Usage: Tattletale [-exclude=<excludes>] [-title=<title>] [-components[=<regex>]]"
-                         + " <source>[#<source>]* [output-directory]");
+                         + " <source>[#<source>]* [<output-directory>]");
       System.exit(0);
    }
 

@@ -351,20 +351,19 @@ public class GraphvizReport extends CLSReport
          pb = pb.directory(directory);
 
          final Process proc = pb.redirectErrorStream(true).start();
-         String l;
 
-         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-         while ((l = out.readLine()) != null)
+         final BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+         for (String line; (line = out.readLine()) != null;)
          {
-            System.err.println(l);
+            System.err.println(line);
          }
          out.close();
 
          /*
-         BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-         while ((l = err.readLine()) != null)
+         final BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+         for (String line; (line = err.readLine()) != null;)
          {
-            System.err.println(l);
+            System.err.println(line);
          }
          */
 

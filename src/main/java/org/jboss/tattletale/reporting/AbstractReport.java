@@ -212,10 +212,10 @@ public abstract class AbstractReport implements Report
          bw.flush();
          bw.close();
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
-         System.err.println(getName() + " Report: " + e.getMessage());
-         e.printStackTrace(System.err);
+         System.err.println(getName() + " Report: " + ioe.getMessage());
+         ioe.printStackTrace(System.err);
       }
    }
 

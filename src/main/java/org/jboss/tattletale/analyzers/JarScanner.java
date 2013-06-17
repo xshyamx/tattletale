@@ -105,9 +105,9 @@ public class JarScanner extends AbstractScanner
                   classVersion = scanClasses(entryStream, blacklisted, known, classVersion, provides, requires,
                                              profiles, classDependencies, packageDependencies, blacklistedDependencies);
                }
-               catch (Exception ie)
+               catch (IOException ioe)
                {
-                  ie.printStackTrace();
+                  ioe.printStackTrace();
                }
                finally
                {
@@ -132,11 +132,9 @@ public class JarScanner extends AbstractScanner
                      lSign = new ArrayList<String>();
                   }
 
-                  String line = lnr.readLine();
-                  while (null != line)
+                  for (String line; (line = lnr.readLine()) != null;)
                   {
                      lSign.add(line);
-                     line = lnr.readLine();
                   }
                }
                catch (IOException ioe)

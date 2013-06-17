@@ -71,7 +71,7 @@ public class EarScanner extends AbstractScanner
 
    // NB! This is WebLogic proprietary stuff, not a part of JEE!
    /** Field CLASSES_DEFAULT_PATTERN. (value is ""APP-INF/classes"") */
-   private final static String CLASSES_DEFAULT_PATTERN = "APP-INF/classes";
+   private static final String CLASSES_DEFAULT_PATTERN = "APP-INF/classes";
 
    /**
     * Constructor
@@ -160,7 +160,7 @@ public class EarScanner extends AbstractScanner
 
          Integer classVersion = null;
          List<String> lSign = null;
-         Map<String, ClassScanner> classBundles = new HashMap<String, ClassScanner>();
+         final Map<String, ClassScanner> classBundles = new HashMap<String, ClassScanner>();
 
          final Enumeration<JarEntry> earEntries = earFile.entries();
 
@@ -220,11 +220,9 @@ public class EarScanner extends AbstractScanner
                      lSign = new ArrayList<String>();
                   }
 
-                  String line = lnr.readLine();
-                  while (null != line)
+                  for (String line; (line = lnr.readLine()) != null;)
                   {
                      lSign.add(line);
-                     line = lnr.readLine();
                   }
                }
                catch (IOException ioe)

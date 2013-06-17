@@ -122,7 +122,7 @@ public class ClassScanner extends AbstractScanner
          throw new IOException("Class file name " + filename +
                                " does not match scanner location " + location);
       }
-      InputStream is;
+      final InputStream is;
 
       try
       {

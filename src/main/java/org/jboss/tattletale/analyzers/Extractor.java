@@ -54,6 +54,8 @@ public class Extractor
    private File tempTarget;
    /** Field extractPattern */
    private Pattern extractPattern = Pattern.compile(".*");
+   /** Field basedir */
+   private final String basedir = new File(System.getProperty("java.io.tmpdir")).getCanonicalPath();
 
    /**
     * Constructor for Extractor.
@@ -89,7 +91,6 @@ public class Extractor
          return;
       }
 
-      final String basedir = new File(System.getProperty("java.io.tmpdir")).getCanonicalPath();
       String fileName = jar.getCanonicalPath();
 
       if (fileName.startsWith(basedir))
@@ -139,7 +140,7 @@ public class Extractor
     */
    public void extract() throws IOException
    {
-      if (target.isDirectory())
+      if (target.isDirectory() && !target.getCanonicalPath().startsWith(basedir))
       {
          return;
       }

@@ -70,11 +70,9 @@ public abstract class AbstractScanner implements ArchiveScanner
          final InputStreamReader isr = new InputStreamReader(bais);
          final LineNumberReader lnr = new LineNumberReader(isr);
 
-         String line = lnr.readLine();
-         while (null != line)
+         for (String line; (line = lnr.readLine()) != null;)
          {
             result.add(line);
-            line = lnr.readLine();
          }
       }
       catch (IOException ioe)

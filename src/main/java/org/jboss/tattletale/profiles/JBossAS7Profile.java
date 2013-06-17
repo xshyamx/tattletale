@@ -143,8 +143,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
          final BufferedReader br = new BufferedReader(isr);
          final Map <String, ProfileArchive> profileMapping = new HashMap<String, ProfileArchive>();
 
-         String line = br.readLine();
-         while (null != line)
+         for (String line; (line = br.readLine()) != null;)
          {
             String className = "";
             String archiveName = "";
@@ -173,8 +172,8 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
             }
 
             profileArchive.addClass(className);
-            line = br.readLine();
          }
+
          subProfiles.addAll(profileMapping.values());
       }
       catch (IOException ioe)

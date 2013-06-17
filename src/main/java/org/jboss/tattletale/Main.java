@@ -63,16 +63,16 @@ import org.jboss.tattletale.reporting.CircularDependencyReport;
 import org.jboss.tattletale.reporting.ClassDependantsReport;
 import org.jboss.tattletale.reporting.ClassDependsOnReport;
 import org.jboss.tattletale.reporting.ClassLocationReport;
+import org.jboss.tattletale.reporting.ClassMultipleJarsReport;
 import org.jboss.tattletale.reporting.DependantsReport;
 import org.jboss.tattletale.reporting.DependsOnReport;
 import org.jboss.tattletale.reporting.Dump;
 import org.jboss.tattletale.reporting.EarReport;
-import org.jboss.tattletale.reporting.MultipleVersionsReport;
 import org.jboss.tattletale.reporting.GraphvizReport;
 import org.jboss.tattletale.reporting.InvalidVersionReport;
 import org.jboss.tattletale.reporting.JarReport;
-import org.jboss.tattletale.reporting.ClassMultipleJarsReport;
 import org.jboss.tattletale.reporting.MultipleLocationsReport;
+import org.jboss.tattletale.reporting.MultipleVersionsReport;
 import org.jboss.tattletale.reporting.NoVersionReport;
 import org.jboss.tattletale.reporting.OSGiReport;
 import org.jboss.tattletale.reporting.PackageDependantsReport;
@@ -578,7 +578,7 @@ public class Main
          extractPattern = DEFAULT_TT_EXTRACT;
       }
 
-      String ac = configuration.getProperty("analyzeComponents");
+      final String ac = configuration.getProperty("analyzeComponents");
       if (null != ac && ac.trim().equals("true"))
       {
          analyzeComponents = true;
@@ -712,7 +712,7 @@ public class Main
    {
       if (archive instanceof NestableArchive)
       {
-         NestableArchive na = (NestableArchive) archive;
+         final NestableArchive na = (NestableArchive) archive;
          for (Archive a : na.getSubArchives())
          {
             addArchives(archiveList, a);
@@ -999,7 +999,7 @@ public class Main
    {
       try
       {
-         Main main = new Main();
+         final Main main = new Main();
          String source = "";
          String destination = ".";
          boolean analyzeComponents = false;
@@ -1066,7 +1066,7 @@ public class Main
       private boolean first = true;
 
       /** Field sb. */
-      private StringBuilder sb = new StringBuilder();
+      private final StringBuilder sb = new StringBuilder();
 
       /**
        * Method errorReport().
@@ -1143,7 +1143,7 @@ public class Main
       private final Properties filters;
 
       /** Field reportSet. */
-      private Set<String> reportSet;
+      private final Set<String> reportSet;
 
       /** Field returnReportSet. */
       private SortedSet<Report> returnReportSet = new TreeSet<Report>();
@@ -1158,12 +1158,12 @@ public class Main
        * @param allReports  Should all reports be generated?
        * @param reportSet   The set of reports that should be generated
        * @param filters     The filters
-       * @throws Exception
+       * @throws IOException
        */
       ReportSetBuilder(String destination, boolean allReports, Set<String> reportSet, Properties filters)
          throws IOException
       {
-         this.outputDir = setupOutputDir(destination);
+         outputDir = setupOutputDir(destination);
          this.allReports = allReports;
          this.reportSet = reportSet;
          this.filters = filters;
@@ -1216,11 +1216,10 @@ public class Main
       void addReport(Class<? extends AbstractReport> reportDef) throws Exception
       {
          // build report from empty constructor
-         AbstractReport report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
+         final AbstractReport report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
 
          // populate required report parameters
-         Method[] allMethods = reportDef.getMethods();
-         for (Method m : allMethods)
+         for (Method m : reportDef.getMethods())
          {
             if (reportParameters.containsKey(m.getName()))
             {
@@ -1260,7 +1259,7 @@ public class Main
          outputDir = !outputDir.substring(outputDir.length() - 1).equals(File.separator)
             ? outputDir + File.separator : outputDir;
          // Verify output directory exists & create if it does not
-         File outputDirFile = new File(outputDir);
+         final File outputDirFile = new File(outputDir);
 
          if (outputDirFile.exists())
          {

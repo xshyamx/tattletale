@@ -77,10 +77,10 @@ public class OSGiReport extends AbstractReport
             writeArchiveOSGIManifest(archive, osgiInformation, archiveOutput);
          }
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
-         System.err.println("OSGiReport: " + e.getMessage());
-         e.printStackTrace(System.err);
+         System.err.println("OSGiReport: " + ioe.getMessage());
+         ioe.printStackTrace(System.err);
       }
    }
 
@@ -94,8 +94,8 @@ public class OSGiReport extends AbstractReport
    private void writeArchiveOSGIManifest(Archive archive, List<String> osgiInformation, File archiveOutput)
       throws IOException
    {
-      FileWriter mfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "MANIFEST.MF");
-      BufferedWriter mbw = new BufferedWriter(mfw, 8192);
+      final FileWriter mfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "MANIFEST.MF");
+      final BufferedWriter mbw = new BufferedWriter(mfw, 8192);
 
       if (null != archive.getManifest())
       {
@@ -153,11 +153,11 @@ public class OSGiReport extends AbstractReport
     */
    private File writeArchiveOSGIHtml(Archive archive, List<String> osgiInformation) throws IOException
    {
-      File archiveOutput = new File(getOutputDirectory(), archive.getName());
+      final File archiveOutput = new File(getOutputDirectory(), archive.getName());
       archiveOutput.mkdirs();
 
-      FileWriter rfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "index.html");
-      BufferedWriter rbw = new BufferedWriter(rfw, 8192);
+      final FileWriter rfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "index.html");
+      final BufferedWriter rbw = new BufferedWriter(rfw, 8192);
       rbw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" "
                 + "\"http://www.w3.org/TR/html4/loose.dtd\">" + Dump.newLine());
       rbw.write("<html>" + Dump.newLine());
@@ -257,7 +257,7 @@ public class OSGiReport extends AbstractReport
       {
          osgiInformation = new ArrayList<String>();
 
-         SortedMap<String, Integer> exportPackages = new TreeMap<String, Integer>();
+         final SortedMap<String, Integer> exportPackages = new TreeMap<String, Integer>();
 
          for (String provide : archive.getProvides().keySet())
          {
@@ -275,7 +275,7 @@ public class OSGiReport extends AbstractReport
             }
          }
 
-         SortedMap<String, String> importPackages = new TreeMap<String, String>();
+         final SortedMap<String, String> importPackages = new TreeMap<String, String>();
 
          for (String require : archive.getRequires())
          {
@@ -341,11 +341,11 @@ public class OSGiReport extends AbstractReport
          }
          osgiInformation.add("Bundle-SymbolicName: " + bundleSymbolicName);
 
-         String bundleDescription = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
+         final String bundleDescription = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
          osgiInformation.add("Bundle-Description: " + bundleDescription);
 
-         String bName = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
-         StringBuffer bundleName = new StringBuffer();
+         final String bName = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
+         final StringBuffer bundleName = new StringBuffer();
          for (char c : bName.toCharArray())
          {
             if ('\n' != c && '\r' != c && ' ' != c)
@@ -355,11 +355,11 @@ public class OSGiReport extends AbstractReport
          }
          osgiInformation.add("Bundle-Name: " + bundleName.toString());
 
-         Location location = archive.getLocations().first();
-         String bundleVersion = getOSGiVersion(location.getVersion());
+         final Location location = archive.getLocations().first();
+         final String bundleVersion = getOSGiVersion(location.getVersion());
          osgiInformation.add("Bundle-Version: " + bundleVersion);
 
-         StringBuffer exportPackage = new StringBuffer();
+         final StringBuffer exportPackage = new StringBuffer();
          for (String ep : exportPackages.keySet())
          {
             exportPackage.append(ep);
@@ -385,7 +385,7 @@ public class OSGiReport extends AbstractReport
             osgiInformation.add("Export-Package: " + exportPackage.toString());
          }
 
-         StringBuffer importPackage = new StringBuffer();
+         final StringBuffer importPackage = new StringBuffer();
          for (Map.Entry<String, String> entry : importPackages.entrySet())
          {
             importPackage.append(entry.getKey());

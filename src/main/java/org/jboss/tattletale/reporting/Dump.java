@@ -53,7 +53,6 @@ public class Dump
    public static void generateCSS(String outputDir)
    {
       final byte[] buffer = new byte[8192];
-      int bytesRead;
 
       InputStream is = null;
       OutputStream os = null;
@@ -62,17 +61,17 @@ public class Dump
          is = Dump.class.getClassLoader().getResourceAsStream("style.css");
          os = new FileOutputStream(outputDir + "style.css");
 
-         while ((bytesRead = is.read(buffer)) != -1)
+         for (int bytesRead; (bytesRead = is.read(buffer)) != -1;)
          {
             os.write(buffer, 0, bytesRead);
          }
 
          os.flush();
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
-         System.err.println("GenerateCSS: " + e.getMessage());
-         e.printStackTrace(System.err);
+         System.err.println("GenerateCSS: " + ioe.getMessage());
+         ioe.printStackTrace(System.err);
       }
       finally
       {
@@ -174,10 +173,10 @@ public class Dump
          bw.flush();
          bw.close();
       }
-      catch (Exception e)
+      catch (IOException ioe)
       {
-         System.err.println("GenerateIndex: " + e.getMessage());
-         e.printStackTrace(System.err);
+         System.err.println("GenerateIndex: " + ioe.getMessage());
+         ioe.printStackTrace(System.err);
       }
    }
 

@@ -67,7 +67,7 @@ public class WarScanner extends AbstractScanner
    private final boolean placeholderClasses;
 
    /** Field CLASSES_DEFAULT_PATTERN. (value is ""WEB-INF/classes"") */
-   private final static String CLASSES_DEFAULT_PATTERN = "WEB-INF/classes";
+   private static final String CLASSES_DEFAULT_PATTERN = "WEB-INF/classes";
 
    /**
     * Constructor
@@ -153,7 +153,7 @@ public class WarScanner extends AbstractScanner
 
          Integer classVersion = null;
          List<String> lSign = null;
-         Map<String, ClassScanner> classBundles = new HashMap<String, ClassScanner>();
+         final Map<String, ClassScanner> classBundles = new HashMap<String, ClassScanner>();
 
          final Enumeration<JarEntry> warEntries = warFile.entries();
 
@@ -212,11 +212,9 @@ public class WarScanner extends AbstractScanner
                      lSign = new ArrayList<String>();
                   }
 
-                  String line = lnr.readLine();
-                  while (null != line)
+                  for (String line; (line = lnr.readLine()) != null;)
                   {
                      lSign.add(line);
-                     line = lnr.readLine();
                   }
                }
                catch (IOException ioe)

@@ -49,7 +49,7 @@ public abstract class NestableReport extends ArchiveReport
     * @param severity            The severity
     * @param nestableArchive     The nestable archive
     */
-   public NestableReport(String id, ReportSeverity severity, NestableArchive nestableArchive)
+   protected NestableReport(String id, ReportSeverity severity, NestableArchive nestableArchive)
    {
       super(id, severity, nestableArchive);
       this.nestableArchive = nestableArchive;
@@ -209,10 +209,6 @@ public abstract class NestableReport extends ArchiveReport
 
       for (Archive subArchive : nestableArchive.getSubArchives())
       {
-         String archiveName = subArchive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
-
          ArchiveReport report = null;
          int depth = 1;
 
@@ -236,17 +232,15 @@ public abstract class NestableReport extends ArchiveReport
             {
                depth = 2;
             }
-            report = new WarReport(nestedSubArchive, 2);
+            report = new WarReport(nestedSubArchive, depth);
          }
 
          if (subArchive.getType() != ArchiveType.CLASS)
          {
             report.generate(outputPath);
             bw.write("        <tr>" + Dump.newLine());
-            bw.write("          <td><a href=\"./" + extension + "/" + archiveName + ".html\">" + archiveName
-                  + "</a></td>" + Dump.newLine());
+            bw.write("          <td>" + hrefToArchiveReport(subArchive, true) + "</td>" + Dump.newLine());
             bw.write("        </tr>" + Dump.newLine());
-
          }
       }
       bw.write("      </table>" + Dump.newLine());

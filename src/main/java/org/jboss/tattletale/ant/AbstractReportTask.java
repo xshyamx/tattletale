@@ -44,7 +44,7 @@ public abstract class AbstractReportTask extends Task
    private String filter;
 
    /** Constructor */
-   public AbstractReportTask()
+   protected AbstractReportTask()
    {
       source = ".";
       destination = ".";

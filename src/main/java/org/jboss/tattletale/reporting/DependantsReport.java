@@ -68,10 +68,6 @@ public class DependantsReport extends CLSReport
 
       for (Archive archive : archives)
       {
-         String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
-
          if (odd)
          {
             bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -80,8 +76,7 @@ public class DependantsReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" +
-               archiveName + "</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
          bw.write("    <td>");
 
          SortedSet<String> result = new TreeSet<String>();
@@ -106,15 +101,8 @@ public class DependantsReport extends CLSReport
             StringBuffer list = new StringBuffer();
             for (String r : result)
             {
-               if (r.endsWith(".jar"))
-               {
-                  list.append("<a href=\"../jar/" + r + ".html\">" + r + "</a>");
-               }
-               else
-               {
-                  list.append("<i>" + r + "</i>");
-               }
-               list.append(", ");
+               String tag = (r.endsWith(".jar")) ? hrefToReport(r) : "<i>" + r + "</i>";
+               list.append(tag).append(", ");
             }
             list.setLength(list.length() - 2);
             bw.write(list.toString());

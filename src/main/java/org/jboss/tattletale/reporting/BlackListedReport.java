@@ -69,10 +69,6 @@ public class BlackListedReport extends AbstractReport
 
       for (Archive archive : archives)
       {
-         String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
-
          SortedMap<String, SortedSet<String>> blacklisted = getBlackListedDeps(archive);
          boolean include = false;
          boolean filtered = isFiltered(archive.getName());
@@ -97,14 +93,12 @@ public class BlackListedReport extends AbstractReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
-            bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">"
-                     + archive.getName() + "</a></td>" + Dump.newLine());
+            bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
             bw.write("    <td>" + Dump.newLine());
 
             bw.write("      <table>" + Dump.newLine());
 
-            for (Map.Entry<String, SortedSet<String>> stringSortedSetEntry :
-                  blacklisted.entrySet())
+            for (Map.Entry<String, SortedSet<String>> stringSortedSetEntry : blacklisted.entrySet())
             {
                bw.write("      <tr>" + Dump.newLine());
                bw.write("        <td>" + stringSortedSetEntry.getKey() + "</td>" + Dump.newLine());

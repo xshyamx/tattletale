@@ -109,7 +109,7 @@ public class ClassMultipleJarsReport extends AbstractReport
             StringBuffer list = new StringBuffer();
             for (String archive: archives)
             {
-               list.append("<a href=\"../jar/" + archive + ".html\">" + archive + "</a>, ");
+               list.append(hrefToReport(archive)).append(", ");
             }
             list.setLength(list.length() - 2);
             bw.write(list.toString());

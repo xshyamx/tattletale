@@ -78,8 +78,6 @@ public class AS7Report extends CLSReport
          Set<String> requires = getRequires(archive);
          requires.removeAll(provides);
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
          File deploymentXml = buildDeploymentXml(requires, archiveName);
          String path = "./" + archiveName + "/" + deploymentXml.getName();
 
@@ -91,10 +89,9 @@ public class AS7Report extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" +
-               archiveName + "</a></td>" + Dump.newLine());
-         bw.write("    <td><a href=\"" + path + "\">jboss-deployment-structure" +
-               ".xml</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
+         bw.write("    <td><a href=\"" + path + "\">jboss-deployment-structure.xml</a></td>"
+                  + Dump.newLine());
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;

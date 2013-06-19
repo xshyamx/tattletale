@@ -54,11 +54,11 @@ public abstract class NestableArchive extends Archive
     * @param blacklistedDependencies The blacklisted dependencies
     * @param location                The location
     */
-   public NestableArchive(ArchiveType type, String name, int version, List<String> manifest, List<String> sign,
-                          SortedSet<String> requires, SortedMap<String, Long> provides,
-                          SortedMap<String, SortedSet<String>> classDependencies,
-                          SortedMap<String, SortedSet<String>> packageDependencies,
-                          SortedMap<String, SortedSet<String>> blacklistedDependencies, Location location)
+   protected NestableArchive(ArchiveType type, String name, int version, List<String> manifest, List<String> sign,
+                             SortedSet<String> requires, SortedMap<String, Long> provides,
+                             SortedMap<String, SortedSet<String>> classDependencies,
+                             SortedMap<String, SortedSet<String>> packageDependencies,
+                             SortedMap<String, SortedSet<String>> blacklistedDependencies, Location location)
    {
       super(type, name, version, manifest, sign, requires, provides,
             classDependencies, packageDependencies, blacklistedDependencies, location);
@@ -81,12 +81,12 @@ public abstract class NestableArchive extends Archive
     * @param location                The location
     * @param subArchives             The sub-archives that are stored locally.
     */
-   public NestableArchive(ArchiveType type, String name, int version, List<String> manifest, List<String> sign,
-                          SortedSet<String> requires, SortedMap<String, Long> provides,
-                          SortedMap<String, SortedSet<String>> classDependencies,
-                          SortedMap<String, SortedSet<String>> packageDependencies,
-                          SortedMap<String, SortedSet<String>> blacklistedDependencies, Location location,
-                          List<Archive> subArchives)
+   protected NestableArchive(ArchiveType type, String name, int version, List<String> manifest, List<String> sign,
+                             SortedSet<String> requires, SortedMap<String, Long> provides,
+                             SortedMap<String, SortedSet<String>> classDependencies,
+                             SortedMap<String, SortedSet<String>> packageDependencies,
+                             SortedMap<String, SortedSet<String>> blacklistedDependencies, Location location,
+                             List<Archive> subArchives)
    {
       super(type, name, version, manifest, sign, requires, provides,
             classDependencies, packageDependencies, blacklistedDependencies, location);

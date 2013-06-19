@@ -121,8 +121,8 @@ public class PackageDependantsReport extends CLSReport
          if (archive instanceof NestableArchive)
          {
             NestableArchive nestableArchive = (NestableArchive) archive;
-            SortedMap<String, SortedSet<String>> subResult = recursivelyBuildResultFromArchive(nestableArchive
-                  .getSubArchives());
+            SortedMap<String, SortedSet<String>> subResult =
+               recursivelyBuildResultFromArchive(nestableArchive.getSubArchives());
             result.putAll(subResult);
          }
          else

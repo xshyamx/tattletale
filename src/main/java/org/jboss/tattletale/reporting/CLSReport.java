@@ -47,7 +47,7 @@ public abstract class CLSReport extends AbstractReport
     * @param name      The name of the report
     * @param directory The name of the output directory
     */
-   public CLSReport(String id, ReportSeverity severity, String name, String directory)
+   protected CLSReport(String id, ReportSeverity severity, String name, String directory)
    {
       super(id, severity, name, directory);
    }
@@ -57,7 +57,7 @@ public abstract class CLSReport extends AbstractReport
     * @return the ClassLoaderStructure
     * @see org.jboss.tattletale.reporting.classloader.ClassLoaderStructure
     */
-   ClassLoaderStructure getCLS()
+   protected ClassLoaderStructure getCLS()
    {
       return cls;
    }

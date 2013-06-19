@@ -33,9 +33,6 @@ import org.jboss.tattletale.core.NestableArchive;
  */
 public class EarReport extends NestableReport
 {
-   /** DIRECTORY */
-   private static final String DIRECTORY = "ear";
-
    /** File name */
    private String fileName;
 
@@ -45,7 +42,7 @@ public class EarReport extends NestableReport
     */
    public EarReport(NestableArchive archive)
    {
-      super(DIRECTORY, ReportSeverity.INFO, archive);
+      super(archive.getType().toString(), ReportSeverity.INFO, archive);
       final StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
    }
@@ -56,7 +53,7 @@ public class EarReport extends NestableReport
     * @throws IOException
     */
    @Override
-   BufferedWriter getBufferedWriter() throws IOException
+   protected BufferedWriter getBufferedWriter() throws IOException
    {
       return getBufferedWriter(getFilename());
    }

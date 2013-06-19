@@ -112,8 +112,6 @@ public class TransitiveDependsOnReport extends CLSReport
       for (Map.Entry<String,SortedSet<String>> entry : transitiveDependsOnMap.entrySet())
       {
          String archive = entry.getKey();
-         int finalDot = archive.lastIndexOf('.');
-         String extension = archive.substring(finalDot + 1);
          SortedSet<String> value = entry.getValue();
 
          if (odd)
@@ -124,7 +122,7 @@ public class TransitiveDependsOnReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archive + ".html\">" + archive + "</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToReport(archive) + "</td>" + Dump.newLine());
          bw.write("    <td>");
 
          if (0 == value.size())
@@ -138,7 +136,7 @@ public class TransitiveDependsOnReport extends CLSReport
             {
                if (r.endsWith(".jar"))
                {
-                  list.append("<a href=\"../jar/" + r + ".html\">" + r + "</a>");
+                  list.append(hrefToReport(r));
                }
                else
                {

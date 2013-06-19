@@ -96,12 +96,12 @@ public abstract class Archive implements Serializable, Comparable<Archive>
     * @param blacklistedDependencies The blacklisted dependencies
     * @param location                The location
     */
-   public Archive(ArchiveType type, String name, int version, List<String> manifest, List<String> sign,
-                  SortedSet<String> requires, SortedMap<String, Long> provides,
-                  SortedMap<String, SortedSet<String>> classDependencies,
-                  SortedMap<String, SortedSet<String>> packageDependencies,
-                  SortedMap<String, SortedSet<String>> blacklistedDependencies,
-                  Location location)
+   protected Archive(ArchiveType type, String name, int version, List<String> manifest,
+                     List<String> sign, SortedSet<String> requires, SortedMap<String, Long> provides,
+                     SortedMap<String, SortedSet<String>> classDependencies,
+                     SortedMap<String, SortedSet<String>> packageDependencies,
+                     SortedMap<String, SortedSet<String>> blacklistedDependencies,
+                     Location location)
    {
       this.type = type;
       this.name = name;

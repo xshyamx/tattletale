@@ -119,8 +119,7 @@ public class NoVersionReport extends AbstractReport
                {
                   bw.write("  <tr class=\"roweven\">" + Dump.newLine());
                }
-               bw.write("    <td><a href=\"../jar/" + archive.getName() + ".html\">" +
-                        archive.getName() + "</a></td>" + Dump.newLine());
+               bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
                bw.write("    <td>" + Dump.newLine());
 
                bw.write("      <table>" + Dump.newLine());

@@ -117,9 +117,7 @@ public class ClassLocationReport extends AbstractReport
             StringBuffer list = new StringBuffer();
             for (String archive : archives)
             {
-               int finalDot = archive.lastIndexOf('.');
-               String extension = archive.substring(finalDot + 1);
-               list.append("<a href=\"../" + extension + "/" + archive + ".html\">" + archive + "</a>, ");
+               list.append(hrefToReport(archive)).append(", ");
             }
             list.setLength(list.length() - 2);
             bw.write(list.toString());

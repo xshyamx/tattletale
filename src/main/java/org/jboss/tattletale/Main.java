@@ -710,6 +710,7 @@ public class Main
     */
    private void addArchives(List<Archive> archiveList, Archive archive)
    {
+      archive.setParentArchive(null);
       if (archive instanceof NestableArchive)
       {
          final NestableArchive na = (NestableArchive) archive;

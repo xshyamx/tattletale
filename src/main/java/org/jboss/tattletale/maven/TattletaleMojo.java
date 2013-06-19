@@ -47,7 +47,7 @@ public abstract class TattletaleMojo extends AbstractMojo
    private File filter;
 
    /** Constructor */
-   public TattletaleMojo()
+   protected TattletaleMojo()
    {
       source = new File(".");
       destination = new File(".");

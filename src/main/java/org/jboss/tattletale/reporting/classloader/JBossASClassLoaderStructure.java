@@ -29,7 +29,7 @@ package org.jboss.tattletale.reporting.classloader;
 public abstract class JBossASClassLoaderStructure implements ClassLoaderStructure
 {
    /** Constructor */
-   public JBossASClassLoaderStructure()
+   protected JBossASClassLoaderStructure()
    {
    }
 }

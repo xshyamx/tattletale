@@ -337,44 +337,9 @@ public class EarScanner extends AbstractScanner
 
             profiles.addAll(cs.getProfiles());
 
-            for (Map.Entry<String, SortedSet<String>> entry : cs.getClassDependencies().entrySet())
-            {
-               String className = entry.getKey();
-               if (!classDependencies.containsKey(className))
-               {
-                  classDependencies.put(className, entry.getValue());
-               }
-               else
-               {
-                  System.err.println("Dependencies of class " + className + " already seen!");
-               }
-            }
-
-            for (Map.Entry<String, SortedSet<String>> entry : cs.getPackageDependencies().entrySet())
-            {
-               String className = entry.getKey();
-               if (!packageDependencies.containsKey(className))
-               {
-                  packageDependencies.put(className, entry.getValue());
-               }
-               else
-               {
-                  System.err.println("Package dependencies of class " + className + " already seen!");
-               }
-            }
-
-            for (Map.Entry<String, SortedSet<String>> entry : cs.getBlacklistedDependencies().entrySet())
-            {
-               String className = entry.getKey();
-               if (!blacklistedDependencies.containsKey(className))
-               {
-                  blacklistedDependencies.put(className, entry.getValue());
-               }
-               else
-               {
-                  System.err.println("Blacklisted dependencies of class " + className + " already seen!");
-               }
-            }
+            addDependencies(classDependencies, cs.getClassDependencies(), "Dependencies");
+            addDependencies(packageDependencies, cs.getPackageDependencies(), "Package dependencies");
+            addDependencies(blacklistedDependencies, cs.getBlacklistedDependencies(), "Blacklisted dependencies");
          }
 
          if (0 == provides.size() && 0 == subArchiveList.size())

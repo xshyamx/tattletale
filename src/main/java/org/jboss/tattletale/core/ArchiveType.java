@@ -31,5 +31,13 @@ public enum ArchiveType
    CLASS,
    JAR,
    WAR,
-   EAR
+   EAR;
+
+   /**
+    * @return lowercase string corresponding to file extension
+    */
+   @Override
+   public String toString() {
+      return super.toString().toLowerCase();
+   }
 }

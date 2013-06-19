@@ -67,10 +67,6 @@ public class SealedReport extends AbstractReport
 
       for (Archive archive : archives)
       {
-         String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
-
          if (odd)
          {
             bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -79,8 +75,7 @@ public class SealedReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" + archiveName
-                  + "</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
          if (archive.hasManifestKey("Sealed")
                && Boolean.TRUE.equals(Boolean.valueOf(archive.getManifestValue("Sealed"))))
          {

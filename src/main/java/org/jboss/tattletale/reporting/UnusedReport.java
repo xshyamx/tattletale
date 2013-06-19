@@ -66,10 +66,7 @@ public class UnusedReport extends AbstractReport
       for (Archive archive : archives)
       {
          boolean archiveStatus = false;
-
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
 
          for (Archive a : archives)
          {
@@ -98,8 +95,7 @@ public class UnusedReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archiveName +
-                  ".html\">" + archiveName + "</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
 
          if (archiveStatus)
          {
@@ -110,7 +106,7 @@ public class UnusedReport extends AbstractReport
          {
             unused++;
 
-            if (!isFiltered(archive.getName()))
+            if (!isFiltered(archiveName))
             {
                status = ReportStatus.YELLOW;
                bw.write("    <td style=\"color: red;\">No</td>" + Dump.newLine());

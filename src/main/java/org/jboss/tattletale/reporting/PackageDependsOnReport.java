@@ -96,7 +96,9 @@ public class PackageDependsOnReport extends CLSReport
          {
             list.setLength(list.length() - 2);
             bw.write(list.toString());
-         } else {
+         }
+         else
+         {
             bw.write("&nbsp;");
          }
 
@@ -122,8 +124,8 @@ public class PackageDependsOnReport extends CLSReport
          if (archive instanceof NestableArchive)
          {
             NestableArchive nestableArchive = (NestableArchive) archive;
-            SortedMap<String, SortedSet<String>> subResult = recursivelyBuildResultFromArchive(nestableArchive
-                  .getSubArchives());
+            SortedMap<String, SortedSet<String>> subResult =
+               recursivelyBuildResultFromArchive(nestableArchive.getSubArchives());
             result.putAll(subResult);
          }
          else

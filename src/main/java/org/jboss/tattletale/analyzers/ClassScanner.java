@@ -46,13 +46,13 @@ import org.jboss.tattletale.profiles.Profile;
 public class ClassScanner extends AbstractScanner
 {
    /** Field location */
-   String location = null;
+   private String location = null;
 
    /** Field validate */
-   boolean validate = false;
+   private boolean validate = false;
 
    /** Field classVersion. */
-   Integer classVersion = null;
+   private Integer classVersion = null;
 
    /** Field requires. */
    private final SortedSet<String> requires = new TreeSet<String>();

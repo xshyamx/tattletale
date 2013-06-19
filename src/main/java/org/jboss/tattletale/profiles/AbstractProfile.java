@@ -52,13 +52,13 @@ public abstract class AbstractProfile implements Profile
    private String name;
 
    /** Content of the class set file */
-   protected Set<String> classSet = new HashSet<String>();
+   protected final Set<String> classSet = new HashSet<String>();
 
    /** Set of locations */
-   protected Set<Location> locations = new HashSet<Location>();
+   protected final Set<Location> locations = new HashSet<Location>();
 
    /** Set of sub-subProfiles */
-   protected Set<Profile> subProfiles = new HashSet<Profile>();
+   protected final Set<Profile> subProfiles = new HashSet<Profile>();
 
    /**
     * Constructor
@@ -68,7 +68,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(String classSet, ArchiveType type, String name, int version, String location)
+   protected AbstractProfile(String classSet, ArchiveType type, String name, int version, String location)
    {
       this (type, name, version, location);
       loadProfile(classSet);
@@ -82,7 +82,7 @@ public abstract class AbstractProfile implements Profile
     * @param version  Profile's class version
     * @param location Profile's location
     */
-   public AbstractProfile(ArchiveType type, String name, int version, String location)
+   protected AbstractProfile(ArchiveType type, String name, int version, String location)
    {
       this.type = type;
       this.name = name;

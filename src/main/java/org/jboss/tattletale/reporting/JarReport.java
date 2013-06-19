@@ -27,7 +27,6 @@ import java.util.Map;
 
 import javassist.bytecode.ClassFile;
 
-import org.jboss.tattletale.Version;
 import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.Location;
 
@@ -39,9 +38,6 @@ import org.jboss.tattletale.core.Location;
  */
 public class JarReport extends ArchiveReport
 {
-   /** DIRECTORY */
-   private static final String DIRECTORY = "jar";
-
    /** File name */
    private String filename;
 
@@ -64,7 +60,7 @@ public class JarReport extends ArchiveReport
     */
    public JarReport(Archive archive, int depth)
    {
-      super(DIRECTORY, ReportSeverity.INFO, archive);
+      super(archive.getType().toString(), ReportSeverity.INFO, archive);
 
       final StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
@@ -79,27 +75,7 @@ public class JarReport extends ArchiveReport
    @Override
    public void writeHtmlHead(BufferedWriter bw) throws IOException
    {
-      if (1 == depth)
-      {
-         super.writeHtmlHead(bw);
-      }
-      else
-      {
-         bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" " +
-                  "\"http://www.w3.org/TR/html4/loose.dtd\">" + Dump.newLine());
-         bw.write("<html>" + Dump.newLine());
-         bw.write("<head>" + Dump.newLine());
-         bw.write("  <title>" + Version.FULL_VERSION + ": " + getName() + "</title>" + Dump.newLine());
-         bw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>" + Dump.newLine());
-         bw.write("  <link rel=\"stylesheet\" type=\"text/css\" href=\"");
-         for (int i = 1; i <= depth; i++)
-         {
-            bw.write("../");
-         }
-         bw.write("style.css\"/>" + Dump.newLine());
-         bw.write("</head>" + Dump.newLine());
-
-      }
+      super.writeHtmlHead(bw, depth);
    }
 
    /**
@@ -109,7 +85,7 @@ public class JarReport extends ArchiveReport
     * @throws IOException if an error occurs
     */
    @Override
-   BufferedWriter getBufferedWriter() throws IOException
+   protected BufferedWriter getBufferedWriter() throws IOException
    {
       return getBufferedWriter(getFilename());
    }

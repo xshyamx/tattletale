@@ -63,7 +63,7 @@ public class JBossAS7Profile extends AbstractProfile implements ExtendedProfile
    public JBossAS7Profile()
    {
       super(ARCHIVE_TYPE, PROFILE_NAME, CLASSFILE_VERSION, PROFILE_LOCATION);
-      this.loadProfile(CLASS_SET);
+      loadProfile(CLASS_SET);
    }
 
    /**

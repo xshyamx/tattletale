@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -272,5 +273,35 @@ public abstract class AbstractScanner implements ArchiveScanner
          }
       }
       return classVersion;
+   }
+
+   /**
+    * Method addDependencies.
+    * @param allDependencies SortedMap<String,SortedSet<String>>
+    * @param bundleDependencies SortedMap<String,SortedSet<String>>
+    * @param comment String
+    */
+   protected void addDependencies(final SortedMap<String, SortedSet<String>> allDependencies,
+                                SortedMap<String, SortedSet<String>> bundleDependencies, String comment) {
+      if (bundleDependencies.isEmpty())
+      {
+         return;
+      }
+      if (null == comment)
+      {
+         comment = "Dependencies";
+      }
+      for (Map.Entry<String, SortedSet<String>> entry : bundleDependencies.entrySet())
+      {
+         String className = entry.getKey();
+         if (!allDependencies.containsKey(className))
+         {
+            allDependencies.put(className, entry.getValue());
+         }
+         else
+         {
+            System.err.println(comment + " of class " + className + " already seen!");
+         }
+      }
    }
 }

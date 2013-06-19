@@ -162,7 +162,7 @@ public class OSGiReport extends AbstractReport
                 + "\"http://www.w3.org/TR/html4/loose.dtd\">" + Dump.newLine());
       rbw.write("<html>" + Dump.newLine());
       rbw.write("<head>" + Dump.newLine());
-      rbw.write("  <title>" + Version.FULL_VERSION + ": " + NAME + " - " + archive.getName()
+      rbw.write("  <title>" + NAME + " - " + archive.getName() + ": " + Version.FULL_VERSION
                 + "</title>" + Dump.newLine());
       rbw.write("  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>" + Dump.newLine());
       rbw.write("  <link rel=\"stylesheet\" type=\"text/css\" href=\"../../style.css\"/>" + Dump.newLine());
@@ -431,8 +431,6 @@ public class OSGiReport extends AbstractReport
       for (Archive archive : archives)
       {
          String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf('.');
-         String extension = archiveName.substring(finalDot + 1);
 
          if (odd)
          {
@@ -442,8 +440,7 @@ public class OSGiReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td><a href=\"../" + extension + "/" + archiveName + ".html\">" +
-                  archiveName + "</a></td>" + Dump.newLine());
+         bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
          if (archive.isOSGi())
          {
             bw.write("    <td style=\"color: green;\">Yes</td>" + Dump.newLine());

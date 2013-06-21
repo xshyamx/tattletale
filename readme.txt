@@ -18,7 +18,7 @@ builds HTML reports that
 Command line invocation
 -----------------------
 
-java -jar tattletale.jar [-title=\<title>] [-components[=\<regex>]] [-exclude=\<excludes>] <input>[#\<input>]* [\<output-directory>]
+java -jar tattletale.jar [-title=\<title>] [-components[=\<regex>]] [-exclude=\<excludes>] \<input>[#\<input>]* [\<output-directory>]
 
 * -title puts *\<title>* on report index page
 * -components performs analysis of nested archives (ear, war, rar) on

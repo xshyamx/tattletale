@@ -70,8 +70,11 @@ public abstract class AbstractReport implements Report
    /** Filter implementation */
    private Filter filterImpl;
 
-   /** output filename */
+   /** Index filename */
    protected static final String INDEX_HTML = "index.html";
+
+   /** Index hyperlink name */
+   protected static final String INDEX_LINK_NAME = "Main";
 
    /** Archive report paths */
    private final Map<String,String> reportPaths = new HashMap<String, String>();
@@ -312,8 +315,16 @@ public abstract class AbstractReport implements Report
 
       bw.write("<h1>" + getName() + "</h1>" + Dump.newLine());
 
-      bw.write("<a href=\"../" + getIndexName() + "\">Main</a>" + Dump.newLine());
+      bw.write("<a href=\"../" + getIndexName() + "\">" + getIndexLinkName() + "</a>" + Dump.newLine());
       bw.write("<br style=\"clear:both;\"/>" + Dump.newLine());
+   }
+
+   /**
+    * The name of the hyperlink to the index file
+    * @return name of the hyperlink
+    */
+   protected String getIndexLinkName() {
+      return INDEX_LINK_NAME;
    }
 
    /**

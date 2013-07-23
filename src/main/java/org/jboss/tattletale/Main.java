@@ -169,7 +169,7 @@ public class Main
    private final List<Class<? extends AbstractReport>> generalReports;
 
    /** A List of the Constructors used to create custom reports */
-   private final List<Class<? extends AbstractReport>> customReports;
+   private final List<Class<? extends Report>> customReports;
 
    /**
     * Constructor
@@ -222,7 +222,7 @@ public class Main
       addGeneralReport(BlackListedReport.class);
       addGeneralReport(UnusedReport.class);
 
-      customReports = new ArrayList<Class<? extends AbstractReport>>();
+      customReports = new ArrayList<Class<? extends Report>>();
    }
 
    /**
@@ -310,7 +310,7 @@ public class Main
     * Add a report to the list of those to be generated
     * @param clazz The class definition of the custom report
     */
-   public final void addCustomReport(Class<? extends AbstractReport> clazz)
+   public final void addCustomReport(Class<? extends Report> clazz)
    {
       customReports.add(clazz);
    }
@@ -900,7 +900,7 @@ public class Main
       final SortedSet<Report> generalReportSet = reportSetBuilder.getReportSet();
 
       reportSetBuilder.clear();
-      for (Class<? extends AbstractReport> reportDef : customReports)
+      for (Class<? extends Report> reportDef : customReports)
       {
          reportSetBuilder.addReport(reportDef);
       }
@@ -1214,10 +1214,10 @@ public class Main
        * @param reportDef the class definition of the report to generate
        * @throws Exception
        */
-      void addReport(Class<? extends AbstractReport> reportDef) throws Exception
+      void addReport(Class<? extends Report> reportDef) throws Exception
       {
          // build report from empty constructor
-         final AbstractReport report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
+         final Report report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
 
          // populate required report parameters
          for (Method m : reportDef.getMethods())

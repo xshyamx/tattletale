@@ -78,6 +78,9 @@ public class ReportTask extends AbstractReportTask
 
    /** Analyze components */
    private boolean analyzeComponents;
+   
+   /** Tattletale-specific Ant property prefix */
+   private String propertyPrefix;
 
    /** Constructor */
    public ReportTask()
@@ -96,6 +99,7 @@ public class ReportTask extends AbstractReportTask
       extractPattern = null;
       bundlePattern = null;
       analyzeComponents = false;
+      propertyPrefix = "tattletale";
    }
 
    /**
@@ -351,12 +355,30 @@ public class ReportTask extends AbstractReportTask
    }
 
    /**
+    * Get the propertyPrefix
+    * @return The value
+    */
+   public String getPropertyPrefix()
+   {
+      return propertyPrefix;
+   }
+
+   /**
+    * Set the propertyPrefix
+    * @param propertyPrefix The value
+    */
+   public void setPropertyPrefix(String propertyPrefix)
+   {
+      this.propertyPrefix = propertyPrefix;
+   }
+
+   /**
     * Extract tattletale-related properties from Ant project
     * @return Properties
     */
    public Properties getProperties()
    {
-      final String pattern = "tattletale.";
+      final String pattern = (propertyPrefix.endsWith(".")) ? propertyPrefix : propertyPrefix + '.';
       final Properties properties = new Properties();
       final Map<String,Object> pproperties = getProject().getProperties();
       for (Entry<String, Object> property : pproperties.entrySet())

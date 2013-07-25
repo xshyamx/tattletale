@@ -2,12 +2,14 @@
 <chapter id="ant">
    <title>Apache Ant</title>
 
-   <para>JBoss Tattletale integrates with Apache Ant such that you can generate the reports directly from 
-     your build environment.</para>
-   
-   <para>First, you need to add tattletale.jar, tattletale-ant.jar and javassist.jar to the Apache Ant classpath.</para>
+   <para>JBoss Tattletale integrates with Apache Ant such that you can
+   generate the reports directly from your build environment.</para>
 
-   <para>Second, you need to add the following to your project definition tag:</para>
+   <para>First, you need to add tattletale.jar, tattletale-ant.jar and
+   javassist.jar to the Apache Ant classpath.</para>
+
+   <para>Second, you need to add the following to your project
+   definition tag:</para>
 
    <programlisting>
 xmlns:tattletale="antlib:org.jboss.tattletale.ant"
@@ -49,7 +51,7 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
              <entry>
                The directory that contains the Java archives. Multiple directories can be
                scanned by separating each with the <code>File.pathSeparator</code> character - f.ex.
-               <code>dir1:dir2</code> on Un*x.
+               <code>dir1:dir2</code> on U*X.
                <para>Default: Current directory</para>
              </entry>
            </row>
@@ -86,7 +88,7 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
                  </listitem>
                  <listitem>
                    <para><code>classdependson</code></para>
-                   <para>The "Class DependsOn" report.</para>
+                   <para>The "Class Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>dependants</code></para>
@@ -94,11 +96,19 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
                  </listitem>
                  <listitem>
                    <para><code>dependson</code></para>
-                   <para>The "DependsOn" report.</para>
+                   <para>The "Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>graphviz</code></para>
                    <para>The "Graphical dependencies" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>packagedependants</code></para>
+                   <para>The "Package Dependants" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>packagedependson</code></para>
+                   <para>The "Package Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>transitivedependants</code></para>
@@ -106,7 +116,7 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
                  </listitem>
                  <listitem>
                    <para><code>transitivedependson</code></para>
-                   <para>The "Transitive DependsOn" report.</para>
+                   <para>The "Transitive Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>circulardependency</code></para>
@@ -122,47 +132,43 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
                  </listitem>
                  <listitem>
                    <para><code>sealed</code></para>
-                   <para>The "Sealed Information" report.</para>
+                   <para>The "Sealed" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>sign</code></para>
-                   <para>The "Signing Information" report.</para>
-                 </listitem>
-                 <listitem>
-                   <para><code>eliminatejars</code></para>
-                   <para>The "Eliminate Jar files with different versions" report.</para>
+                   <para><code>signed</code></para>
+                   <para>The "Signed" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>invalidversion</code></para>
-                   <para>The "Invalid version" report.</para>
+                   <para>The "Invalid Version" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>multiplejars</code></para>
-                   <para>The "Multiple Jar files" report.</para>
+                   <para><code>multiplejarsclass</code></para>
+                   <para>The "Multiple Classes" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>multiplejarspackage</code></para>
-                   <para>The "Multiple Jar files (Package)" report.</para>
+                   <para>The "Multiple Packages" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>multiplelocations</code></para>
                    <para>The "Multiple Locations" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>unusedjar</code></para>
-                   <para>The "Unused Jar" report.</para>
+                   <para><code>multipleversions</code></para>
+                   <para>The "Multiple Versions" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>unused</code></para>
+                   <para>The "Unused" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>blacklisted</code></para>
-                   <para>The "Black listed" report.</para>
+                   <para>The "Blacklisted" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>noversion</code></para>
-                   <para>The "No version" report.</para>
-                 </listitem>
-                 <listitem>
-                   <para><code>jar</code></para>
-                   <para>The "Jar archive" report.</para>
+                   <para>The "No Version" report.</para>
                  </listitem>
                </itemizedlist>
                <para>Default: All reports</para>
@@ -171,12 +177,12 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
            <row>
              <entry><code>classloader</code></entry>
              <entry>
-               Specifies which classloader structure that should be used when scanning the archives. 
+               Specifies which classloader structure that should be used when scanning the archives.
                Can be one of the following:
                <itemizedlist>
                  <listitem>
                    <para><code>org.jboss.tattletale.reporting.classloader.NoopClassLoaderStructure</code></para>
-                   <para>A no-operation classloader structure implementation that doesn't scope any archives.</para>
+                   <para>A no-operation classloader structure implementation that does not scope any archives.</para>
                  </listitem>
                  <listitem>
                    <para><code>org.jboss.tattletale.reporting.classloader.JBossAS4ClassLoaderStructure</code></para>
@@ -247,7 +253,7 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
            <row>
              <entry><code>blacklisted</code></entry>
              <entry>
-               A comma separated list of black listed classes or packages. F.ex. 
+               A comma separated list of black listed classes or packages. F.ex.
                <code>com.mycompany.forinternaluseonly, com.partner.forinternaluseonly</code>
                <para>Default: Empty list</para>
              </entry>
@@ -287,12 +293,55 @@ xmlns:tattletale="antlib:org.jboss.tattletale.ant"
                <para>Default: <code>.jar</code></para>
              </entry>
            </row>
+           <row>
+             <entry><code>title</code></entry>
+             <entry>
+               A title for index.html
+             </entry>
+           </row>
+           <row>
+             <entry><code>extractpattern</code></entry>
+             <entry>
+               Extract only files matching the pattern from nested archives
+               <para>Default: <code>.*\.(j|w|r)ar$</code></para>
+             </entry>
+           </row>
+           <row>
+             <entry><code>analyzecomponents</code></entry>
+             <entry>
+               Should nested archives be analyzed on component level
+               <para>Default: <code>false</code></para>
+             </entry>
+           </row>
+           <row>
+             <entry><code>bundlepattern</code></entry>
+             <entry>
+               Should class files not packaged in archives inside nested archives be bundled according to the pattern
+               <para>Default: <code>null</code> (which results in <code>WEB-INF/classes</code> for WarScanner)</para>
+             </entry>
+           </row>
+           <row>
+             <entry><code>propertyprefix</code></entry>
+             <entry>
+               Use Ant project properties that begin with the prefix as Tattletale properties
+               (instead of a project-specific jboss-tattletale.properties file)
+               <para>Default: <code>tattletale</code> (so that f.ex. scan list can be changed by
+               <code>&lt;property name="tattletale.scan" value="*"/&gt;</code> in build.xml)</para>
+             </entry>
+           </row>
          </tbody>
        </tgroup>
      </table>
 
-     <note>Note that defining a property in the task overrides the setting in the configuration file.</note>
-     
+     <note>Note that defining an attribute in the task or a property
+     beginning with propertyprefix overrides the setting in the
+     configuration file.</note>
+
+     <note>Tattletale-specific Ant project properties are
+     case-sensitive, that is <code>tattletale.convertDotToPic</code>
+     works, but <code>tattletale.convertdottopic</code> does
+     not.</note>
+
    </section>
-   
+
 </chapter>

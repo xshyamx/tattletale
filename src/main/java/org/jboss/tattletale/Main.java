@@ -171,6 +171,15 @@ public class Main
    /** A List of the Constructors used to create custom reports */
    private final List<Class<? extends Report>> customReports;
 
+   private static final Map<String, String> reportMap = new HashMap<String, String>();
+   static
+   {
+      reportMap.put("eliminatejars","multipleversions");
+      reportMap.put("unusedjar","unused");
+      reportMap.put("multiplejars", "multiplejarsclass");
+      reportMap.put("sign", "signed");
+   }
+
    /**
     * Constructor
     */
@@ -549,6 +558,10 @@ public class Main
 
          for (String token : reports.split("[\\s,]+"))
          {
+            if (reportMap.containsKey(token)) {
+               System.err.println("Please adjust the configuration: " + token + " is now called " + reportMap.get(token));
+               token = reportMap.get(token);
+            }
             reportSet.add(token);
          }
       }

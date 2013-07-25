@@ -127,7 +127,7 @@ public class WarScanner extends AbstractScanner
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages
     * @return The archive
-    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map<String,SortedSet<String>>, List<Profile>, Set<String>)
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map, List, Set)
     */
    public Archive scan(File war, Map<String, SortedSet<String>> gProvides, List<Profile> known,
                        Set<String> blacklisted)

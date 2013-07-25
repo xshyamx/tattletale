@@ -111,7 +111,7 @@ public class ClassScanner extends AbstractScanner
     * @param blacklisted The set of black listed packages   
     * @return The archive (always null)
     * @throws IOException
-    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map<String,SortedSet<String>>, List<Profile>, Set<String>)
+    * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map, List, Set)
     */
    public Archive scan(File file, Map<String, SortedSet<String>> gProvides,
                        List<Profile> known, Set<String> blacklisted) throws IOException

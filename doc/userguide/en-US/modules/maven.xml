@@ -2,11 +2,13 @@
 <chapter id="maven">
    <title>Apache Maven</title>
 
-   <para>JBoss Tattletale integrates with Apache Maven such that you can generate the reports directly from 
-     your build environment.</para>
-     
-   <para>To be able to use the Tattletale Maven plugin in your Maven project, you will have to add the following plugin declaration
-     in the pom.xml of your project:
+   <para>JBoss Tattletale integrates with Apache Maven such that you
+   can generate the reports directly from your build
+   environment.</para>
+
+   <para>To be able to use the Tattletale Maven plugin in your Maven
+   project, you will have to add the following plugin declaration in
+   the pom.xml of your project:
      <programlisting>
        <![CDATA[
 <build>
@@ -25,19 +27,19 @@
       </executions>
       <configuration>
  	<!-- This is the location which will be scanned for generating tattletale reports
- 	  --> 
+ 	  -->
  	<source>/absolutepath/to/source/dir</source>
  	<!-- This is where the reports will be generated -->
  	<destination>/absolute/path/to/reports/dir</destination>
       </configuration>
     </plugin>
   </plugins>
-</build>     	
+</build>
         ]]>
      </programlisting>
      <note>By default, the tattletale-maven plugin is attached to the "package" phase of Maven.</note>
    </para>
-   
+
 
    <section id="maven_report">
      <title>report</title>
@@ -65,7 +67,7 @@ mvn clean package
              <entry>
                The directory that contains the Java archives. Multiple directories can be
                scanned by separating each with the <code>File.pathSeparator</code> character - f.ex.
-               <code>dir1:dir2</code> on Un*x.
+               <code>dir1:dir2</code> on U*X.
                <para>Default: Current directory</para>
              </entry>
            </row>
@@ -102,7 +104,7 @@ mvn clean package
                  </listitem>
                  <listitem>
                    <para><code>classdependson</code></para>
-                   <para>The "Class DependsOn" report.</para>
+                   <para>The "Class Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>dependants</code></para>
@@ -110,11 +112,19 @@ mvn clean package
                  </listitem>
                  <listitem>
                    <para><code>dependson</code></para>
-                   <para>The "DependsOn" report.</para>
+                   <para>The "Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>graphviz</code></para>
-                   <para>The "Graphical dependencies" report.</para>
+                   <para>The "Graphical Dependencies" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>packagedependants</code></para>
+                   <para>The "Package Dependants" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>packagedependson</code></para>
+                   <para>The "Package Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>transitivedependants</code></para>
@@ -122,7 +132,7 @@ mvn clean package
                  </listitem>
                  <listitem>
                    <para><code>transitivedependson</code></para>
-                   <para>The "Transitive DependsOn" report.</para>
+                   <para>The "Transitive Depends On" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>circulardependency</code></para>
@@ -138,47 +148,43 @@ mvn clean package
                  </listitem>
                  <listitem>
                    <para><code>sealed</code></para>
-                   <para>The "Sealed Information" report.</para>
+                   <para>The "Sealed" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>sign</code></para>
-                   <para>The "Signing Information" report.</para>
-                 </listitem>
-                 <listitem>
-                   <para><code>eliminatejars</code></para>
-                   <para>The "Eliminate Jar files with different versions" report.</para>
+                   <para><code>signed</code></para>
+                   <para>The "Signed" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>invalidversion</code></para>
-                   <para>The "Invalid version" report.</para>
+                   <para>The "Invalid Version" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>multiplejars</code></para>
-                   <para>The "Multiple Jar files" report.</para>
+                   <para><code>multiplejarsclass</code></para>
+                   <para>The "Multiple Classes" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>multiplejarspackage</code></para>
-                   <para>The "Multiple Jar files (Package)" report.</para>
+                   <para>The "Multiple Packages" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>multiplelocations</code></para>
                    <para>The "Multiple Locations" report.</para>
                  </listitem>
                  <listitem>
-                   <para><code>unusedjar</code></para>
-                   <para>The "Unused Jar" report.</para>
+                   <para><code>multipleversions</code></para>
+                   <para>The "Multiple Versions" report.</para>
+                 </listitem>
+                 <listitem>
+                   <para><code>unused</code></para>
+                   <para>The "Unused" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>blacklisted</code></para>
-                   <para>The "Black listed" report.</para>
+                   <para>The "Blacklisted" report.</para>
                  </listitem>
                  <listitem>
                    <para><code>noversion</code></para>
-                   <para>The "No version" report.</para>
-                 </listitem>
-                 <listitem>
-                   <para><code>jar</code></para>
-                   <para>The "Jar archive" report.</para>
+                   <para>The "No Version" report.</para>
                  </listitem>
                </itemizedlist>
                <para>Default: All reports</para>
@@ -187,7 +193,7 @@ mvn clean package
            <row>
              <entry><code>classloader</code></entry>
              <entry>
-               Specifies which classloader structure that should be used when scanning the archives. 
+               Specifies which classloader structure that should be used when scanning the archives.
                Can be one of the following:
                <itemizedlist>
                  <listitem>
@@ -263,7 +269,7 @@ mvn clean package
            <row>
              <entry><code>blacklisted</code></entry>
              <entry>
-               Contains nested <code>blacklist</code> elements of black listed classes or packages. F.ex. 
+               Contains nested <code>blacklist</code> elements of black listed classes or packages. F.ex.
                <code>&lt;blacklist&gt;com.mycompany.forinternaluseonly&lt;/blacklist&gt;
                  &lt;blacklist&gt;com.partner.forinternaluseonly&lt;/blacklist&gt;</code>
                <para>Default: Empty list</para>
@@ -304,12 +310,40 @@ mvn clean package
                <para>Default: <code>.jar</code></para>
              </entry>
            </row>
+           <row>
+             <entry><code>title</code></entry>
+             <entry>
+               A title for index.html
+             </entry>
+           </row>
+           <row>
+             <entry><code>extractpattern</code></entry>
+             <entry>
+               Extract only files matching the pattern from nested archives
+               <para>Default: <code>.*\.(j|w|r)ar$</code></para>
+             </entry>
+           </row>
+           <row>
+             <entry><code>analyzecomponents</code></entry>
+             <entry>
+               Should nested archives be analyzed on component level
+               <para>Default: <code>false</code></para>
+             </entry>
+           </row>
+           <row>
+             <entry><code>bundlepattern</code></entry>
+             <entry>
+               Should class files not packaged in archives inside nested archives be bundled according to the pattern
+               <para>Default: <code>null</code> (which results in <code>WEB-INF/classes</code> for WarScanner)</para>
+             </entry>
+           </row>
          </tbody>
        </tgroup>
      </table>
 
-     <note>Note that defining a property in the task overrides the setting in the configuration file.</note>
-     
+     <note>Note that defining a property in the task overrides the
+     setting in the configuration file.</note>
+
    </section>
-   
+
 </chapter>

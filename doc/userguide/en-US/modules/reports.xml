@@ -9,7 +9,8 @@
       <section id="classdependants">
         <title>Class Dependants</title>
 
-        <para>The class dependants report will lists which classes depends on a specific class.</para>
+        <para>The Class Dependants report will list which classes
+        depend on a specific class.</para>
 
         <table frame="all">
           <title>Class Dependants report</title>
@@ -36,7 +37,8 @@
       <section id="classdependson">
         <title>Class Depends On report</title>
 
-        <para>The class depends on report will lists which classes that a class depends on.</para>
+        <para>The Class Depends On report will list which classes that
+        a class depends on.</para>
 
         <table frame="all">
           <title>Class Depends On report</title>
@@ -63,7 +65,8 @@
       <section id="dependants">
         <title>Dependants</title>
 
-        <para>The dependants report will lists which archives depends on a specific archive.</para>
+        <para>The Dependants report will list which archives depend on
+        a specific archive.</para>
 
         <table frame="all">
           <title>Dependants report</title>
@@ -90,7 +93,8 @@
       <section id="dependson">
         <title>Depends On report</title>
 
-        <para>The depends on report will lists which archives that an archive depends on.</para>
+        <para>The Depends On report will list which archives that an
+        archive depends on.</para>
 
         <table frame="all">
           <title>Depends On report</title>
@@ -106,7 +110,7 @@
             <tbody>
               <row>
                 <entry>The archive</entry>
-                <entry>A list of archives which the archive depends on. Classes which can't be found are listed
+                <entry>A list of archives which the archive depends on. Classes which cannot be found are listed
                   in italic</entry>
               </row>
             </tbody>
@@ -127,21 +131,25 @@ dependson=myjar1.jar=org.eclipse.*;myjar2.jar=com.mycompany.MyClass,com.mycompan
 
       </section>
 
-      <!-- Graphical dependencies report -->
-      <section id="graphicaldependencies">
-        <title>Graphical dependencies report</title>
+      <!-- Graphical Dependencies report -->
+      <section id="graphviz">
+        <title>Graphical Dependencies report</title>
 
-        <para>The graphical dependencies report will create GraphViz dot files that show the dependencies as graphics.</para>
+        <para>The Graphical Dependencies report will create GraphViz
+        dot files for archive dependencies and run dot command (when
+        available) to convert these to a specified graphics
+        format.</para>
 
-        <para>As an example you can generate a PNG image using</para>
+        <para>Alternatively, you can generate a PNG image manually using</para>
      <programlisting>
 dot -Tpng myarchive.dot &gt; myarchive.png
      </programlisting>
 
-        <para>See the GraphViz documentation for a full description on how to generate these images.</para>
+        <para>See the GraphViz documentation for a full description on
+        how to generate these images.</para>
 
         <table frame="all">
-          <title>Graphical dependencies report</title>
+          <title>Graphical Dependencies report</title>
           <tgroup cols="3" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2"/>
@@ -159,7 +167,63 @@ dot -Tpng myarchive.dot &gt; myarchive.png
                 <entry>GraphViz file that shows inter-archive dependencies</entry>
                 <entry>GraphViz file that shows inter-package dependencies</entry>
               </row>
-            </tbody> 
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <!-- Package Dependants report -->
+      <section id="packagedependants">
+        <title>Package Dependants</title>
+
+        <para>The Package Dependants report will list which packages
+        depend on a specific package.</para>
+
+        <table frame="all">
+          <title>Package Dependants report</title>
+          <tgroup cols="2" align="left" colsep="1" rowsep="1">
+            <colspec colname="c1"/>
+            <colspec colname="c2" colwidth="4*"/>
+            <thead>
+              <row>
+                <entry align="left">Package</entry>
+                <entry align="left">Dependants</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>The package</entry>
+                <entry>A list of packages that depends on this package</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <!-- Package Depends On report -->
+      <section id="packagedependson">
+        <title>Package Depends On report</title>
+
+        <para>The Package Depends On report will list which packages
+        that a package depends on.</para>
+
+        <table frame="all">
+          <title>Package Depends On report</title>
+          <tgroup cols="2" align="left" colsep="1" rowsep="1">
+            <colspec colname="c1"/>
+            <colspec colname="c2" colwidth="4*"/>
+            <thead>
+              <row>
+                <entry align="left">Package</entry>
+                <entry align="left">Depends On</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>The package</entry>
+                <entry>A list of packages which the package depends on</entry>
+              </row>
+            </tbody>
           </tgroup>
         </table>
       </section>
@@ -168,7 +232,8 @@ dot -Tpng myarchive.dot &gt; myarchive.png
       <section id="transitivedependants">
         <title>Transitive Dependants</title>
 
-        <para>The transitive dependants report will lists all archives depends on a specific archive.</para>
+        <para>The Transitive Dependants report will list all archives
+        that depend on a specific archive.</para>
 
         <table frame="all">
           <title>Transitive Dependants report</title>
@@ -184,61 +249,7 @@ dot -Tpng myarchive.dot &gt; myarchive.png
             <tbody>
               <row>
                 <entry>The archive</entry>
-                <entry>A list of all archives that depends on this archive</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table>
-      </section>
-      
-      <!-- Package Dependants Report -->
-      <section id="packagedependants">
-      	<title> Package Dependants report</title>
-      	
-      	<para> The package dependants report lists the packages that depend on a specific package within your archive that you are analyzing.
-      	</para>
-      	        <table frame="all">
-          <title>Package Dependants Report</title>
-          <tgroup cols="2" align="left" colsep="1" rowsep="1">
-            <colspec colname="c1"/>
-            <colspec colname="c2" colwidth="4*"/>
-            <thead>
-              <row>
-                <entry align="left">Package</entry>
-                <entry align="left">Dependants</entry>
-              </row>
-            </thead>
-            <tbody>
-              <row>
-                <entry>The package</entry>
-                <entry>A list of packages that depend on this package</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table>
-      </section>
-      
-      <!-- Package Depends On Report -->
-      <section id="packagedependson">
-      	<title> Package Dependants report</title>
-      	
-      	<para> The package dependants report lists the packages that your package depends on.
-      	</para>
-      	        <table frame="all">
-          <title>Package Dependants Report</title>
-          <tgroup cols="2" align="left" colsep="1" rowsep="1">
-            <colspec colname="c1"/>
-            <colspec colname="c2" colwidth="4*"/>
-            <thead>
-              <row>
-                <entry align="left">Package</entry>
-                <entry align="left">Depends On</entry>
-              </row>
-            </thead>
-            <tbody>
-              <row>
-                <entry>The package</entry>
-                <entry>A list of packages that your package depends on</entry>
+                <entry>A list of all archives that depend on this archive</entry>
               </row>
             </tbody>
           </tgroup>
@@ -249,7 +260,8 @@ dot -Tpng myarchive.dot &gt; myarchive.png
       <section id="transitivedependson">
         <title>Transitive Depends On report</title>
 
-        <para>The transitive depends on report will lists all archives that an archive depends on.</para>
+        <para>The Transitive Depends On report will list all archives
+        that an archive depends on.</para>
 
         <table frame="all">
           <title>Transitive Depends On report</title>
@@ -265,7 +277,7 @@ dot -Tpng myarchive.dot &gt; myarchive.png
             <tbody>
               <row>
                 <entry>The archive</entry>
-                <entry>A list of all archives which the archive depends on. Classes which can't be found are listed
+                <entry>A list of all archives which the archive depends on. Classes which cannot be found are listed
                   in italic</entry>
               </row>
             </tbody>
@@ -290,11 +302,12 @@ transitivedependson=myjar.jar=com.mycompany.MyClass,com.mycompany.OtherClass
       <section id="circulardependency">
         <title>Circular Dependency report</title>
 
-        <para>The circular dependency report will lists all archives that has a circular dependency
-          with another archive.</para>
+        <para>The Circular Dependency report will list all archives
+        that have a circular dependency with another archive.</para>
 
-        <para>Archives that are marked with "(*)" has the circular dependency. Note, that the circular
-          dependency can be through a transitive dependency and not a direct dependency.</para>
+        <para>Archives that are marked with "(*)" have the circular
+        dependency. Note, that the circular dependency can be through
+        a transitive dependency and not a direct dependency.</para>
 
         <table frame="all">
           <title>Circular Dependency report</title>
@@ -339,7 +352,8 @@ circulardependency=myjar1.jar,myjar2.jar
       <section id="classlocation">
         <title>Class Location</title>
 
-        <para>The class location will lists which archives that contain a specific class file.</para>
+        <para>The Class Location report will lists which archives
+        contain a specific class file.</para>
 
         <table frame="all">
           <title>Class Location report</title>
@@ -349,7 +363,7 @@ circulardependency=myjar1.jar,myjar2.jar
             <thead>
               <row>
                 <entry align="left">Class</entry>
-                <entry align="left">Jar file</entry>
+                <entry align="left">Archives</entry>
               </row>
             </thead>
             <tbody>
@@ -423,12 +437,12 @@ osgi=myjar1.jar,myjar2.jar
 
       <!-- Sealed report -->
       <section id="sealed">
-        <title>Sealed information</title>
+        <title>Sealed</title>
 
-        <para>The sealed information report will display the sealed status of your project.</para>
+        <para>The Sealed report will display the sealed status of your project.</para>
 
         <table frame="all">
-          <title>Sealed information report</title>
+          <title>Sealed report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
@@ -461,14 +475,14 @@ sealed=off
 
       </section>
 
-      <!-- Signing information report -->
-      <section id="sign">
-        <title>Signing information</title>
+      <!-- Signed report -->
+      <section id="signed">
+        <title>Signed</title>
 
-        <para>The signing information report will display the signing status of your project.</para>
+        <para>The Signed report will display the signing status of your project.</para>
 
         <table frame="all">
-          <title>Signing information report</title>
+          <title>Signed report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
@@ -487,7 +501,7 @@ sealed=off
           </tgroup>
         </table>
 
-        <para>Filter key is: <code>sign</code></para>
+        <para>Filter key is: <code>signed</code></para>
 
         <para>Filter definition is:</para>
         <programlisting>
@@ -501,61 +515,20 @@ sign=off
 
       </section>
 
-      <!-- Eliminate Jar report -->
-      <section id="eliminatejar">
-        <title>Eliminate Jar files with different versions</title>
+      <!-- Invalid Version report -->
+      <section id="invalidversion">
+        <title>Invalid Version</title>
 
-        <para>The eliminate jar files with different versions lists archives that have the same name but
-          has a different version identifier.</para>
+        <para>The Invalid Version report lists archives that do not have a valid OSGi version identifier.</para>
 
         <table frame="all">
-          <title>Eliminate Jar report</title>
+          <title>Invalid Version report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
                 <entry align="left">Archive</entry>
-                <entry align="left">Location</entry>
-              </row>
-            </thead>
-            <tbody>
-              <row>
-                <entry>The archive</entry>
-                <entry>The list of locations that the archive is found</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table>
-
-        <para>Filter key is: <code>eliminatejars</code></para>
-
-        <para>Filter definition is:</para>
-        <programlisting>
-[archive](,[archive])*;
-        </programlisting>
-
-        <para>An example:</para>
-        <programlisting>
-eliminatejars=myjar1.jar,myjar2.jar
-        </programlisting>
-
-      </section>
-
-      <!-- Invalid version report -->
-      <section id="invalidversion">
-        <title>Invalid version</title>
-
-        <para>The invalid version report lists archives that doesn't have a valid OSGi version identifier.</para>
-
-        <table frame="all">
-          <title>Invalid version report</title>
-          <tgroup cols="2" align="left" colsep="1" rowsep="1">
-            <colspec colname="c1"/>
-            <colspec colname="c2" colwidth="4*"/>
-            <thead>
-              <row>
-                <entry align="left">Name</entry>
                 <entry align="left">Location</entry>
               </row>
             </thead>
@@ -582,21 +555,21 @@ invalidversion=myjar1.jar,myjar2.jar
 
       </section>
 
-      <!-- Multiple Jar files report -->
-      <section id="multiplejarfiles">
-        <title>Multiple Jar files</title>
+      <!-- Multiple Classes files report -->
+      <section id="multiplejarsclass">
+        <title>Multiple Classes files</title>
 
-        <para>The multiple jar files report will list classes that appear in multiple jar files.</para>
+        <para>The Multiple Classes files report will list classes that appear in multiple archives.</para>
 
         <table frame="all">
-          <title>Multiple Jar files report</title>
+          <title>Multiple Classes report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
                 <entry align="left">Class</entry>
-                <entry align="left">Jar files</entry>
+                <entry align="left">Archives</entry>
               </row>
             </thead>
             <tbody>
@@ -608,7 +581,7 @@ invalidversion=myjar1.jar,myjar2.jar
           </tgroup>
         </table>
 
-        <para>Filter key is: <code>multiplejars</code></para>
+        <para>Filter key is: <code>multiplejarsclass</code></para>
 
         <para>Filter definition is:</para>
         <programlisting>
@@ -622,21 +595,21 @@ multiplejars=com.mycompany.mypackage1,com.mycompany.mypackage2
 
       </section>
 
-      <!-- Package Multiple Jar files report -->
-      <section id="multiplejarfilespackage">
-        <title>Multiple Jar files (Package)</title>
+      <!-- Multiple Packages report -->
+      <section id="multiplejarspackage">
+        <title>Multiple Packages</title>
 
-        <para>The multiple jar files fpr packages report will list packages that appear in multiple jar files.</para>
+        <para>The Multiple Packages report will list packages that appear in multiple archives.</para>
 
         <table frame="all">
-          <title>Multiple Jar files report (Package)</title>
+          <title>Multiple Packages report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
                 <entry align="left">Package</entry>
-                <entry align="left">Jar files</entry>
+                <entry align="left">Archives</entry>
               </row>
             </thead>
             <tbody>
@@ -666,7 +639,9 @@ multiplejarspackage=com.mycompany.mypackage1,com.mycompany.mypackage2
       <section id="multiplelocations">
         <title>Multiple Locations</title>
 
-        <para>The multiple locations report will list archives that appear in multiple locations under the scanned source directory.</para>
+        <para>The Multiple Locations report will list archives that
+        appear in multiple locations under the scanned source
+        directory.</para>
 
         <table frame="all">
           <title>Multiple Locations report</title>
@@ -675,7 +650,7 @@ multiplejarspackage=com.mycompany.mypackage1,com.mycompany.mypackage2
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
-                <entry align="left">Name</entry>
+                <entry align="left">Archive</entry>
                 <entry align="left">Location</entry>
               </row>
             </thead>
@@ -702,16 +677,58 @@ multiplelocations=myjar1.jar,myjar2.jar
 
       </section>
 
-      <!-- Unused Jar report -->
-      <section id="unusedjar">
-        <title>Unused Jar</title>
+      <!-- Multiple Versions report -->
+      <section id="multipleversions">
+        <title>Multiple Versions</title>
 
-        <para>The Unused Jar report lists archives that isn't referenced from any other Jar archive in
-          the distribution. This doesn't mean however that the archive isn't used since it could be referenced
-          through Java Reflection or through metadata.</para>
+        <para>The Multiple Versions report lists archives that have
+        the same name but a different version identifier.</para>
 
         <table frame="all">
-          <title>Unused Jar report</title>
+          <title>Multiple Versions report</title>
+          <tgroup cols="2" align="left" colsep="1" rowsep="1">
+            <colspec colname="c1"/>
+            <colspec colname="c2" colwidth="4*"/>
+            <thead>
+              <row>
+                <entry align="left">Archive</entry>
+                <entry align="left">Location</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>The archive</entry>
+                <entry>The list of locations that the archive is found</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+        <para>Filter key is: <code>multipleversions</code></para>
+
+        <para>Filter definition is:</para>
+        <programlisting>
+[archive](,[archive])*;
+        </programlisting>
+
+        <para>An example:</para>
+        <programlisting>
+multipleversions=myjar1.jar,myjar2.jar
+        </programlisting>
+
+      </section>
+
+      <!-- Unused report -->
+      <section id="unused">
+        <title>Unused</title>
+
+        <para>The Unused report lists archives that are not referenced
+        from any other Jar archive in the distribution. This does not
+        mean, however, that the archive is not used since it could be
+        referenced through Java Reflection or through metadata.</para>
+
+        <table frame="all">
+          <title>Unused report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
@@ -730,7 +747,7 @@ multiplelocations=myjar1.jar,myjar2.jar
           </tgroup>
         </table>
 
-        <para>Filter key is: <code>unusedjar</code></para>
+        <para>Filter key is: <code>unused</code></para>
 
         <para>Filter definition is:</para>
         <programlisting>
@@ -744,14 +761,15 @@ unusedjar=myjar1.jar,myjar2.jar
 
       </section>
 
-      <!-- Black listed report -->
+      <!-- Blacklisted report -->
       <section id="blacklisted">
-        <title>Black listed</title>
+        <title>Blacklisted</title>
 
-        <para>The black listed report will list archives that uses black listed APIs.</para>
+        <para>The Blacklisted report will list archives that uses
+        blacklisted APIs.</para>
 
         <table frame="all">
-          <title>Black listed report</title>
+          <title>Blacklisted report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
@@ -764,7 +782,7 @@ unusedjar=myjar1.jar,myjar2.jar
             <tbody>
               <row>
                 <entry>The archive name</entry>
-                <entry>The list of packages that uses black listed APIs</entry>
+                <entry>The list of packages that uses blacklisted APIs</entry>
               </row>
             </tbody>
           </tgroup>
@@ -784,20 +802,21 @@ blacklisted=myjar1.jar,myjar2.jar
 
       </section>
 
-      <!-- No version report -->
+      <!-- No Version report -->
       <section id="noversion">
-        <title>No version</title>
+        <title>No Version</title>
 
-        <para>The no version report will list archives that doesn't have a version identifier.</para>
+        <para>The No Version report will list archives that do not
+        have a version identifier.</para>
 
         <table frame="all">
-          <title>No version report</title>
+          <title>No Version report</title>
           <tgroup cols="2" align="left" colsep="1" rowsep="1">
             <colspec colname="c1"/>
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
-                <entry align="left">Name</entry>
+                <entry align="left">Archive</entry>
                 <entry align="left">Location</entry>
               </row>
             </thead>
@@ -824,11 +843,13 @@ noversion=myjar1.jar,myjar2.jar
 
       </section>
 
-      <!-- JBossAS7 report -->
+      <!-- JBoss AS7 report -->
       <section id="jbossas7">
         <title>JBoss AS7</title>
 
-        <para>The JBoss AS7 report will list the <code>jboss-deployment-structure.xml</code> file for archives.</para>
+        <para>The JBoss AS7 report will list the
+        <code>jboss-deployment-structure.xml</code> file for
+        archives.</para>
 
         <table frame="all">
           <title>JBoss AS7 report</title>
@@ -837,8 +858,8 @@ noversion=myjar1.jar,myjar2.jar
             <colspec colname="c2" colwidth="4*"/>
             <thead>
               <row>
-                <entry align="left">Name</entry>
-                <entry align="left">File</entry>
+                <entry align="left">Archive</entry>
+                <entry align="left">JBoss Deployment</entry>
               </row>
             </thead>
             <tbody>
@@ -861,7 +882,8 @@ noversion=myjar1.jar,myjar2.jar
       <section id="jar">
         <title>Java ARchive (JAR)</title>
 
-        <para>The Java ARchive (JAR) report will provide you with an overview of the archive.</para>
+        <para>The Java ARchive (JAR) report will provide you with an
+        overview of the archive.</para>
 
         <table frame="all">
           <title>No version report</title>
@@ -912,7 +934,10 @@ noversion=myjar1.jar,myjar2.jar
       <section id="war">
         <title>Web ARchive (WAR)</title>
 
-        <para>The Web ARchive (WAR) report will provide you with an overview of the archive, like the JAR report.</para>
+        <para>The Web ARchive (WAR) report will provide you with an
+        overview of the archive, like the JAR report. This report is
+        used for Resource Adapter aRchive (RAR) files, too, because
+        they have a similar structure.</para>
 
       </section>
 
@@ -920,7 +945,9 @@ noversion=myjar1.jar,myjar2.jar
       <section id="ear">
         <title>Java Enterprise ARchive (EAR)</title>
 
-        <para>The Java Enterprise ARchive (EAR) report will provide you with an overview of the archive, like the JAR report.</para>
+        <para>The Java Enterprise ARchive (EAR) report will provide
+        you with an overview of the archive, like the JAR
+        report.</para>
 
       </section>
 
@@ -928,40 +955,41 @@ noversion=myjar1.jar,myjar2.jar
 
    <section id="Custom Reports">
      <title>Custom Reports</title>
-		
+
      <para>
-       As a user, you can define your own custom report types to tattletale. However, there are some restrictions to this and there is 
-       some required configuration. These are as follows: 
+       As a user, you can define your own custom report types to
+       Tattletale. However, there are some restrictions to this and
+       there is some required configuration. These are as follows:
      </para>
-     
+
      <itemizedlist>
        <listitem>
          <para>Your custom report class has to be an implementation of org.jboss.tattletale.reporting.Report</para>
        </listitem>
-       
+
        <listitem>
          <para>
-           You have to define your required reports in jboss-tattletale.properties. Each key string has to be of the form 
+           You have to define your required reports in jboss-tattletale.properties. Each key string has to be of the form
            'customreport.{int}' where int has to start with 1 and increase by 1 with each extra custom report that is required.
          </para>
-         
+
          <para>For example</para>
-         
+
          <programlisting>
            customreport.1=my.custom.package.customreport
          </programlisting>
        </listitem>
-       
+
        <listitem>
          <para>
-           At runtime, as long as your custom jar file is in the classpath your custom report will be generated. 
+           At runtime, as long as your custom jar file is in the classpath your custom report will be generated.
            If you were running from the command line for example:
          </para>
-         
+
          <programlisting>
 java -classpath tattletale.jar:customreporting.jar org.jboss.tattletale.Main [directory-of-source-jar] [output-directory]
          </programlisting>
-       </listitem>			
-     </itemizedlist>	
+       </listitem>
+     </itemizedlist>
    </section>
 </chapter>

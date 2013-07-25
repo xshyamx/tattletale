@@ -1,9 +1,9 @@
 Tattletale analyzes Java classes in archives (JAR, WAR, RAR, EAR) and
 builds HTML reports that
 
-* Identify runtime (bytecode) dependencies on a class/package level
+* Identify runtime (bytecode) dependencies between archives on a class/package level
 * Find missing classes from the classpath
-* Spot if a class/package is located in multiple JAR files
+* Spot if a class/package is located in multiple archives
 * Spot if the same archive is located in different places
 * List what each archive requires and provides
 * Verify the SerialVersionUID of a class

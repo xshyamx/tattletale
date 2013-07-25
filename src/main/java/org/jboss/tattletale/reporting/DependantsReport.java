@@ -23,6 +23,7 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -76,11 +77,12 @@ public class DependantsReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
+
          bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
+
          bw.write("    <td>");
 
          SortedSet<String> result = new TreeSet<String>();
-
          for (Archive a : archives)
          {
             for (String require : getRequires(archive))
@@ -98,17 +100,16 @@ public class DependantsReport extends CLSReport
          }
          else
          {
-            StringBuffer list = new StringBuffer();
+            List<String> hrefs = new ArrayList<String>();
             for (String r : result)
             {
-               String tag = (r.endsWith(".jar")) ? hrefToReport(r) : "<i>" + r + "</i>";
-               list.append(tag).append(", ");
+               hrefs.add((r.endsWith(".jar")) ? hrefToReport(r) : "<i>" + r + "</i>");
             }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
+            bw.write(join(hrefs,", "));
          }
 
          bw.write("</td>" + Dump.newLine());
+
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;

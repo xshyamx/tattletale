@@ -25,7 +25,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -556,5 +558,45 @@ public abstract class AbstractReport implements Report
       final String note = (star) ? " (*)" : "";
       return "<a href=\"../" + pathToReport(archiveName) + "/" + archiveName + ".html\">" +
          archiveName + note + "</a>";
+   }
+
+   /**
+    * Method join.
+    * @param input SortedSet<String>
+    * @param joiner String
+    * @return String
+    */
+   protected String join(SortedSet<String> input, String joiner)
+   {
+      if (null == input)
+      {
+         return "";
+      }
+      return join(new ArrayList<String>(input),joiner);
+   }
+
+   /**
+    * Method join.
+    * @param input List<String>
+    * @param joiner String
+    * @return String
+    */
+   protected String join(List<String> input, String joiner)
+   {
+      if (null == input || 0 == input.size())
+      {
+         return "";
+      }
+      if (null == joiner)
+      {
+         joiner = "";
+      }
+      final StringBuffer list = new StringBuffer();
+      for (String m : input)
+      {
+         list.append(m).append(joiner);
+      }
+      list.setLength(list.length() - joiner.length());
+      return list.toString();
    }
 }

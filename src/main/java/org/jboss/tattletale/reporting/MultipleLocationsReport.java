@@ -23,7 +23,9 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.SortedSet;
 
 import org.jboss.tattletale.core.Archive;
@@ -60,7 +62,7 @@ public class MultipleLocationsReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("    <th>Name</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
       bw.write("    <th>Location</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
       recursivelyWriteContent(bw, archives);
@@ -89,13 +91,6 @@ public class MultipleLocationsReport extends AbstractReport
          SortedSet<Location> locations = a.getLocations();
          if (locations.size() > 1)
          {
-            boolean filtered = isFiltered(a.getName());
-
-            if (!filtered)
-            {
-               status = ReportStatus.YELLOW;
-            }
-
             if (odd)
             {
                bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -104,25 +99,26 @@ public class MultipleLocationsReport extends AbstractReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
+
             bw.write("    <td>" + hrefToArchiveReport(a) + "</td>" + Dump.newLine());
-            if (!filtered)
+
+            if (!isFiltered(a.getName()))
             {
+               status = ReportStatus.YELLOW;
                bw.write("    <td>");
             }
             else
             {
                bw.write("    <td style=\"text-decoration: line-through;\">");
             }
-
-            StringBuffer list = new StringBuffer();
+            List<String> files = new ArrayList<String>();
             for (Location location : locations)
             {
-               list.append(location.getFilename()).append("<br/>");
+               files.add(location.getFilename());
             }
-            list.setLength(list.length() - 5);
-            bw.write(list.toString());
-
+            bw.write(join(files,"<br/>"));
             bw.write("</td>" + Dump.newLine());
+
             bw.write("  </tr>" + Dump.newLine());
 
             odd = !odd;

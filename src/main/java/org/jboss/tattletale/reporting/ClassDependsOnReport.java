@@ -101,25 +101,21 @@ public class ClassDependsOnReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td>" + entry.getKey() + "</a></td>" + Dump.newLine());
-         bw.write("    <td>");
 
-         StringBuffer list = new StringBuffer();
-         for (String dep : entry.getValue())
+         bw.write("    <td>" + entry.getKey() + "</td>" + Dump.newLine());
+
+         bw.write("    <td>");
+         SortedSet<String> deps = entry.getValue();
+         if (null != deps && deps.size() > 0)
          {
-            list.append(dep).append(", ");
-         }
-         if (list.length() > 0)
-         {
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
+            bw.write(join(deps,", "));
          }
          else
          {
             bw.write("&nbsp;");
          }
-
          bw.write("</td>" + Dump.newLine());
+
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;

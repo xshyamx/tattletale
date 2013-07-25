@@ -23,7 +23,9 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -104,12 +106,6 @@ public class CircularDependencyReport extends CLSReport
 
             if (circular.size() > 0)
             {
-               boolean filtered = isFiltered(archive);
-               if (!filtered)
-               {
-                  status = ReportStatus.RED;
-               }
-
                if (odd)
                {
                   bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -118,25 +114,26 @@ public class CircularDependencyReport extends CLSReport
                {
                   bw.write("  <tr class=\"roweven\">" + Dump.newLine());
                }
+
                bw.write("    <td>" + hrefToReport(archive) + "</td>" + Dump.newLine());
-               if (!filtered)
+
+               if (!isFiltered(archive))
                {
+                  status = ReportStatus.RED;
                   bw.write("    <td>");
                }
                else
                {
                   bw.write("    <td style=\"text-decoration: line-through;\">");
                }
-
-               StringBuffer list = new StringBuffer();
+               List<String> hrefs = new ArrayList<String>();
                for (String r : value)
                {
-                  list.append(hrefToReport(r, circular.contains(r))).append(", ");
+                  hrefs.add(hrefToReport(r, circular.contains(r)));
                }
-               list.setLength(list.length() - 2);
-               bw.write(list.toString());
-
+               bw.write(join(hrefs,", "));
                bw.write("</td>" + Dump.newLine());
+
                bw.write("  </tr>" + Dump.newLine());
 
                odd = !odd;

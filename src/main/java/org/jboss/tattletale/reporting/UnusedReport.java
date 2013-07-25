@@ -95,17 +95,17 @@ public class UnusedReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
+
          bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
 
          if (archiveStatus)
          {
-            bw.write("    <td style=\"color: green;\">Yes</td>" + Dump.newLine());
             used++;
+            bw.write("    <td style=\"color: green;\">Yes</td>" + Dump.newLine());
          }
          else
          {
             unused++;
-
             if (!isFiltered(archiveName))
             {
                status = ReportStatus.YELLOW;
@@ -123,10 +123,8 @@ public class UnusedReport extends AbstractReport
       }
 
       bw.write("</table>" + Dump.newLine());
-      bw.write("</p>" + Dump.newLine());
 
       bw.write(Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
 
       bw.write("<table>" + Dump.newLine());
 

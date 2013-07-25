@@ -206,16 +206,7 @@ public class OSGiReport extends AbstractReport
       rbw.write("  <tr class=\"roweven\">" + Dump.newLine());
       rbw.write("    <td>Manifest</td>" + Dump.newLine());
       rbw.write("    <td><pre>");
-
-      if (null != archive.getManifest())
-      {
-         for (String s : archive.getManifest())
-         {
-            rbw.write(s);
-            rbw.write("<br/>");
-         }
-      }
-
+      rbw.write(join(archive.getManifest(),"<br/>"));
       rbw.write("</pre></td>" + Dump.newLine());
       rbw.write("  </tr>" + Dump.newLine());
 
@@ -224,16 +215,7 @@ public class OSGiReport extends AbstractReport
          rbw.write("  <tr class=\"rowodd\">" + Dump.newLine());
          rbw.write("    <td>OSGi Manifest</td>" + Dump.newLine());
          rbw.write("    <td><pre>");
-
-         if (null != osgiInformation && osgiInformation.size() > 0)
-         {
-            for (String anOsgiInformation : osgiInformation)
-            {
-               rbw.write(anOsgiInformation);
-               rbw.write("<br/>");
-            }
-         }
-
+         rbw.write(join(osgiInformation,"<br/>"));
          rbw.write("</pre></td>" + Dump.newLine());
          rbw.write("  </tr>" + Dump.newLine());
       }
@@ -372,15 +354,7 @@ public class OSGiReport extends AbstractReport
             SortedSet<String> epd = archive.getPackageDependencies().get(ep);
             if (null != epd && epd.size() > 0)
             {
-               exportPackage.append(";uses:=\"");
-
-               for (String epds : epd)
-               {
-                  exportPackage.append(epds).append(',');
-               }
-               exportPackage.setLength(exportPackage.length() - 1);
-
-               exportPackage.append('\"');
+               exportPackage.append(";uses:=\"").append(join(epd,",")).append('\"');
             }
             exportPackage.append(',');
          }
@@ -445,7 +419,9 @@ public class OSGiReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
+
          bw.write("    <td>" + hrefToArchiveReport(archive) + "</td>" + Dump.newLine());
+
          if (archive.isOSGi())
          {
             bw.write("    <td style=\"color: green;\">Yes</td>" + Dump.newLine());
@@ -474,9 +450,7 @@ public class OSGiReport extends AbstractReport
 
       bw.write("</table>" + Dump.newLine());
 
-      bw.write("</p>" + Dump.newLine());
       bw.write(Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
 
       bw.write("<table>" + Dump.newLine());
 

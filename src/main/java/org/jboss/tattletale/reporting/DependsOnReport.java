@@ -24,6 +24,7 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -82,7 +83,6 @@ public class DependsOnReport extends CLSReport
          bw.write("    <td>");
 
          SortedSet<String> result = new TreeSet<String>();
-
          for (String require : getRequires(archive))
          {
             boolean found = false;
@@ -121,29 +121,27 @@ public class DependsOnReport extends CLSReport
          }
          else
          {
-            StringBuffer list = new StringBuffer();
+            List<String> hrefs = new ArrayList<String>();
             for (String r : result)
             {
                if (r.endsWith(".jar") || r.endsWith(".war") || r.endsWith(".rar") || r.endsWith(".ear"))
                {
-                  list.append(hrefToReport(r));
+                  hrefs.add(hrefToReport(r));
                }
                else
                {
                   if (!isFiltered(archive.getName(), r))
                   {
-                     list.append("<i>" + r + "</i>");
+                     hrefs.add("<i>" + r + "</i>");
                      status = ReportStatus.YELLOW;
                   }
                   else
                   {
-                     list.append("<i style=\"text-decoration: line-through;\">" + r + "</i>");
+                     hrefs.add("<i style=\"text-decoration: line-through;\">" + r + "</i>");
                   }
                }
-               list.append(", ");
             }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
+            bw.write(join(hrefs,", "));
          }
 
          bw.write("</td>" + Dump.newLine());

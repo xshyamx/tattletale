@@ -37,27 +37,27 @@ public class WarReport extends NestableReport
    /** File name */
    private String fileName;
 
-   /** The level of depth from the main output directory that this report would sit */
+   /** The level of depth from the top output directory */
    private int depth;
 
    /**
     * Constructor
-    * @param nestableArchive - the war nestableArchive.
+    * @param archive - the web archive.
     */
-   public WarReport(NestableArchive nestableArchive)
+   public WarReport(NestableArchive archive)
    {
-      this(nestableArchive, 1);
+      this(archive, 1);
    }
 
    /**
     * Constructor
-    * @param nestableArchive The nestableArchive
+    * @param archive The archive
     * @param depth   The level of depth at which this report would lie
     */
-   public WarReport(NestableArchive nestableArchive, int depth)
+   public WarReport(NestableArchive archive, int depth)
    {
-      super(nestableArchive.getType().toString(), ReportSeverity.INFO, nestableArchive);
-      final StringBuffer sb = new StringBuffer(nestableArchive.getName());
+      super(archive.getType().toString(), ReportSeverity.INFO, archive);
+      final StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
       this.depth = depth;
    }

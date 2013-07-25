@@ -92,7 +92,6 @@ public class SignedReport extends AbstractReport
       }
 
       bw.write("</table>" + Dump.newLine());
-      bw.write("</p>" + Dump.newLine());
 
       boolean filtered = isFiltered();
       if (signed > 0 && unsigned > 0 && !filtered)
@@ -101,7 +100,6 @@ public class SignedReport extends AbstractReport
       }
 
       bw.write(Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
 
       bw.write("<table>" + Dump.newLine());
 

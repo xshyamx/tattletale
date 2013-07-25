@@ -23,6 +23,8 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -71,7 +73,7 @@ public class ClassLocationReport extends AbstractReport
 
       bw.write("  <tr>" + Dump.newLine());
       bw.write("    <th>Class</th>" + Dump.newLine());
-      bw.write("    <th>Jar files</th>" + Dump.newLine());
+      bw.write("    <th>Archives</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -80,15 +82,6 @@ public class ClassLocationReport extends AbstractReport
       {
          String clz = entry.getKey();
          SortedSet<String> archives = entry.getValue();
-         boolean filtered = isFiltered(clz);
-
-         if (!filtered)
-         {
-            if (archives.size() > 1)
-            {
-               status = ReportStatus.YELLOW;
-            }
-         }
 
          if (odd)
          {
@@ -98,32 +91,33 @@ public class ClassLocationReport extends AbstractReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
+
          bw.write("    <td>" + clz + "</td>" + Dump.newLine());
-         if (!filtered)
-         {
-            bw.write("    <td>");
-         }
-         else
-         {
-            bw.write("    <td style=\"text-decoration: line-through;\">");
-         }
 
          if (0 == archives.size())
          {
-            bw.write("&nbsp;");
+            bw.write("<td>&nbsp;");
          }
          else
          {
-            StringBuffer list = new StringBuffer();
+            if (!isFiltered(clz))
+            {
+               status = ReportStatus.YELLOW;
+               bw.write("    <td>");
+            }
+            else
+            {
+               bw.write("    <td style=\"text-decoration: line-through;\">");
+            }
+            List<String> hrefs = new ArrayList<String>();
             for (String archive : archives)
             {
-               list.append(hrefToReport(archive)).append(", ");
+               hrefs.add(hrefToReport(archive));
             }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
+            bw.write(join(hrefs,", "));
          }
-
          bw.write("</td>" + Dump.newLine());
+
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;

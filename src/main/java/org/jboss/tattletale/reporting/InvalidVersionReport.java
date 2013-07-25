@@ -60,7 +60,7 @@ public class InvalidVersionReport extends AbstractReport
       bw.write("<table>" + Dump.newLine());
 
       bw.write("  <tr>" + Dump.newLine());
-      bw.write("    <th>Name</th>" + Dump.newLine());
+      bw.write("    <th>Archive</th>" + Dump.newLine());
       bw.write("    <th>Location</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 

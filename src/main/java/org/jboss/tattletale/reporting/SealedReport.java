@@ -93,7 +93,6 @@ public class SealedReport extends AbstractReport
       }
 
       bw.write("</table>" + Dump.newLine());
-      bw.write("</p>" + Dump.newLine());
 
       boolean filtered = isFiltered();
       if (sealed > 0 && unsealed > 0 && !filtered)
@@ -102,7 +101,6 @@ public class SealedReport extends AbstractReport
       }
 
       bw.write(Dump.newLine());
-      bw.write("<p>" + Dump.newLine());
 
       bw.write("<table>" + Dump.newLine());
 

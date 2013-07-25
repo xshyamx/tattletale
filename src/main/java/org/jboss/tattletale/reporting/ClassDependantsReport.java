@@ -127,18 +127,13 @@ public class ClassDependantsReport extends CLSReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
-            bw.write("    <td>" + clz + "</a></td>" + Dump.newLine());
+
+            bw.write("    <td>" + clz + "</td>" + Dump.newLine());
+
             bw.write("    <td>");
-
-            StringBuffer list = new StringBuffer();
-            for (String dep : deps)
-            {
-               list.append(dep).append(", ");
-            }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
-
+            bw.write(join(deps,", "));
             bw.write("</td>" + Dump.newLine());
+
             bw.write("  </tr>" + Dump.newLine());
 
             odd = !odd;

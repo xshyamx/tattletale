@@ -87,17 +87,11 @@ public class PackageDependantsReport extends CLSReport
                bw.write("  <tr package =\"roweven\">" + Dump.newLine());
             }
             bw.write("    <td>" + entry.getKey() + "</td>" + Dump.newLine());
+
             bw.write("    <td>");
-
-            StringBuffer list = new StringBuffer();
-            for (String dep : packDeps)
-            {
-               list.append(dep).append(", ");
-            }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
-
+            bw.write(join(packDeps,", "));
             bw.write("</td>" + Dump.newLine());
+
             bw.write("  </tr>" + Dump.newLine());
 
             odd = !odd;

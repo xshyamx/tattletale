@@ -756,8 +756,8 @@ public class Main
          {
             ClassLoader cl = Main.class.getClassLoader();
             String reportName = config.getProperty(keyString);
-            Class<? extends AbstractReport> customReportClass =
-               (Class<? extends AbstractReport>) Class.forName(reportName, true, cl);
+            Class<? extends Report> customReportClass =
+               (Class<? extends Report>) Class.forName(reportName, true, cl);
             addCustomReport(customReportClass);
             index++;
             keyString = "customreport." + index;

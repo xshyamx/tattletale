@@ -23,7 +23,9 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -122,41 +124,40 @@ public class TransitiveDependsOnReport extends CLSReport
          {
             bw.write("  <tr class=\"roweven\">" + Dump.newLine());
          }
-         bw.write("    <td>" + hrefToReport(archive) + "</td>" + Dump.newLine());
-         bw.write("    <td>");
 
+         bw.write("    <td>" + hrefToReport(archive) + "</td>" + Dump.newLine());
+
+         bw.write("    <td>");
          if (0 == value.size())
          {
             bw.write("&nbsp;");
          }
          else
          {
-            StringBuffer list = new StringBuffer();
+            List<String> hrefs = new ArrayList<String>();
             for (String r : value)
             {
                if (r.endsWith(".jar"))
                {
-                  list.append(hrefToReport(r));
+                  hrefs.add(hrefToReport(r));
                }
                else
                {
                   if (!isFiltered(archive, r))
                   {
-                     list.append("<i>" + r + "</i>");
                      status = ReportStatus.YELLOW;
+                     hrefs.add("<i>" + r + "</i>");
                   }
                   else
                   {
-                     list.append("<i style=\"text-decoration: line-through;\">" + r + "</i>");
+                     hrefs.add("<i style=\"text-decoration: line-through;\">" + r + "</i>");
                   }
                }
-               list.append(", ");
             }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
+            bw.write(join(hrefs,", "));
          }
-
          bw.write("</td>" + Dump.newLine());
+
          bw.write("  </tr>" + Dump.newLine());
 
          odd = !odd;

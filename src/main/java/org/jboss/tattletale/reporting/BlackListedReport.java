@@ -70,21 +70,15 @@ public class BlackListedReport extends AbstractReport
       for (Archive archive : archives)
       {
          SortedMap<String, SortedSet<String>> blacklisted = getBlackListedDeps(archive);
-         boolean include = false;
          boolean filtered = isFiltered(archive.getName());
 
          if (null != blacklisted && blacklisted.size() > 0)
          {
-            include = true;
-
             if (!filtered)
             {
                status = ReportStatus.RED;
             }
-         }
 
-         if (include)
-         {
             if (odd)
             {
                bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -101,6 +95,7 @@ public class BlackListedReport extends AbstractReport
             for (Map.Entry<String, SortedSet<String>> stringSortedSetEntry : blacklisted.entrySet())
             {
                bw.write("      <tr>" + Dump.newLine());
+
                bw.write("        <td>" + stringSortedSetEntry.getKey() + "</td>" + Dump.newLine());
 
                if (!filtered)
@@ -111,12 +106,7 @@ public class BlackListedReport extends AbstractReport
                {
                   bw.write("      <td style=\"text-decoration: line-through;\">");
                }
-
-               for (String blp : stringSortedSetEntry.getValue())
-               {
-                  bw.write(blp + "<br/>");
-               }
-
+               bw.write(join(stringSortedSetEntry.getValue(),"<br/>"));
                bw.write("</td>" + Dump.newLine());
 
                bw.write("      </tr>" + Dump.newLine());

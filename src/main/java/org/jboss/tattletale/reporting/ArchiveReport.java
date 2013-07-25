@@ -21,10 +21,6 @@
  */
 package org.jboss.tattletale.reporting;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-
 import org.jboss.tattletale.core.Archive;
 
 /**
@@ -57,45 +53,5 @@ public abstract class ArchiveReport extends AbstractReport
    public String getName()
    {
       return archive.getName();
-   }
-
-   /**
-    * Method join.
-    * @param input SortedSet<String>
-    * @param joiner String
-    * @return String
-    */
-   protected String join(SortedSet<String> input, String joiner)
-   {
-      if (null == input)
-      {
-         return "";
-      }
-      return join(new ArrayList<String>(input),joiner);
-   }
-
-   /**
-    * Method join.
-    * @param input List<String>
-    * @param joiner String
-    * @return String
-    */
-   protected String join(List<String> input, String joiner)
-   {
-      if (null == input || 0 == input.size())
-      {
-         return "";
-      }
-      if (null == joiner)
-      {
-         joiner = "";
-      }
-      final StringBuffer list = new StringBuffer();
-      for (String m : input)
-      {
-         list.append(m).append(joiner);
-      }
-      list.setLength(list.length() - joiner.length());
-      return list.toString();
    }
 }

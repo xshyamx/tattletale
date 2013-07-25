@@ -23,6 +23,8 @@ package org.jboss.tattletale.reporting;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -70,7 +72,7 @@ public class ClassMultipleJarsReport extends AbstractReport
 
       bw.write("  <tr>" + Dump.newLine());
       bw.write("    <th>Class</th>" + Dump.newLine());
-      bw.write("    <th>Jar files</th>" + Dump.newLine());
+      bw.write("    <th>Archives</th>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
 
       boolean odd = true;
@@ -82,12 +84,6 @@ public class ClassMultipleJarsReport extends AbstractReport
 
          if (archives.size() > 1)
          {
-            boolean filtered = isFiltered(clz);
-            if (!filtered)
-            {
-               status = ReportStatus.RED;
-            }
-
             if (odd)
             {
                bw.write("  <tr class=\"rowodd\">" + Dump.newLine());
@@ -96,25 +92,26 @@ public class ClassMultipleJarsReport extends AbstractReport
             {
                bw.write("  <tr class=\"roweven\">" + Dump.newLine());
             }
+
             bw.write("    <td>" + clz + "</td>" + Dump.newLine());
-            if (!filtered)
+
+            if (!isFiltered(clz))
             {
+               status = ReportStatus.RED;
                bw.write("    <td>");
             }
             else
             {
                bw.write("    <td style=\"text-decoration: line-through;\">");
             }
-
-            StringBuffer list = new StringBuffer();
+            List<String> hrefs = new ArrayList<String>();
             for (String archive: archives)
             {
-               list.append(hrefToReport(archive)).append(", ");
+               hrefs.add(hrefToReport(archive));
             }
-            list.setLength(list.length() - 2);
-            bw.write(list.toString());
-
+            bw.write(join(hrefs,", "));
             bw.write("</td>" + Dump.newLine());
+
             bw.write("  </tr>" + Dump.newLine());
 
             odd = !odd;

@@ -32,6 +32,26 @@ import java.io.File;
 public interface Report extends Comparable<Report>
 {
    /**
+    * Represents a report severity
+    */
+   enum ReportSeverity
+   {
+      INFO,
+      WARNING,
+      ERROR
+   }
+
+   /**
+    * Represents a report status
+    */
+   enum ReportStatus
+   {
+      GREEN,
+      YELLOW,
+      RED
+   }
+
+   /**
     * Method that any implementation must provide in order to generate any type of report.
     * @param outputDirectory - the top-level output directory that the generated report would end up.
     */
@@ -86,6 +106,7 @@ public interface Report extends Comparable<Report>
     * its data.
     */
    String getIndexName();
+
    /**
     * Assigns the filter to be used by a String.
     * @param filter - the String to be used to set the filter.

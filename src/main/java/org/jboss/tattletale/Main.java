@@ -79,8 +79,6 @@ import org.jboss.tattletale.reporting.PackageDependantsReport;
 import org.jboss.tattletale.reporting.PackageDependsOnReport;
 import org.jboss.tattletale.reporting.PackageMultipleJarsReport;
 import org.jboss.tattletale.reporting.Report;
-import org.jboss.tattletale.reporting.ReportSeverity;
-import org.jboss.tattletale.reporting.ReportStatus;
 import org.jboss.tattletale.reporting.SealedReport;
 import org.jboss.tattletale.reporting.SignedReport;
 import org.jboss.tattletale.reporting.TransitiveDependantsReport;
@@ -1113,10 +1111,10 @@ public class Main
        */
       void processReport(Report report)
       {
-         if ((ReportStatus.YELLOW == report.getStatus() || ReportStatus.RED == report.getStatus())
-             && ((ReportSeverity.INFO == report.getSeverity() && failOnInfo) ||
-                 (ReportSeverity.WARNING == report.getSeverity() && failOnWarn) ||
-                 (ReportSeverity.ERROR == report.getSeverity() && failOnError)))
+         if ((Report.ReportStatus.YELLOW == report.getStatus() || Report.ReportStatus.RED == report.getStatus())
+             && ((Report.ReportSeverity.INFO == report.getSeverity() && failOnInfo) ||
+                 (Report.ReportSeverity.WARNING == report.getSeverity() && failOnWarn) ||
+                 (Report.ReportSeverity.ERROR == report.getSeverity() && failOnError)))
          {
             appendReportInfo(report);
          }

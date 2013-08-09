@@ -131,7 +131,7 @@ public class CircularDependencyReport extends CLSReport
                {
                   hrefs.add(hrefToReport(r, circular.contains(r)));
                }
-               bw.write(join(hrefs,", "));
+               bw.write(join(hrefs, ", "));
                bw.write("</td>" + Dump.newLine());
 
                bw.write("  </tr>" + Dump.newLine());

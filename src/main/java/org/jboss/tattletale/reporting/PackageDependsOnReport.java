@@ -90,7 +90,7 @@ public class PackageDependsOnReport extends CLSReport
          SortedSet<String> deps = entry.getValue();
          if (null != deps && deps.size() > 0)
          {
-            bw.write(join(deps,", "));
+            bw.write(join(deps, ", "));
          }
          else
          {

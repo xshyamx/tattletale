@@ -79,7 +79,7 @@ public abstract class AbstractReport implements Report
    protected static final String INDEX_LINK_NAME = "Main";
 
    /** Archive report paths */
-   private final Map<String,String> reportPaths = new HashMap<String, String>();
+   private final Map<String, String> reportPaths = new HashMap<String, String>();
 
    /**
     * Constructor
@@ -325,7 +325,8 @@ public abstract class AbstractReport implements Report
     * The name of the hyperlink to the index file
     * @return name of the hyperlink
     */
-   protected String getIndexLinkName() {
+   protected String getIndexLinkName()
+   {
       return INDEX_LINK_NAME;
    }
 
@@ -499,7 +500,8 @@ public abstract class AbstractReport implements Report
     * Figure out a path to Archive report and save it
     * @param archive ditto
     */
-   private void updateReportPaths(Archive archive) {
+   private void updateReportPaths(Archive archive)
+   {
       final String archiveName = archive.getName();
       String extension = archive.getType().toString();
       for (Archive parent; (parent = archive.getParentArchive()) != null; archive = parent)
@@ -572,7 +574,7 @@ public abstract class AbstractReport implements Report
       {
          return "";
       }
-      return join(new ArrayList<String>(input),joiner);
+      return join(new ArrayList<String>(input), joiner);
    }
 
    /**

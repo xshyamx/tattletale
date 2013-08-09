@@ -20,10 +20,13 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 <ivysettings>
+  <!-- defaults -->
+  <property name="version.ant" value="1.6.5"/>
+  <property name="version.maven" value="2.0"/>
+  <property name="version.javassist" value="3.17.1-GA"/>
   <settings defaultResolver="default"/>
   <caches defaultCacheDir="${user.home}/.ivy2/cache"
-          artifactPattern="[organisation]/[module]/[type]s/[artifact]-[revision](-[classifier]).[ext]" 
-          checkUpToDate="true"/>
+          artifactPattern="[organisation]/[module]/[type]s/[artifact]-[revision](-[classifier]).[ext]"/>
   <resolvers>
     <filesystem name="local">
       <ivy pattern="${ivy.cache.dir}/[module]/ivy-[revision].xml"/>

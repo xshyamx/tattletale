@@ -136,7 +136,7 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("    <td>Profiles</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(nestableArchive.getProfiles(),"<br/>"));
+      bw.write(join(nestableArchive.getProfiles(), "<br/>"));
 
       bw.write("    </td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -145,7 +145,7 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("    <td>Manifest</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(nestableArchive.getManifest(),"<br/>"));
+      bw.write(join(nestableArchive.getManifest(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -154,7 +154,7 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("    <td>Signing information</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(nestableArchive.getSign(),"<br/>"));
+      bw.write(join(nestableArchive.getSign(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -163,7 +163,7 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("    <td>Requires</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(nestableArchive.getRequires(),"<br/>"));
+      bw.write(join(nestableArchive.getRequires(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());

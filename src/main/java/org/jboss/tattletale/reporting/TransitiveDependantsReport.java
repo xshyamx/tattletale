@@ -111,7 +111,7 @@ public class TransitiveDependantsReport extends CLSReport
 
       boolean odd = true;
 
-      for (Map.Entry<String,SortedSet<String>> entry : transitiveDependantsMap.entrySet())
+      for (Map.Entry<String, SortedSet<String>> entry : transitiveDependantsMap.entrySet())
       {
          String archive = entry.getKey();
          SortedSet<String> value = entry.getValue();
@@ -139,7 +139,7 @@ public class TransitiveDependantsReport extends CLSReport
             {
                hrefs.add((r.endsWith(".jar")) ? hrefToReport(r) : "<i>" + r + "</i>");
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
          }
          bw.write("</td>" + Dump.newLine());
 

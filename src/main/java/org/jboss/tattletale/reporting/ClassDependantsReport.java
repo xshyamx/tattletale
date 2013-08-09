@@ -131,7 +131,7 @@ public class ClassDependantsReport extends CLSReport
             bw.write("    <td>" + clz + "</td>" + Dump.newLine());
 
             bw.write("    <td>");
-            bw.write(join(deps,", "));
+            bw.write(join(deps, ", "));
             bw.write("</td>" + Dump.newLine());
 
             bw.write("  </tr>" + Dump.newLine());

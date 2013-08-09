@@ -170,7 +170,7 @@ public class JarReport extends ArchiveReport
       bw.write("    <td>Profiles</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(archive.getProfiles(),"<br/>"));
+      bw.write(join(archive.getProfiles(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -179,7 +179,7 @@ public class JarReport extends ArchiveReport
       bw.write("    <td>Manifest</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(archive.getManifest(),"<br/>"));
+      bw.write(join(archive.getManifest(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -188,7 +188,7 @@ public class JarReport extends ArchiveReport
       bw.write("    <td>Signing information</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(archive.getSign(),"<br/>"));
+      bw.write(join(archive.getSign(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());
@@ -197,7 +197,7 @@ public class JarReport extends ArchiveReport
       bw.write("    <td>Requires</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      bw.write(join(archive.getRequires(),"<br/>"));
+      bw.write(join(archive.getRequires(), "<br/>"));
 
       bw.write("</td>" + Dump.newLine());
       bw.write("  </tr>" + Dump.newLine());

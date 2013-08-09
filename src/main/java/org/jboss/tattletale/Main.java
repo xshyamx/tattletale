@@ -172,8 +172,8 @@ public class Main
    private static final Map<String, String> reportMap = new HashMap<String, String>();
    static
    {
-      reportMap.put("eliminatejars","multipleversions");
-      reportMap.put("unusedjar","unused");
+      reportMap.put("eliminatejars", "multipleversions");
+      reportMap.put("unusedjar", "unused");
       reportMap.put("multiplejars", "multiplejarsclass");
       reportMap.put("sign", "signed");
    }
@@ -556,8 +556,10 @@ public class Main
 
          for (String token : reports.split("[\\s,]+"))
          {
-            if (reportMap.containsKey(token)) {
-               System.err.println("Please adjust the configuration: " + token + " is now called " + reportMap.get(token));
+            if (reportMap.containsKey(token))
+            {
+               System.err.println("Please adjust the configuration: " + token + " is now called "
+                  + reportMap.get(token));
                token = reportMap.get(token);
             }
             reportSet.add(token);
@@ -980,7 +982,8 @@ public class Main
    /**
     * Add the reports based on the archives that we have.
     * @param archives - the collection of Archives.
-    * @param reportSetBuilder - the ReportSetBuilder to add a set of Reports to (corresponding to ArchiveType of each archive).
+    * @param reportSetBuilder - the ReportSetBuilder to add a set of Reports to
+    * (corresponding to ArchiveType of each archive).
     */
 
    private void addJarReports(Collection<Archive> archives, ReportSetBuilder reportSetBuilder)
@@ -1015,17 +1018,17 @@ public class Main
          String source = "";
          String destination = ".";
          boolean analyzeComponents = false;
-         for (String arg: args)
+         for (String arg : args)
          {
             if (arg.startsWith("-components"))
             {
-                analyzeComponents = true;
-                int index = arg.indexOf('=');
-                if (index > 0)
-                {
-                   main.setBundlePattern(arg.substring(index + 1));
-                }
-                continue;
+               analyzeComponents = true;
+               int index = arg.indexOf('=');
+               if (index > 0)
+               {
+                  main.setBundlePattern(arg.substring(index + 1));
+               }
+               continue;
             }
             if (arg.startsWith("-exclude="))
             {

@@ -114,7 +114,7 @@ public class ClassLocationReport extends AbstractReport
             {
                hrefs.add(hrefToReport(archive));
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
          }
          bw.write("</td>" + Dump.newLine());
 

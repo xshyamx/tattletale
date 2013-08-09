@@ -148,7 +148,8 @@ public class EarScanner extends AbstractScanner
       EarArchive earArchive = null;
       final List<Archive> subArchiveList = new ArrayList<Archive>();
       final ArchiveScanner jarScanner = new JarScanner();
-      final ArchiveScanner warScanner = (null == bundlePattern) ? new WarScanner(extractPattern) : new WarScanner(extractPattern, pattern);
+      final ArchiveScanner warScanner = (null == bundlePattern) ? new WarScanner(extractPattern) :
+         new WarScanner(extractPattern, pattern);
       JarFile earFile = null;
       final String name = ear.getName();
       try
@@ -287,7 +288,7 @@ public class EarScanner extends AbstractScanner
             if (placeholderClasses)
             {
                // ClassesArchive is a placeholder that is excluded from analysis
-               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar",""), cs.getClassVersion(), lManifest, lSign,
+               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar", ""), cs.getClassVersion(), lManifest, lSign,
                                                                         cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
                                                                         cs.getPackageDependencies(),
                                                                         cs.getBlacklistedDependencies(), location);

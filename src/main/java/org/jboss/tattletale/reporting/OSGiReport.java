@@ -74,7 +74,8 @@ public class OSGiReport extends AbstractReport
     * @return name of the hyperlink
     */
    @Override
-   protected String getIndexLinkName() {
+   protected String getIndexLinkName()
+   {
       return (subreportName.equals("")) ? INDEX_LINK_NAME : "Back";
    }
 
@@ -206,7 +207,7 @@ public class OSGiReport extends AbstractReport
       rbw.write("  <tr class=\"roweven\">" + Dump.newLine());
       rbw.write("    <td>Manifest</td>" + Dump.newLine());
       rbw.write("    <td><pre>");
-      rbw.write(join(archive.getManifest(),"<br/>"));
+      rbw.write(join(archive.getManifest(), "<br/>"));
       rbw.write("</pre></td>" + Dump.newLine());
       rbw.write("  </tr>" + Dump.newLine());
 
@@ -215,7 +216,7 @@ public class OSGiReport extends AbstractReport
          rbw.write("  <tr class=\"rowodd\">" + Dump.newLine());
          rbw.write("    <td>OSGi Manifest</td>" + Dump.newLine());
          rbw.write("    <td><pre>");
-         rbw.write(join(osgiInformation,"<br/>"));
+         rbw.write(join(osgiInformation, "<br/>"));
          rbw.write("</pre></td>" + Dump.newLine());
          rbw.write("  </tr>" + Dump.newLine());
       }
@@ -354,7 +355,7 @@ public class OSGiReport extends AbstractReport
             SortedSet<String> epd = archive.getPackageDependencies().get(ep);
             if (null != epd && epd.size() > 0)
             {
-               exportPackage.append(";uses:=\"").append(join(epd,",")).append('\"');
+               exportPackage.append(";uses:=\"").append(join(epd, ",")).append('\"');
             }
             exportPackage.append(',');
          }

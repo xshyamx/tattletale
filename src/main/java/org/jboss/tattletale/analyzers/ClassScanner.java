@@ -76,7 +76,8 @@ public class ClassScanner extends AbstractScanner
     * Constructor
     * @param location Unique part of the class URL that identifies ClassScanner
     */
-   public ClassScanner(String location) {
+   public ClassScanner(String location)
+   {
       this.location = location;
    }
 
@@ -159,7 +160,8 @@ public class ClassScanner extends AbstractScanner
    {
       classVersion = scanClasses(stream, blacklisted, known, classVersion, provides, requires,
                                  profiles, classDependencies, packageDependencies, blacklistedDependencies);
-      for (String provide : provides.keySet()) {
+      for (String provide : provides.keySet())
+      {
          requires.remove(provide);
       }
       return classVersion;

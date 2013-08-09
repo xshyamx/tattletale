@@ -21,7 +21,6 @@
  */
 package org.jboss.tattletale.maven;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import org.jboss.tattletale.Main;
@@ -348,7 +347,6 @@ public class ReportMojo extends TattletaleMojo
 
    /**
     * Execute
-    * @throws MojoExecutionException Thrown if the plugin cant be executed
     * @throws MojoFailureException   Thrown if there is an error
     * @see org.apache.maven.plugin.Mojo#execute()
     */

@@ -116,7 +116,7 @@ public class MultipleLocationsReport extends AbstractReport
             {
                files.add(location.getFilename());
             }
-            bw.write(join(files,"<br/>"));
+            bw.write(join(files, "<br/>"));
             bw.write("</td>" + Dump.newLine());
 
             bw.write("  </tr>" + Dump.newLine());

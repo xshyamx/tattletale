@@ -68,9 +68,9 @@ public class MultipleVersionsReport extends AbstractReport
 
       for (Archive archive : archives)
       {
-          // Bug-for-bug compatibility: print out a list of locations for nested archives
-          // even if it is not the purpose of this report
-          boolean include = (archive instanceof NestableArchive) ? true : false;
+         // Bug-for-bug compatibility: print out a list of locations for nested archives
+         // even if it is not the purpose of this report
+         boolean include = (archive instanceof NestableArchive) ? true : false;
 
          SortedSet<Location> locations = getLocations(archive);
          String version = locations.first().getVersion();

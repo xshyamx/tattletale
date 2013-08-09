@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
-
 import org.jboss.tattletale.Main;
 
 /**
@@ -376,11 +375,12 @@ public class ReportTask extends AbstractReportTask
     * Extract tattletale-related properties from Ant project
     * @return Properties
     */
+   @SuppressWarnings("unchecked")
    public Properties getProperties()
    {
       final String pattern = (propertyPrefix.endsWith(".")) ? propertyPrefix : propertyPrefix + '.';
       final Properties properties = new Properties();
-      final Map<String,Object> pproperties = getProject().getProperties();
+      final Map<String, Object> pproperties = getProject().getProperties();
       for (Entry<String, Object> property : pproperties.entrySet())
       {
          String key = property.getKey();

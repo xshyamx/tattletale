@@ -65,16 +65,16 @@ public class Extractor
     */
    public Extractor(File jar, String pattern) throws IOException
    {
-       this(jar);
+      this(jar);
 
-       try
-       {
-          extractPattern = Pattern.compile(pattern);
-       }
-       catch (PatternSyntaxException pse)
-       {
-          System.err.println("Incorrect extraction pattern: " + pattern);
-       }
+      try
+      {
+         extractPattern = Pattern.compile(pattern);
+      }
+      catch (PatternSyntaxException pse)
+      {
+         System.err.println("Incorrect extraction pattern: " + pattern);
+      }
    }
 
    /**
@@ -82,7 +82,8 @@ public class Extractor
     * @param jar File
     * @throws IOException
     */
-   public Extractor(File jar) throws IOException {
+   public Extractor(File jar) throws IOException
+   {
       jf = new JarFile(jar);
       target = jar;
 
@@ -248,7 +249,8 @@ public class Extractor
     * Method deleteTempTarget.
     * @throws IOException
     */
-   public void deleteTempTarget() throws IOException {
+   public void deleteTempTarget() throws IOException
+   {
       if (null != tempTarget && !tempTarget.delete())
       {
          System.out.println("Delete of " + tempTarget.getCanonicalPath() + "failed!");

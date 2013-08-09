@@ -109,7 +109,7 @@ public class ClassMultipleJarsReport extends AbstractReport
             {
                hrefs.add(hrefToReport(archive));
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
             bw.write("</td>" + Dump.newLine());
 
             bw.write("  </tr>" + Dump.newLine());

@@ -89,7 +89,7 @@ public class PackageDependantsReport extends CLSReport
             bw.write("    <td>" + entry.getKey() + "</td>" + Dump.newLine());
 
             bw.write("    <td>");
-            bw.write(join(packDeps,", "));
+            bw.write(join(packDeps, ", "));
             bw.write("</td>" + Dump.newLine());
 
             bw.write("  </tr>" + Dump.newLine());

@@ -137,11 +137,11 @@ public class PackageMultipleJarsReport extends AbstractReport
                bw.write("        <td style=\"text-decoration: line-through;\">");
             }
             List<String> hrefs = new ArrayList<String>();
-            for (String archive: archives)
+            for (String archive : archives)
             {
                hrefs.add(hrefToReport(archive));
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
             bw.write("</td>" + Dump.newLine());
 
             bw.write("  </tr>" + Dump.newLine());

@@ -105,7 +105,7 @@ public class DependantsReport extends CLSReport
             {
                hrefs.add((r.endsWith(".jar")) ? hrefToReport(r) : "<i>" + r + "</i>");
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
          }
 
          bw.write("</td>" + Dump.newLine());

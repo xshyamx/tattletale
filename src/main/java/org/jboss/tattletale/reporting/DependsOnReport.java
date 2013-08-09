@@ -141,7 +141,7 @@ public class DependsOnReport extends CLSReport
                   }
                }
             }
-            bw.write(join(hrefs,", "));
+            bw.write(join(hrefs, ", "));
          }
 
          bw.write("</td>" + Dump.newLine());

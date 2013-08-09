@@ -270,7 +270,7 @@ public class WarScanner extends AbstractScanner
             if (placeholderClasses)
             {
                // ClassesArchive is a placeholder that is excluded from analysis
-               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar",""), cs.getClassVersion(), lManifest, lSign,
+               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar", ""), cs.getClassVersion(), lManifest, lSign,
                                                                         cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
                                                                         cs.getPackageDependencies(),
                                                                         cs.getBlacklistedDependencies(), location);

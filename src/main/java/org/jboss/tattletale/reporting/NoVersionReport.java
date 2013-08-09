@@ -124,7 +124,7 @@ public class NoVersionReport extends AbstractReport
 
                bw.write("      <table>" + Dump.newLine());
 
-               for (Location location: locations)
+               for (Location location : locations)
                {
                   bw.write("      <tr>" + Dump.newLine());
 

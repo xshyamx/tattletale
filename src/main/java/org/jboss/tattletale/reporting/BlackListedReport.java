@@ -106,7 +106,7 @@ public class BlackListedReport extends AbstractReport
                {
                   bw.write("      <td style=\"text-decoration: line-through;\">");
                }
-               bw.write(join(stringSortedSetEntry.getValue(),"<br/>"));
+               bw.write(join(stringSortedSetEntry.getValue(), "<br/>"));
                bw.write("</td>" + Dump.newLine());
 
                bw.write("      </tr>" + Dump.newLine());

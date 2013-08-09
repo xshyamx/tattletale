@@ -37,7 +37,8 @@ public enum ArchiveType
     * @return lowercase string corresponding to file extension
     */
    @Override
-   public String toString() {
+   public String toString()
+   {
       return super.toString().toLowerCase();
    }
 }

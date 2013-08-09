@@ -244,7 +244,7 @@ public abstract class AbstractScanner implements ArchiveScanner
          {
             boolean bl = false;
 
-            for (String blp: blacklisted)
+            for (String blp : blacklisted)
             {
                if (clzName.startsWith(blp))
                {
@@ -282,7 +282,8 @@ public abstract class AbstractScanner implements ArchiveScanner
     * @param comment String
     */
    protected void addDependencies(final SortedMap<String, SortedSet<String>> allDependencies,
-                                SortedMap<String, SortedSet<String>> bundleDependencies, String comment) {
+                                SortedMap<String, SortedSet<String>> bundleDependencies, String comment)
+   {
       if (bundleDependencies.isEmpty())
       {
          return;

@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
+
 import org.jboss.tattletale.Main;
 
 /**

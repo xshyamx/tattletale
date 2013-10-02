@@ -160,7 +160,8 @@ public class AS7Report extends CLSReport
    {
       final File deployedDir = new File(getOutputDirectory(), archiveName);
       deployedDir.mkdirs();
-      final File outputXml = new File(deployedDir.getAbsolutePath() + File.separator + "jboss-deployment-structure.xml");
+      final File outputXml = new File(deployedDir.getAbsolutePath() + File.separator
+              + "jboss-deployment-structure.xml");
       final FileWriter fw = new FileWriter(outputXml);
       final BufferedWriter bw = new BufferedWriter(fw, 8192);
 

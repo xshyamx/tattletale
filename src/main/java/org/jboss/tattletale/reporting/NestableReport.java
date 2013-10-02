@@ -58,7 +58,7 @@ public abstract class NestableReport extends ArchiveReport
    /**
     * Method writeHtmlBodyContent.
     * @param bw BufferedWriter
-    * @throws IOException
+    * @throws IOException if an error occurs
     */
    @Override
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException

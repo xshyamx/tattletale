@@ -3,6 +3,7 @@
 src/main/Main.iml
 
 # Ignore Eclipse IDE
+.checkstyle
 .classpath
 .project
 .settings/

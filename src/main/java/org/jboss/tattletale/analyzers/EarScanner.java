@@ -288,8 +288,10 @@ public class EarScanner extends AbstractScanner
             if (placeholderClasses)
             {
                // ClassesArchive is a placeholder that is excluded from analysis
-               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar", ""), cs.getClassVersion(), lManifest, lSign,
-                                                                        cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
+               final ClassesArchive classesArchive = new ClassesArchive(cs.getName().replace(".jar", ""),
+                                                                        cs.getClassVersion(), lManifest, lSign,
+                                                                        cs.getRequires(), cs.getProvides(),
+                                                                        cs.getClassDependencies(),
                                                                         cs.getPackageDependencies(),
                                                                         cs.getBlacklistedDependencies(), location);
                subArchiveList.add(classesArchive);
@@ -297,7 +299,8 @@ public class EarScanner extends AbstractScanner
             else
             {
                final JarArchive classesArchive = new JarArchive(cs.getName(), cs.getClassVersion(), lManifest, lSign,
-                                                                cs.getRequires(), cs.getProvides(), cs.getClassDependencies(),
+                                                                cs.getRequires(), cs.getProvides(),
+                                                                cs.getClassDependencies(),
                                                                 cs.getPackageDependencies(),
                                                                 cs.getBlacklistedDependencies(), location);
                subArchiveList.add(classesArchive);

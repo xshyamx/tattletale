@@ -61,7 +61,7 @@ public class Extractor
     * Constructor for Extractor.
     * @param jar File
     * @param pattern String - extract only entries matched by pattern
-    * @throws IOException
+    * @throws IOException if an error occurs in JarFile
     */
    public Extractor(File jar, String pattern) throws IOException
    {
@@ -80,7 +80,7 @@ public class Extractor
    /**
     * Constructor for Extractor.
     * @param jar File
-    * @throws IOException
+    * @throws IOException if an error occurs in JarFile
     */
    public Extractor(File jar) throws IOException
    {
@@ -247,7 +247,7 @@ public class Extractor
 
    /**
     * Method deleteTempTarget.
-    * @throws IOException
+    * @throws IOException if an error occurs
     */
    public void deleteTempTarget() throws IOException
    {

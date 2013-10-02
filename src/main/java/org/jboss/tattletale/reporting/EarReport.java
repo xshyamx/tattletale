@@ -50,7 +50,7 @@ public class EarReport extends NestableReport
    /**
     * Method getBufferedWriter.
     * @return BufferedWriter
-    * @throws IOException
+    * @throws IOException if an error occurs
     */
    @Override
    protected BufferedWriter getBufferedWriter() throws IOException

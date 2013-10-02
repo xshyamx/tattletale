@@ -70,7 +70,8 @@ public class ClassScanner extends AbstractScanner
    private final SortedMap<String, SortedSet<String>> packageDependencies = new TreeMap<String, SortedSet<String>>();
 
    /** Field blacklistedDependencies. */
-   private final SortedMap<String, SortedSet<String>> blacklistedDependencies = new TreeMap<String, SortedSet<String>>();
+   private final SortedMap<String, SortedSet<String>> blacklistedDependencies =
+           new TreeMap<String, SortedSet<String>>();
 
    /**
     * Constructor
@@ -96,7 +97,7 @@ public class ClassScanner extends AbstractScanner
     * Scan a class file
     * @param file The file
     * @return The archive (always null)
-    * @throws IOException
+    * @throws IOException rethrown from scanClasses() or when file URL does not match location
     * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File)
     */
    public Archive scan(File file) throws IOException
@@ -111,7 +112,7 @@ public class ClassScanner extends AbstractScanner
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages   
     * @return The archive (always null)
-    * @throws IOException
+    * @throws IOException rethrown from scanClasses() or when file URL does not match location
     * @see org.jboss.tattletale.analyzers.ArchiveScanner#scan(File, Map, List, Set)
     */
    public Archive scan(File file, Map<String, SortedSet<String>> gProvides,
@@ -141,7 +142,7 @@ public class ClassScanner extends AbstractScanner
     * Scan a class stream
     * @param stream The stream
     * @return class version
-    * @throws IOException
+    * @throws IOException rethrown from scanClasses()
     */
    public int scan(InputStream stream) throws IOException
    {
@@ -154,7 +155,7 @@ public class ClassScanner extends AbstractScanner
     * @param known       The set of known archives
     * @param blacklisted The set of black listed packages
     * @return class version
-    * @throws IOException
+    * @throws IOException rethrown from scanClasses()
     */
    public int scan(InputStream stream, List<Profile> known, Set<String> blacklisted) throws IOException
    {

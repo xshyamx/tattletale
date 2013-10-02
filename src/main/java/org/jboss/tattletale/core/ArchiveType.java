@@ -28,9 +28,21 @@ package org.jboss.tattletale.core;
  */
 public enum ArchiveType
 {
+   /**
+    * Placeholder for WEB-INF/classes
+    */
    CLASS,
+   /**
+    * JAR
+    */
    JAR,
+   /**
+    * WAR or RAR (similar structure for our purposes: contains subarchives)
+    */
    WAR,
+   /**
+    * EAR (contains subarchives that may contain subarchives; see WAR)
+    */
    EAR;
 
    /**

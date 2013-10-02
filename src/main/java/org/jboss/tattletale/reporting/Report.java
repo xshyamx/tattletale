@@ -36,8 +36,17 @@ public interface Report extends Comparable<Report>
     */
    enum ReportSeverity
    {
+      /**
+       * INFO
+       */
       INFO,
+      /**
+       * WARN
+       */
       WARNING,
+      /**
+       * FAIL
+       */
       ERROR
    }
 
@@ -46,8 +55,17 @@ public interface Report extends Comparable<Report>
     */
    enum ReportStatus
    {
+       /**
+        * GREEN
+        */
       GREEN,
+      /**
+       * YELLOW
+       */
       YELLOW,
+      /**
+       * READ
+       */
       RED
    }
 

@@ -425,12 +425,7 @@ public abstract class AbstractReport implements Report
     */
    protected boolean isFiltered()
    {
-      if (null != filterImpl)
-      {
-         return filterImpl.isFiltered();
-      }
-
-      return false;
+      return null != filterImpl && filterImpl.isFiltered();
    }
 
    /**
@@ -440,12 +435,7 @@ public abstract class AbstractReport implements Report
     */
    protected boolean isFiltered(String archive)
    {
-      if (null != filterImpl)
-      {
-         return filterImpl.isFiltered(archive);
-      }
-
-      return false;
+      return null != filterImpl && filterImpl.isFiltered(archive);
    }
 
    /**
@@ -456,12 +446,7 @@ public abstract class AbstractReport implements Report
     */
    protected boolean isFiltered(String archive, String query)
    {
-      if (null != filterImpl)
-      {
-         return filterImpl.isFiltered(archive, query);
-      }
-
-      return false;
+      return null != filterImpl && filterImpl.isFiltered(archive, query);
    }
 
    /**

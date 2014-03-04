@@ -57,8 +57,7 @@ public class WarReport extends NestableReport
    public WarReport(NestableArchive archive, int depth)
    {
       super(archive.getType().toString(), ReportSeverity.INFO, archive);
-      final StringBuffer sb = new StringBuffer(archive.getName());
-      setFilename(sb.append(".html").toString());
+      setFilename(archive.getName() + ".html");
       this.depth = depth;
    }
 

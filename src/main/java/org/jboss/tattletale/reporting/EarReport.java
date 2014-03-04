@@ -43,8 +43,7 @@ public class EarReport extends NestableReport
    public EarReport(NestableArchive archive)
    {
       super(archive.getType().toString(), ReportSeverity.INFO, archive);
-      final StringBuffer sb = new StringBuffer(archive.getName());
-      setFilename(sb.append(".html").toString());
+      setFilename(archive.getName() + ".html");
    }
 
    /**

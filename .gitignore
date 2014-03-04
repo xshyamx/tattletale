@@ -1,6 +1,6 @@
 # Ignore files created by IntelliJ Idea IDE
 .idea/
-src/main/Main.iml
+*.iml
 
 # Ignore Eclipse IDE
 .checkstyle

@@ -165,7 +165,6 @@ public class Configuration
             final ClassLoader cl = Configuration.class.getClassLoader();
             is = cl.getResourceAsStream(key);
             properties.load(is);
-            loaded = true;
          }
          catch (IOException ioe)
          {

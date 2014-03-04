@@ -313,12 +313,8 @@ public class GraphvizReport extends CLSReport
 
          proc.waitFor();
 
-         if (0 != proc.exitValue())
-         {
-            return false;
-         }
+          return 0 == proc.exitValue();
 
-         return true;
       }
       catch (InterruptedException ie)
       {
@@ -366,12 +362,8 @@ public class GraphvizReport extends CLSReport
 
          proc.waitFor();
 
-         if (0 != proc.exitValue())
-         {
-            return false;
-         }
+         return 0 == proc.exitValue();
 
-         return true;
       }
       catch (InterruptedException ie)
       {

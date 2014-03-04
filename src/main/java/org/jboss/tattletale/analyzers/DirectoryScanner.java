@@ -159,7 +159,7 @@ public class DirectoryScanner
                {
                   for (String exclude : excludes)
                   {
-                     if (file.getName().equals(exclude) || file.getAbsolutePath().indexOf(exclude) != -1)
+                     if (file.getName().equals(exclude) || file.getAbsolutePath().contains(exclude))
                      {
                         include = false;
                         break;

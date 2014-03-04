@@ -109,7 +109,7 @@ public class Extractor
       }
 
       if (fileName.indexOf(':') != -1 &&
-          System.getProperty("os.name").toLowerCase(Locale.US).indexOf("windows") != -1)
+          System.getProperty("os.name").toLowerCase(Locale.US).contains("windows"))
       {
          fileName = fileName.substring(fileName.indexOf(':') + 1);
       }

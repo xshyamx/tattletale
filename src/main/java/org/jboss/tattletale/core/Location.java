@@ -100,7 +100,7 @@ public class Location implements Serializable, Comparable<Location>
       final Location loc = (Location) obj;
 
       return filename.equals(loc.getFilename())
-         && ((null != version) ? version.equals(loc.getVersion()) : true);
+         && ((null == version) || version.equals(loc.getVersion()));
    }
 
    /**

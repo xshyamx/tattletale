@@ -865,7 +865,6 @@ public class Main
          {
             fis = new FileInputStream("jboss-tattletale-filter.properties");
             properties.load(fis);
-            loaded = true;
          }
          catch (IOException ioe)
          {

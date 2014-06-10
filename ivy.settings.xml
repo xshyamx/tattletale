@@ -23,7 +23,7 @@
   <!-- defaults -->
   <property name="version.ant" value="1.6.5"/>
   <property name="version.maven" value="2.0"/>
-  <property name="version.javassist" value="3.17.1-GA"/>
+  <property name="version.javassist" value="3.18.2-GA"/>
   <settings defaultResolver="default"/>
   <caches defaultCacheDir="${user.home}/.ivy2/cache"
           artifactPattern="[organisation]/[module]/[type]s/[artifact]-[revision](-[classifier]).[ext]"/>

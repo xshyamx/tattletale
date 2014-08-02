@@ -18,14 +18,14 @@ builds HTML reports that
 Command line invocation
 -----------------------
 
-java -jar tattletale.jar [-title=\<title>] [-components[=\<regex>]] [-exclude=\<excludes>] \<input>[#\<input>]* [\<output-directory>]
+	java -jar tattletale.jar [-title=<title>] [-components[=<regex>]] [-exclude=<excludes>] <input>[#<input>] [<output-directory>]
 
-* -title puts *\<title>* on report index page
-* -components performs analysis of nested archives (ear, war, rar) on
-   a component level; *\<regex>* groups class files in classes
-   directory by matching paths, for instance, "com|org/\w+"
-* -exclude removes archives with names or paths matching
-   comma-separated list *\<excludes>* from analysis
-* *\<input>* must be an archive or a directory containing Java archives
+* `-title` puts `<title>` on report index page
+* `-components` performs analysis of nested archives (ear, war, rar) on
+   a component level; `<regex>` groups class files in classes
+   directory by matching paths, for instance, `com|org/\w+`
+* `-exclude` removes archives with names or paths matching
+   comma-separated list `<excludes>` from analysis
+* `<input>` must be an archive or a directory containing Java archives
 
-If *\<output-directory>* is not provided, current directory is used.
+If `<output-directory` is not provided, current directory is used.

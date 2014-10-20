@@ -56,6 +56,9 @@ public class GraphvizReport extends CLSReport
    /** Path to the dot application */
    private String graphvizDot;
 
+   /** Path to the tred application */
+   private String graphvizTred;
+
    /** dot application output format */
    private String convertDotToPic;
 
@@ -77,6 +80,7 @@ public class GraphvizReport extends CLSReport
    {
       enableDot = Boolean.valueOf(config.getProperty("enableDot", "true"));
       graphvizDot = config.getProperty("graphvizDot", "dot");
+      graphvizTred = config.getProperty("graphvizTred", "tred");
       convertDotToPic = config.getProperty("convertDotToPic", "svg");
    }
 
@@ -94,6 +98,12 @@ public class GraphvizReport extends CLSReport
       {
          bw.write("&nbsp;");
          bw.write("(<a href=\"dependencies." + convertDotToPic + "\">." + convertDotToPic + "</a>)");
+      }
+      bw.write("&nbsp;|&nbsp;<a href=\"reduced.dot\">All dependencies (reduced transitively)</a>");
+      if (hasDot)
+      {
+         bw.write("&nbsp;");
+         bw.write("(<a href=\"reduced." + convertDotToPic + "\">." + convertDotToPic + "</a>)");
       }
 
       bw.write(Dump.newLine() + "<table>" + Dump.newLine());
@@ -250,6 +260,9 @@ public class GraphvizReport extends CLSReport
       if (enableDot && hasDot)
       {
          generatePicture(alldotName, getOutputDirectory());
+         String reducedName = alldotName.replace("dependencies.", "reduced.");
+         reduceGraph(alldotName, reducedName, getOutputDirectory());
+         generatePicture(reducedName, getOutputDirectory());
       }
 
       bw.write("</table>" + Dump.newLine());
@@ -313,8 +326,7 @@ public class GraphvizReport extends CLSReport
 
          proc.waitFor();
 
-          return 0 == proc.exitValue();
-
+         return 0 == proc.exitValue();
       }
       catch (InterruptedException ie)
       {
@@ -359,6 +371,57 @@ public class GraphvizReport extends CLSReport
             System.err.println(line);
          }
          */
+
+         proc.waitFor();
+
+         return 0 == proc.exitValue();
+
+      }
+      catch (InterruptedException ie)
+      {
+         Thread.interrupted();
+      }
+      catch (IOException ioe)
+      {
+         System.err.println(ioe.getMessage());
+      }
+
+      return false;
+   }
+
+   /**
+    * Reduce graph
+    * @param dotName     The .dot file name
+    * @param reducedName The .dot file name for reduced graph
+    * @param directory   The working directory
+    * @return boolean
+    */
+   private boolean reduceGraph(String dotName, String reducedName, File directory)
+   {
+      try
+      {
+         ProcessBuilder pb = new ProcessBuilder();
+         pb = pb.command(graphvizTred, dotName);
+         pb = pb.directory(directory);
+
+         final Process proc = pb.redirectErrorStream(false).start();
+
+         final BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+         final FileWriter redfw = new FileWriter(reducedName);
+         final BufferedWriter redw = new BufferedWriter(redfw, 8192);
+         for (String line; (line = out.readLine()) != null; )
+         {
+            redw.write(line);
+         }
+         out.close();
+         redw.flush();
+         redw.close();
+
+         final BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+         for (String line; (line = err.readLine()) != null;)
+         {
+            System.err.println(line);
+         }
 
          proc.waitFor();
 

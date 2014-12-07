@@ -260,7 +260,7 @@ public class GraphvizReport extends CLSReport
       if (enableDot && hasDot)
       {
          generatePicture(alldotName, getOutputDirectory());
-         String reducedName = alldotName.replace("dependencies.", "reduced.");
+         final String reducedName = alldotName.replace("dependencies.", "reduced.");
          reduceGraph(alldotName, reducedName, getOutputDirectory());
          generatePicture(reducedName, getOutputDirectory());
       }

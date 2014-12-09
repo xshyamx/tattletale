@@ -411,7 +411,7 @@ public class GraphvizReport extends CLSReport
          final BufferedWriter redw = new BufferedWriter(redfw, 8192);
          for (String line; (line = out.readLine()) != null; )
          {
-            redw.write(line);
+            redw.write(line + Dump.newLine());
          }
          out.close();
          redw.flush();

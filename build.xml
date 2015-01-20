@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project name="jboss-tattletale" 
-         default="dist" 
+<project name="jboss-tattletale"
+         default="dist"
          basedir="."
          xmlns:ivy="antlib:org.apache.ivy.ant">
 
@@ -41,14 +41,14 @@
     <property name="tattletale-tools-sources.jar" value="tattletale-tools-sources.jar"/>
     <property name="tattletale-tools-javadoc.jar" value="tattletale-tools-javadoc.jar"/>
 
-    <!-- ================================= 
-         Repositories              
+    <!-- =================================
+         Repositories
          ================================= -->
     <property name="central.repo" value="http://repo1.maven.org/maven2"/>
     <property name="jboss.repo" value="http://repository.jboss.org/nexus/content/groups/public/"/>
     <property name="snapshots.repo" value="http://snapshots.jboss.org/maven2"/>
-  
-    <!-- ================================= 
+
+    <!-- =================================
          Maven repository settings
          ================================= -->
     <property name="mavensettings" value="$HOME/.m2/settings.xml"/>
@@ -63,20 +63,21 @@
     </condition>
     <property name="repositoryid" value="jboss-releases"/>
 
-    <!-- ================================= 
-         Ivy              
+    <!-- =================================
+         Ivy
          ================================= -->
     <property name="ivy.version" value="2.4.0"/>
     <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
     <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
-    
-    <!-- ================================= 
-         Versions              
+    <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
+
+    <!-- =================================
+         Versions
          ================================= -->
     <property name="version.ant" value="1.6.5"/>
     <property name="version.javassist" value="3.19.0-GA"/>
     <property name="version.maven" value="2.0"/>
-    
+
     <!-- =================================================================== -->
     <!-- Define the class path                                               -->
     <!-- =================================================================== -->
@@ -105,31 +106,33 @@
         </fileset>
     </path>
 
-    <!-- ================================= 
+    <!-- =================================
          Bootstrap Ivy
          ================================= -->
-    <mkdir dir="${ivy.dir}"/>
-    <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}" 
-         skipexisting="true"
-         dest="${ivy.dir}/${ivy.jar.name}"/>
-    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.dir}/${ivy.jar.name}"/>
-    
+    <target name="get.ivy" unless="has.ivy">
+        <mkdir dir="${ivy.dir}"/>
+        <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
+             skipexisting="true"
+             dest="${ivy.dir}/${ivy.jar.name}"/>
+    </target>
+
     <!-- =================================================================== -->
     <!-- Initialize                                                          -->
     <!-- =================================================================== -->
-    <target name="init">
+    <target name="init" depends="get.ivy">
+       <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.dir}/${ivy.jar.name}"/>
        <ivy:settings file="${basedir}/ivy.settings.xml"/>
     </target>
 
-    <!-- ================================= 
-         Target: resolve              
+    <!-- =================================
+         Target: resolve
          ================================= -->
     <target name="resolve" depends="init">
-       <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]" 
+       <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]"
                      conf="core"
                      sync="true"/>
     </target>
-  
+
     <!-- =================================================================== -->
     <!-- Prepares the directory structure                                    -->
     <!-- =================================================================== -->
@@ -251,7 +254,7 @@
       <jar destfile="${dist.dir}/${tattletale-maven-sources.jar}"
            basedir="${src.java.dir}"
            includes="**/maven/*.java"/>
-      
+
       <mkdir dir="${build.dir}/artifact-javadoc"/>
       <javadoc destdir="${build.dir}/artifact-javadoc"
                author="true"
@@ -398,22 +401,22 @@
         <tar destfile="${name}-${major}.${minor}.${patch}.${type}.tar"
              basedir="${build.dir}"/>
 
-        <gzip zipfile="${name}-${major}.${minor}.${patch}.${type}.tar.gz" 
+        <gzip zipfile="${name}-${major}.${minor}.${patch}.${type}.tar.gz"
               src="${name}-${major}.${minor}.${patch}.${type}.tar"/>
 
         <delete file="${name}-${major}.${minor}.${patch}.${type}.tar"/>
     </target>
 
-    <!-- ================================= 
+    <!-- =================================
          Target: checkstyle
          ================================= -->
     <target name="checkstyle" depends="jars">
       <taskdef name="checkstyle"
                classname="com.puppycrawl.tools.checkstyle.CheckStyleTask"
                classpathref="checkstyle.class.path"/>
-      
+
       <mkdir dir="${reports.dir}/checkstyle" />
-      
+
       <checkstyle config="${tools.dir}/checkstyle/checkstyle.xml"
                   failOnViolation="false"
                   classpathref="checkstyle.class.path">
@@ -442,14 +445,14 @@
         <delete file="${name}-${major}.${minor}.${patch}.${type}.tar.gz"/>
     </target>
 
-    <!-- ================================= 
-         Target: clean-cache              
+    <!-- =================================
+         Target: clean-cache
          ================================= -->
     <target name="clean-cache">
        <ivy:cleancache />
     </target>
 
-  <!-- ================================= 
+  <!-- =================================
        Target: nexus
        ================================= -->
   <macrodef name="deploy-file">
@@ -475,7 +478,7 @@ mvn install:install-file -Dfile=$PWD/@{artifact}.@{extension} -DpomFile=@{artifa
   </macrodef>
 
   <target name="nexus" depends="clean,artifacts">
-    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]" 
+    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]"
                   conf="${name},${name}-ant,${name}-maven"
                   sync="true"/>
 
@@ -495,9 +498,9 @@ VERSION=${version}
 
     <!-- tattletale -->
     <delete file="${dist.dir}/${name}.xml"/>
-    <ivy:makepom artifactName="${name}" 
+    <ivy:makepom artifactName="${name}"
                  conf="${name}"
-                 ivyfile="${basedir}/ivy.xml" 
+                 ivyfile="${basedir}/ivy.xml"
                  pomfile="${dist.dir}/${name}.xml"
                  headerFile="${basedir}/maven/HEADER"
                  templatefile="${basedir}/maven/pom.template"
@@ -510,9 +513,9 @@ VERSION=${version}
 
     <!-- tattletale-ant -->
     <delete file="${dist.dir}/${name}-ant.xml"/>
-    <ivy:makepom artifactName="${name}-ant" 
+    <ivy:makepom artifactName="${name}-ant"
                  conf="${name}-ant"
-                 ivyfile="${basedir}/ivy.xml" 
+                 ivyfile="${basedir}/ivy.xml"
                  pomfile="${dist.dir}/${name}-ant.xml"
                  headerFile="${basedir}/maven/HEADER"
                  templatefile="${basedir}/maven/pom.template"
@@ -526,9 +529,9 @@ VERSION=${version}
 
     <!-- tattletale-maven -->
     <delete file="${dist.dir}/${name}-maven.xml"/>
-    <ivy:makepom artifactName="${name}-maven" 
+    <ivy:makepom artifactName="${name}-maven"
                  conf="${name}-maven"
-                 ivyfile="${basedir}/ivy.xml" 
+                 ivyfile="${basedir}/ivy.xml"
                  pomfile="${dist.dir}/${name}-maven.xml"
                  headerFile="${basedir}/maven/HEADER"
                  templatefile="${basedir}/maven/pom.template"

@@ -263,7 +263,7 @@
                doctitle="JBoss Tattletale"
                use="true"
                classpathref="class.path"
-               bottom="Copyright &#169; 2011 JBoss (http://www.jboss.com/)">
+               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
         <packageset dir="${build.dir}" defaultexcludes="yes"/>
         <packageset dir="src/main/java" defaultexcludes="yes">
           <exclude name="**/ant/**"/>
@@ -283,7 +283,7 @@
                doctitle="JBoss Tattletale"
                use="true"
                classpathref="class.path"
-               bottom="Copyright &#169; 2011 JBoss (http://www.jboss.com/)">
+               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
         <packageset dir="${build.dir}" defaultexcludes="yes"/>
         <packageset dir="src/main/java" defaultexcludes="yes">
           <include name="**/ant/**"/>
@@ -303,7 +303,7 @@
                doctitle="JBoss Tattletale"
                use="true"
                classpathref="class.path"
-               bottom="Copyright &#169; 2011 JBoss (http://www.jboss.com/)">
+               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
         <packageset dir="${build.dir}" defaultexcludes="yes"/>
         <packageset dir="src/main/java" defaultexcludes="yes">
           <include name="**/maven/**"/>
@@ -331,7 +331,7 @@
                  doctitle="JBoss Tattletale"
                  use="true"
                  classpathref="class.path"
-                 bottom="Copyright &#169; 2011 JBoss (http://www.jboss.com/)">
+                 bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
              <link offline="true" href="http://java.sun.com/j2se/1.5/docs/api/" packagelistLoc="${java.home}/../docs/api"/>
         </javadoc>
         <ant dir="doc/userguide" target="pdf"/>

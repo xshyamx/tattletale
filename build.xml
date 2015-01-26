@@ -28,6 +28,9 @@
     </condition>
     <property name="version" value="${major}.${minor}.${patch}.${type}"/>
 
+    <property name="java.target" value="1.6"/>
+	<property name="java.api.doc" value="http://docs.oracle.com/javase/6/docs/api/"/>
+
     <property name="tattletale.jar" value="tattletale.jar"/>
     <property name="tattletale-sources.jar" value="tattletale-sources.jar"/>
     <property name="tattletale-javadoc.jar" value="tattletale-javadoc.jar"/>
@@ -164,8 +167,8 @@
             debug="on"
             deprecation="on"
             optimize="off"
-            source="1.5"
-            target="1.5"
+            source="${java.target}"
+            target="${java.target}"
             includeantruntime="false"
             >
             <src path="${build.dir}"/>
@@ -177,8 +180,8 @@
             debug="on"
             deprecation="on"
             optimize="off"
-            source="1.5"
-            target="1.5"
+            source="${java.target}"
+            target="${java.target}"
             includeantruntime="false"
             >
             <src path="${src.java.dir}"/>
@@ -269,7 +272,7 @@
           <exclude name="**/ant/**"/>
           <exclude name="**/maven/**"/>
         </packageset>
-        <link offline="true" href="http://java.sun.com/j2se/1.5/docs/api/" packagelistLoc="${java.home}/../docs/api"/>
+        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
       </javadoc>
       <jar destfile="${dist.dir}/${tattletale-javadoc.jar}"
            basedir="${build.dir}/artifact-javadoc"/>
@@ -288,7 +291,7 @@
         <packageset dir="src/main/java" defaultexcludes="yes">
           <include name="**/ant/**"/>
         </packageset>
-        <link offline="true" href="http://java.sun.com/j2se/1.5/docs/api/" packagelistLoc="${java.home}/../docs/api"/>
+        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
       </javadoc>
       <jar destfile="${dist.dir}/${tattletale-ant-javadoc.jar}"
            basedir="${build.dir}/artifact-javadoc"
@@ -308,7 +311,7 @@
         <packageset dir="src/main/java" defaultexcludes="yes">
           <include name="**/maven/**"/>
         </packageset>
-        <link offline="true" href="http://java.sun.com/j2se/1.5/docs/api/" packagelistLoc="${java.home}/../docs/api"/>
+        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
       </javadoc>
       <jar destfile="${dist.dir}/${tattletale-maven-javadoc.jar}"
            basedir="${build.dir}/artifact-javadoc"
@@ -332,7 +335,7 @@
                  use="true"
                  classpathref="class.path"
                  bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
-             <link offline="true" href="http://java.sun.com/j2se/1.5/docs/api/" packagelistLoc="${java.home}/../docs/api"/>
+             <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
         </javadoc>
         <ant dir="doc/userguide" target="pdf"/>
         <ant dir="doc/developerguide" target="pdf"/>

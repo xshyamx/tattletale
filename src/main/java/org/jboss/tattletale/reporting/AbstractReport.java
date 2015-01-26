@@ -578,7 +578,7 @@ public abstract class AbstractReport implements Report
       {
          joiner = "";
       }
-      final StringBuffer list = new StringBuffer();
+      final StringBuilder list = new StringBuilder();
       for (String m : input)
       {
          list.append(m).append(joiner);

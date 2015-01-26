@@ -235,7 +235,6 @@ public class JarReport extends ArchiveReport
    /**
     * write out the header of the report's content
     * @return String
-    * @throws IOException if an error occurs
     */
    private String getFilename()
    {

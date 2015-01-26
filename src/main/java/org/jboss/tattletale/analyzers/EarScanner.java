@@ -358,7 +358,7 @@ public class EarScanner extends AbstractScanner
          }
          if (null == classVersion)
          {
-            classVersion = Integer.valueOf(0);
+            classVersion = 0;
          }
 
          earArchive = new EarArchive(name, classVersion, lManifest, lSign, requires, provides,

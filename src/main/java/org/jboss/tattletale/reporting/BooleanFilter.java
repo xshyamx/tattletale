@@ -44,7 +44,7 @@ public class BooleanFilter implements Filter
     */
    public boolean isFiltered()
    {
-      return booleanFilter.booleanValue();
+      return booleanFilter;
    }
 
    /**

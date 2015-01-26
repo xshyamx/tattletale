@@ -190,7 +190,7 @@ public abstract class Archive implements Serializable, Comparable<Archive>
    {
       if (null != manifest)
       {
-         final StringBuffer value = new StringBuffer();
+         final StringBuilder value = new StringBuilder();
          boolean found = false;
 
          for (String s : manifest)
@@ -330,7 +330,7 @@ public abstract class Archive implements Serializable, Comparable<Archive>
          initOSGi();
       }
 
-      return osgi.booleanValue();
+      return osgi;
    }
 
    /**
@@ -402,7 +402,7 @@ public abstract class Archive implements Serializable, Comparable<Archive>
     */
    public String toString()
    {
-      final StringBuffer sb = new StringBuffer();
+      final StringBuilder sb = new StringBuilder();
       final String newline = System.getProperty("line.separator");
 
       sb.append(getClass().getName()).append('(').append(newline);

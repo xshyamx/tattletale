@@ -340,7 +340,7 @@ public class WarScanner extends AbstractScanner
          }
          if (null == classVersion)
          {
-            classVersion = Integer.valueOf(0);
+            classVersion = 0;
          }
 
          warArchive = new WarArchive(name, classVersion, lManifest, lSign, requires, provides,

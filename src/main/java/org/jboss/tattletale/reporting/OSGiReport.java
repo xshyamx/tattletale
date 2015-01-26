@@ -333,7 +333,7 @@ public class OSGiReport extends AbstractReport
          osgiInformation.add("Bundle-Description: " + bundleDescription);
 
          final String bName = archive.getName().substring(0, archive.getName().lastIndexOf('.'));
-         final StringBuffer bundleName = new StringBuffer();
+         final StringBuilder bundleName = new StringBuilder();
          for (char c : bName.toCharArray())
          {
             if ('\n' != c && '\r' != c && ' ' != c)
@@ -347,7 +347,7 @@ public class OSGiReport extends AbstractReport
          final String bundleVersion = getOSGiVersion(location.getVersion());
          osgiInformation.add("Bundle-Version: " + bundleVersion);
 
-         final StringBuffer exportPackage = new StringBuffer();
+         final StringBuilder exportPackage = new StringBuilder();
          for (String ep : exportPackages.keySet())
          {
             exportPackage.append(ep);
@@ -365,7 +365,7 @@ public class OSGiReport extends AbstractReport
             osgiInformation.add("Export-Package: " + exportPackage.toString());
          }
 
-         final StringBuffer importPackage = new StringBuffer();
+         final StringBuilder importPackage = new StringBuilder();
          for (Map.Entry<String, String> entry : importPackages.entrySet())
          {
             importPackage.append(entry.getKey());

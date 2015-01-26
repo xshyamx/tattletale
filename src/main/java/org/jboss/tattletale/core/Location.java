@@ -127,7 +127,7 @@ public class Location implements Serializable, Comparable<Location>
     */
    public String toString()
    {
-      final StringBuffer sb = new StringBuffer();
+      final StringBuilder sb = new StringBuilder();
       final String newline = System.getProperty("line.separator");
 
       sb.append(getClass().getName()).append('(').append(newline);

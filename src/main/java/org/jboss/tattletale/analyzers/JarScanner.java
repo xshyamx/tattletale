@@ -175,7 +175,7 @@ public class JarScanner extends AbstractScanner
 
          if (null == classVersion)
          {
-            classVersion = Integer.valueOf(0);
+            classVersion = 0;
          }
 
          archive = new JarArchive(name, classVersion, lManifest, lSign, requires, provides,

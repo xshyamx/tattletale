@@ -12,7 +12,7 @@
     <property name="src.dir" value="${basedir}/src"/>
     <property name="src.main.dir" value="${src.dir}/main"/>
     <property name="src.java.dir" value="${src.main.dir}/java"/>
-    <property name="etc.dir" value="${src.dir}/etc"/>
+    <property name="etc.dir" value="${src.main.dir}/resources"/>
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="reports.dir" value="${basedir}/reports"/>
     <property name="tools.dir" value="${basedir}/tools"/>
@@ -199,14 +199,14 @@
                <include name="**/*.css"/>
             </fileset>
         </copy>
-        <copy todir="${build.dir}/org/jboss/tattletale/ant">
+        <copy todir="${build.dir}">
             <fileset dir="${etc.dir}">
-               <include name="antlib.xml"/>
+               <include name="**/antlib.xml"/>
             </fileset>
         </copy>
-        <copy todir="${build.dir}/META-INF/maven">
+        <copy todir="${build.dir}">
             <fileset dir="${etc.dir}">
-               <include name="plugin.xml"/>
+               <include name="**/plugin.xml"/>
             </fileset>
             <filterset>
               <filter token="VERSION.TATTLETALE" value="${version}"/>
@@ -214,26 +214,26 @@
         </copy>
         <jar destfile="${dist.dir}/${tattletale.jar}"
              basedir="${build.dir}"
-             manifest="${etc.dir}/core-manifest.mf"
+             manifest="${etc.dir}/META-INF/core-manifest.mf"
              includes="org/jboss/tattletale/**,**/*.properties,**/*.clz,**/*.clz.gz,**/*.css"
              excludes="**/ant/**,**/maven/**,**/tools/**,**/*.java"/>
 
         <jar destfile="${dist.dir}/${tattletale-ant.jar}"
              basedir="${build.dir}"
-             manifest="${etc.dir}/ant-manifest.mf"
+             manifest="${etc.dir}/META-INF/ant-manifest.mf"
              includes="org/jboss/tattletale/ant/**"
              excludes="**/*.java"/>
 
         <jar destfile="${dist.dir}/${tattletale-maven.jar}"
              basedir="${build.dir}"
-             manifest="${etc.dir}/maven-manifest.mf"
+             manifest="${etc.dir}/META-INF/maven-manifest.mf"
              includes="org/jboss/tattletale/maven/**,META-INF/**"
              excludes="**/*.java">
         </jar>
 
         <jar destfile="${dist.dir}/${tattletale-tools.jar}"
              basedir="${build.dir}"
-             manifest="${etc.dir}/tools-manifest.mf"
+             manifest="${etc.dir}/META-INF/tools-manifest.mf"
              includes="org/jboss/tattletale/tools/**,META-INF/**"
              excludes="**/*.java">
         </jar>

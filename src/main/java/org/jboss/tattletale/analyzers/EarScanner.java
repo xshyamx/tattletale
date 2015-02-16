@@ -149,7 +149,7 @@ public class EarScanner extends AbstractScanner
       final List<Archive> subArchiveList = new ArrayList<Archive>();
       final ArchiveScanner jarScanner = new JarScanner();
       final ArchiveScanner warScanner = (null == bundlePattern) ? new WarScanner(extractPattern) :
-         new WarScanner(extractPattern, pattern);
+          new WarScanner(extractPattern, pattern);
       JarFile earFile = null;
       final String name = ear.getName();
       try
@@ -185,7 +185,7 @@ public class EarScanner extends AbstractScanner
                }
 
                ClassScanner cs = (!classBundles.isEmpty() && classBundles.containsKey(bundleName)) ?
-                  classBundles.get(bundleName) : new ClassScanner(bundleName);
+                   classBundles.get(bundleName) : new ClassScanner(bundleName);
 
                try
                {

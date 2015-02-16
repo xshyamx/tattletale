@@ -559,7 +559,7 @@ public class Main
             if (reportMap.containsKey(token))
             {
                System.err.println("Please adjust the configuration: " + token + " is now called "
-                  + reportMap.get(token));
+                   + reportMap.get(token));
                token = reportMap.get(token);
             }
             reportSet.add(token);
@@ -655,7 +655,7 @@ public class Main
       for (File file : fileList)
       {
          ArchiveScanner scanner = (analyzeComponents) ? analyzer.getScanner(file, extractPattern, bundlePattern) :
-            analyzer.getScanner(file, extractPattern);
+             analyzer.getScanner(file, extractPattern);
 
          if (null != scanner)
          {
@@ -757,7 +757,7 @@ public class Main
             ClassLoader cl = Main.class.getClassLoader();
             String reportName = config.getProperty(keyString);
             Class<? extends Report> customReportClass =
-               (Class<? extends Report>) Class.forName(reportName, true, cl);
+                (Class<? extends Report>) Class.forName(reportName, true, cl);
             addCustomReport(customReportClass);
             index++;
             keyString = "customreport." + index;

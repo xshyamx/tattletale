@@ -176,7 +176,7 @@ public class WarScanner extends AbstractScanner
                }
 
                ClassScanner cs = (!classBundles.isEmpty() && classBundles.containsKey(bundleName)) ?
-                  classBundles.get(bundleName) : new ClassScanner(bundleName);
+                   classBundles.get(bundleName) : new ClassScanner(bundleName);
 
                try
                {

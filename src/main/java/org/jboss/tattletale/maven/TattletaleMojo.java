@@ -28,9 +28,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Base abstract class for TattleTale Maven Mojo
+ * Base abstract class for Tattletale Maven Mojo
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public abstract class TattletaleMojo extends AbstractMojo
 {

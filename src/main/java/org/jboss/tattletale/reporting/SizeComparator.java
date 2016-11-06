@@ -27,7 +27,7 @@ import java.util.Comparator;
 /**
  * Size comparator
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 @SuppressWarnings("serial")
 public class SizeComparator implements Comparator<String>, Serializable

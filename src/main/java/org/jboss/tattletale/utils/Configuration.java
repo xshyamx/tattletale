@@ -29,7 +29,7 @@ import java.util.Properties;
 /**
  * Helper class for handling configuration
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Configuration
 {

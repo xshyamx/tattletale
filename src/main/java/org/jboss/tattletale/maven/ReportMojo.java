@@ -26,9 +26,9 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.jboss.tattletale.Main;
 
 /**
- * Implementation class for TattleTale Report Maven Mojo
+ * Implementation class for Tattletale Report Maven Mojo
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class ReportMojo extends TattletaleMojo
 {

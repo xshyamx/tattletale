@@ -28,7 +28,7 @@ import org.jboss.tattletale.core.ArchiveType;
 /**
  * Spring 2.5
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Spring25 extends AbstractProfile
 {

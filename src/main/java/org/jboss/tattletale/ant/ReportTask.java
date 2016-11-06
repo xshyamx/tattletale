@@ -30,10 +30,10 @@ import org.apache.tools.ant.BuildException;
 import org.jboss.tattletale.Main;
 
 /**
- * Implementation class for TattleTale Report Ant Task
+ * Implementation class for Tattletale Report Ant Task
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
- * @author Jay Balunas jbalunas@jboss.org
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
+ * @author <a href="mailto:jbalunas@jboss.org">Jay Balunas</a>
  */
 public class ReportTask extends AbstractReportTask
 {

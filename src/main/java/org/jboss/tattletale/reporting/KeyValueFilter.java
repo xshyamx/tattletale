@@ -29,7 +29,7 @@ import java.util.TreeSet;
 /**
  * Represents a key/value filter
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class KeyValueFilter implements Filter
 {

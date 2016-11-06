@@ -24,7 +24,7 @@ package org.jboss.tattletale.reporting.classloader;
 /**
  * A classloader structure class that represents the JBoss Application Server
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public abstract class JBossASClassLoaderStructure implements ClassLoaderStructure
 {

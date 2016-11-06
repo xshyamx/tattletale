@@ -28,7 +28,7 @@ import java.util.SortedSet;
 /**
  * JAR Archive
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 @SuppressWarnings("serial")
 public class JarArchive extends Archive

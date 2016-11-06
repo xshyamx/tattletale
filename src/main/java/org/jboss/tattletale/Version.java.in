@@ -23,7 +23,7 @@ package org.jboss.tattletale;
 
 /**
  * The version class
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Version
 {

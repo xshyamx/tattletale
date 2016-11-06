@@ -34,7 +34,7 @@ import org.jboss.tattletale.core.NestableArchive;
 /**
  * Blacklisted report
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
 public class BlackListedReport extends AbstractReport
@@ -126,7 +126,7 @@ public class BlackListedReport extends AbstractReport
    /**
     * Method getBlackListedDeps.
     * @param a Archive
-    * @return SortedMap<String,SortedSet<String>>
+    * @return SortedMap&lt;String,SortedSet&lt;String&gt;&gt;
     */
    private SortedMap<String, SortedSet<String>> getBlackListedDeps(Archive a)
    {

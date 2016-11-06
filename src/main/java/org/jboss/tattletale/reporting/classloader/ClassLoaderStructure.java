@@ -26,7 +26,7 @@ import org.jboss.tattletale.core.Archive;
 /**
  * An interface that defines how the classloader structure is setup
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public interface ClassLoaderStructure
 {

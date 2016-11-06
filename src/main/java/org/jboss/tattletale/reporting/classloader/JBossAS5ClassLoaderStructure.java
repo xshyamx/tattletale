@@ -30,7 +30,7 @@ import org.jboss.tattletale.core.Location;
 /**
  * A classloader structure class that represents the JBoss Application Server 5.x
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class JBossAS5ClassLoaderStructure extends JBossASClassLoaderStructure
 {

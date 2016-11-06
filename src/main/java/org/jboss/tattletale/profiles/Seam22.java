@@ -28,7 +28,7 @@ import org.jboss.tattletale.core.ArchiveType;
 /**
  * Seam 2.2
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Seam22 extends AbstractProfile
 {

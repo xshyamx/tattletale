@@ -26,7 +26,7 @@ import org.jboss.tattletale.core.Archive;
 /**
  * Represents an archive report (JAR, WAR, EAR, ...)
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public abstract class ArchiveReport extends AbstractReport
 {

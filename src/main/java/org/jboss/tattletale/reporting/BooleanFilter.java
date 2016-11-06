@@ -24,7 +24,7 @@ package org.jboss.tattletale.reporting;
 /**
  * Represents a boolean filter
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class BooleanFilter implements Filter
 {

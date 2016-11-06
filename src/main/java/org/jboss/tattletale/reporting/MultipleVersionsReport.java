@@ -33,7 +33,7 @@ import org.jboss.tattletale.core.NestableArchive;
 /**
  * Eliminate JAR files with multiple versions
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
 public class MultipleVersionsReport extends AbstractReport

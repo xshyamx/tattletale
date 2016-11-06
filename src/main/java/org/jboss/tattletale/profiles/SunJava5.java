@@ -30,7 +30,7 @@ import org.jboss.tattletale.core.ArchiveType;
 /**
  * Sun: Java 5
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class SunJava5 extends AbstractProfile
 {
@@ -87,7 +87,7 @@ public class SunJava5 extends AbstractProfile
    /**
     * Method included.
     * @param allProfiles boolean
-    * @param profileSet Set<String>
+    * @param profileSet Set&lt;String&gt;
     * @return boolean
     */
    @Override

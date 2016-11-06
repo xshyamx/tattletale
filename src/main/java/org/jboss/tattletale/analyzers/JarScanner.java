@@ -47,7 +47,7 @@ import org.jboss.tattletale.profiles.Profile;
 /**
  * Java archive scanner
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @author Navin Surtani
  */
 public class JarScanner extends AbstractScanner

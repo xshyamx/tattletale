@@ -28,7 +28,7 @@ import org.jboss.tattletale.core.ArchiveType;
 /**
  * Contexts and Dependency Injection (CDI) 1.0 profile
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class CDI10 extends AbstractProfile
 {

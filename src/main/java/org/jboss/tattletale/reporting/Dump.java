@@ -35,8 +35,8 @@ import org.jboss.tattletale.Version;
 /**
  * Dump
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
- * @author Jay Balunas <jbalunas@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
+ * @author <a href="mailto:jbalunas@jboss.org">Jay Balunas</a>
  */
 public class Dump
 {
@@ -103,10 +103,10 @@ public class Dump
 
    /**
     * Method generateIndex.
-    * @param dependenciesReports SortedSet<Report>
-    * @param generalReports SortedSet<Report>
-    * @param archiveReports SortedSet<Report>
-    * @param customReports SortedSet<Report>
+    * @param dependenciesReports SortedSet&lt;Report&gt;
+    * @param generalReports SortedSet&lt;Report&gt;
+    * @param archiveReports SortedSet&lt;Report&gt;
+    * @param customReports SortedSet&lt;Report&gt;
     * @param outputDir String
     */
    @Deprecated

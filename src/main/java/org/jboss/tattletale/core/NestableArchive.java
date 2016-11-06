@@ -30,7 +30,7 @@ import java.util.SortedSet;
 /**
  * Nestable archive
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public abstract class NestableArchive extends Archive
 {

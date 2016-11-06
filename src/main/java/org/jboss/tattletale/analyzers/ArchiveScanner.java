@@ -34,7 +34,7 @@ import org.jboss.tattletale.profiles.Profile;
 
 /**
  * Interface that will be used on the top level in order to scan different archive types (.jar, .war/.rar, .ear).
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @author Navin Surtani
  */
 public interface ArchiveScanner

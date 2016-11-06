@@ -39,7 +39,7 @@ import org.jboss.tattletale.core.NestableArchive;
 /**
  * Circular dependency report
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class CircularDependencyReport extends CLSReport
 {
@@ -147,7 +147,7 @@ public class CircularDependencyReport extends CLSReport
    /**
     * Method recursivelyBuildDependsOnFromArchive.
     * @param archives Collection<Archive>
-    * @return SortedMap<String,SortedSet<String>>
+    * @return SortedMap&lt;String,SortedSet&lt;String&gt;&gt;
     */
    private SortedMap<String, SortedSet<String>> recursivelyBuildDependsOnFromArchive(Collection<Archive> archives)
    {

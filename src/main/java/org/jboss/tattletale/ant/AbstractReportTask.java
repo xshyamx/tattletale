@@ -24,10 +24,10 @@ package org.jboss.tattletale.ant;
 import org.apache.tools.ant.Task;
 
 /**
- * Base abstract class for TattleTale Report Ant Tasks
+ * Base abstract class for Tattletale Report Ant Tasks
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
- * @author Jay Balunas jbalunas@jboss.org
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
+ * @author <a href="mailto:jbalunas@jboss.org">Jay Balunas</a>
  */
 public abstract class AbstractReportTask extends Task
 {

@@ -90,9 +90,9 @@ import org.jboss.tattletale.utils.Configuration;
 /**
  * Main
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
- * @author Jay Balunas <jbalunas@jboss.org>
- * @author Mike Moore <mike.moore@amentra.com>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
+ * @author <a href="mailto:jbalunas@jboss.org">Jay Balunas</a>
+ * @author <a href="mailto:mike.moore@amentra.com">Mike Moore</a>
  * @author Navin Surtani
  */
 public class Main

@@ -170,7 +170,7 @@ public abstract class AbstractScanner implements ArchiveScanner
 
       if (null == classVersion)
       {
-         classVersion = Integer.valueOf(ctClz.getClassFile2().getMajorVersion());
+         classVersion = ctClz.getClassFile2().getMajorVersion();
       }
 
       Long serialVersionUID = null;
@@ -277,8 +277,8 @@ public abstract class AbstractScanner implements ArchiveScanner
 
    /**
     * Method addDependencies.
-    * @param allDependencies SortedMap<String,SortedSet<String>>
-    * @param bundleDependencies SortedMap<String,SortedSet<String>>
+    * @param allDependencies SortedMap&lt;String,SortedSet&lt;String&gt;&gt;
+    * @param bundleDependencies SortedMap&lt;String,SortedSet&lt;String&gt;&gt;
     * @param comment String
     */
    protected void addDependencies(final SortedMap<String, SortedSet<String>> allDependencies,

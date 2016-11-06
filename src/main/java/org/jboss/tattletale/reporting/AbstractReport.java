@@ -39,7 +39,7 @@ import org.jboss.tattletale.core.NestableArchive;
 /**
  * Represents a report
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  * @author Navin Surtani
  */
@@ -549,7 +549,7 @@ public abstract class AbstractReport implements Report
 
    /**
     * Method join.
-    * @param input SortedSet<String>
+    * @param input SortedSet&lt;String&gt;
     * @param joiner String
     * @return String
     */
@@ -564,7 +564,7 @@ public abstract class AbstractReport implements Report
 
    /**
     * Method join.
-    * @param input List<String>
+    * @param input List&lt;String&gt;
     * @param joiner String
     * @return String
     */

@@ -104,7 +104,7 @@ public class PackageDependantsReport extends CLSReport
    /**
     * Method recursivelyBuildResultFromArchive.
     * @param archives Collection<Archive>
-    * @return SortedMap<String,SortedSet<String>>
+    * @return SortedMap&lt;String,SortedSet&lt;String&gt;&gt;
     */
    private SortedMap<String, SortedSet<String>> recursivelyBuildResultFromArchive(Collection<Archive> archives)
    {

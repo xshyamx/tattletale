@@ -26,7 +26,7 @@ import org.jboss.tattletale.core.Archive;
 /**
  * A no operation classloader structure class that always returns true
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class NoopClassLoaderStructure implements ClassLoaderStructure
 {

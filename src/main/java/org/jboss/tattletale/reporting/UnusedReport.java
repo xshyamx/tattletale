@@ -29,7 +29,7 @@ import org.jboss.tattletale.core.Archive;
 /**
  * A report that shows unused JAR archives
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class UnusedReport extends AbstractReport
 {

@@ -27,7 +27,7 @@ import java.util.TreeSet;
 /**
  * Represents a key filter
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class KeyFilter implements Filter
 {

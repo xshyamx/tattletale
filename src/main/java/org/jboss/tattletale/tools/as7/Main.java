@@ -35,7 +35,7 @@ import java.util.jar.JarFile;
 /**
  * Tools to generate a profile for JBoss Application Server 7
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Main
 {

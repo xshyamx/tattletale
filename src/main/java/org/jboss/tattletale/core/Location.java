@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * Location
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public class Location implements Serializable, Comparable<Location>
 {

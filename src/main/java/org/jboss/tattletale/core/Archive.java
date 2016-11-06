@@ -30,7 +30,7 @@ import java.util.TreeSet;
 /**
  * Archive
  *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
+ * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
 public abstract class Archive implements Serializable, Comparable<Archive>
 {

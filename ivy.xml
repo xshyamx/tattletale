@@ -48,7 +48,7 @@
   </publications>
 
   <dependencies>
-    <dependency org="ant" name="ant" rev="${version.ant}" conf="core,tattletale-ant"/>
+    <dependency org="org.apache.ant" name="ant" rev="${version.ant}" conf="core,tattletale-ant"/>
     <dependency org="org.apache.maven" name="maven-plugin-api" rev="${version.maven}" conf="core,tattletale-maven"/>
     <dependency org="org.javassist" name="javassist" rev="${version.javassist}" conf="core,tattletale"/>
   </dependencies>

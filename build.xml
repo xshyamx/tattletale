@@ -21,7 +21,7 @@
     <property name="major" value="1"/>
     <property name="minor" value="2"/>
     <property name="patch" value="0"/>
-    <property name="type" value="Java5"/>
+    <property name="type" value="Java6"/>
 
     <condition property="version" value="${major}.${minor}.${patch}-SNAPSHOT">
       <isset property="snapshot"/>
@@ -77,9 +77,9 @@
     <!-- =================================
          Versions
          ================================= -->
-    <property name="version.ant" value="1.6.5"/>
-    <property name="version.javassist" value="3.19.0-GA"/>
-    <property name="version.maven" value="2.0"/>
+    <property name="version.ant" value="1.9.9"/>
+    <property name="version.javassist" value="3.22.0-GA"/>
+    <property name="version.maven" value="3.1.1"/>
 
     <!-- =================================================================== -->
     <!-- Define the class path                                               -->

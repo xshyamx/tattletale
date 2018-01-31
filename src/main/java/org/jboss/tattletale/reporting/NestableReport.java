@@ -74,29 +74,35 @@ public abstract class NestableReport extends ArchiveReport
       bw.write("    <td>Class Version</td>" + Dump.newLine());
       bw.write("    <td>");
 
-      if (ClassFile.JAVA_6 == nestableArchive.getVersion())
+      switch (nestableArchive.getVersion())
       {
-         bw.write("Java 6");
-      }
-      else if (ClassFile.JAVA_5 == nestableArchive.getVersion())
-      {
-         bw.write("Java 5");
-      }
-      else if (ClassFile.JAVA_4 == nestableArchive.getVersion())
-      {
-         bw.write("J2SE 1.4");
-      }
-      else if (ClassFile.JAVA_3 == nestableArchive.getVersion())
-      {
-         bw.write("J2SE 1.3");
-      }
-      else if (ClassFile.JAVA_2 == nestableArchive.getVersion())
-      {
-         bw.write("J2SE 1.2");
-      }
-      else if (ClassFile.JAVA_1 == nestableArchive.getVersion())
-      {
-         bw.write("JSE 1.0 / JSE 1.1");
+         case ClassFile.JAVA_9:
+            bw.write("Java 9");
+            break;
+         case ClassFile.JAVA_8:
+            bw.write("Java 8");
+            break;
+         case ClassFile.JAVA_7:
+            bw.write("Java 7");
+            break;
+         case ClassFile.JAVA_6:
+            bw.write("Java 6");
+            break;
+         case ClassFile.JAVA_5:
+            bw.write("Java 5");
+            break;
+         case ClassFile.JAVA_4:
+            bw.write("J2SE 1.4");
+            break;
+         case ClassFile.JAVA_3:
+            bw.write("J2SE 1.3");
+            break;
+         case ClassFile.JAVA_2:
+            bw.write("J2SE 1.2");
+            break;
+         case ClassFile.JAVA_1:
+            bw.write("JSE 1.0 / JSE 1.1");
+            break;
       }
 
       bw.write("    </td>" + Dump.newLine());

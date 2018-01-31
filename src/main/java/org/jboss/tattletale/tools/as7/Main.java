@@ -124,9 +124,8 @@ public class Main
     * Files found; the List is sorted using File.compareTo().
     * @param aStartingDir is a valid directory, which can be read.
     * @return List<File>
-    * @throws Exception
     */
-   private static List<File> getFileListing(File aStartingDir) throws Exception
+   private static List<File> getFileListing(File aStartingDir)
    {
       final List<File> result = getFileListingNoSort(aStartingDir);
       Collections.sort(result);
@@ -137,9 +136,8 @@ public class Main
     * Method getFileListingNoSort.
     * @param aStartingDir File
     * @return List<File>
-    * @throws Exception
     */
-   private static List<File> getFileListingNoSort(File aStartingDir) throws Exception
+   private static List<File> getFileListingNoSort(File aStartingDir)
    {
       final List<File> result = new ArrayList<File>();
 

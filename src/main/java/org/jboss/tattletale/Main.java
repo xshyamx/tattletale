@@ -533,8 +533,7 @@ public class Main
 
       if (null != excludes)
       {
-         excludeSet = new HashSet<String>();
-         excludeSet.addAll(parseExcludes(excludes));
+         excludeSet = new HashSet<String>(parseExcludes(excludes));
       }
 
       boolean allReports = false;
@@ -1230,7 +1229,7 @@ public class Main
       void addReport(Class<? extends Report> reportDef) throws Exception
       {
          // build report from empty constructor
-         final Report report = reportDef.getConstructor(new Class[0]).newInstance(new Object[0]);
+         final Report report = reportDef.getConstructor(new Class[0]).newInstance();
 
          // populate required report parameters
          for (Method m : reportDef.getMethods())

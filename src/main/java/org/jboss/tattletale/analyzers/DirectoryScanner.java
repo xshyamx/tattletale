@@ -22,7 +22,6 @@
 package org.jboss.tattletale.analyzers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -98,16 +97,7 @@ public class DirectoryScanner
     */
    public static List<File> scan(File file, Set<String> excludes)
    {
-      try
-      {
-         return getFileListing(file, excludes);
-      }
-      catch (IOException ioe)
-      {
-         System.err.println(ioe.getMessage());
-      }
-
-      return null;
+      return getFileListing(file, excludes);
    }
 
    /**
@@ -116,9 +106,8 @@ public class DirectoryScanner
     * @param aStartingDir is a valid directory, which can be read.
     * @param excludes     The set of excludes
     * @return The list of the files without the specific exclusions
-    * @throws IOException
     */
-   private static List<File> getFileListing(File aStartingDir, Set<String> excludes) throws IOException
+   private static List<File> getFileListing(File aStartingDir, Set<String> excludes)
    {
       final List<File> result = getFileListingNoSort(aStartingDir, excludes);
       Collections.sort(result);
@@ -130,9 +119,8 @@ public class DirectoryScanner
     * @param aStartingDir File
     * @param excludes Set<String>
     * @return List<File>
-    * @throws IOException
     */
-   private static List<File> getFileListingNoSort(File aStartingDir, Set<String> excludes) throws IOException
+   private static List<File> getFileListingNoSort(File aStartingDir, Set<String> excludes)
    {
       final List<File> result = new ArrayList<File>();
 

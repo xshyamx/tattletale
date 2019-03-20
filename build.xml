@@ -24,12 +24,12 @@
     <property name="type" value="Java6"/>
 
     <condition property="version" value="${major}.${minor}.${patch}-SNAPSHOT">
-      <isset property="snapshot"/>
+        <isset property="snapshot"/>
     </condition>
     <property name="version" value="${major}.${minor}.${patch}.${type}"/>
 
     <property name="java.target" value="1.6"/>
-	<property name="java.api.doc" value="http://docs.oracle.com/javase/6/docs/api/"/>
+    <property name="java.api.doc" value="http://docs.oracle.com/javase/6/docs/api/"/>
 
     <property name="tattletale.jar" value="tattletale.jar"/>
     <property name="tattletale-sources.jar" value="tattletale-sources.jar"/>
@@ -57,12 +57,12 @@
     <property name="mavensettings" value="$HOME/.m2/settings.xml"/>
 
     <condition property="repositoryurl" value="https://repository.jboss.org/nexus/content/repositories/snapshots/">
-      <isset property="snapshot"/>
+        <isset property="snapshot"/>
     </condition>
     <property name="repositoryurl" value="https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/"/>
 
     <condition property="repositoryid" value="jboss-snapshots">
-      <isset property="snapshot"/>
+        <isset property="snapshot"/>
     </condition>
     <property name="repositoryid" value="jboss-releases"/>
 
@@ -105,7 +105,8 @@
          ================================= -->
     <target name="get.ivy" unless="has.ivy">
         <mkdir dir="${ivy.dir}"/>
-        <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
+        <get usetimestamp="true"
+             src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
              skipexisting="true"
              dest="${ivy.dir}/${ivy.jar.name}"/>
     </target>
@@ -152,29 +153,25 @@
         </copy>
         <copy file="src/main/java/org/jboss/tattletale/package.html"
               todir="${build.dir}/org/jboss/tattletale/"/>
-        <javac
-            destdir="${build.dir}"
-            classpathref="class.path"
-            debug="on"
-            deprecation="on"
-            optimize="off"
-            source="${java.target}"
-            target="${java.target}"
-            includeantruntime="false"
-            >
+        <javac destdir="${build.dir}"
+               classpathref="class.path"
+               debug="on"
+               deprecation="on"
+               optimize="off"
+               source="${java.target}"
+               target="${java.target}"
+               includeantruntime="false">
             <src path="${build.dir}"/>
         </javac>
 
-        <javac
-            destdir="${build.dir}"
-            classpathref="class.path"
-            debug="on"
-            deprecation="on"
-            optimize="off"
-            source="${java.target}"
-            target="${java.target}"
-            includeantruntime="false"
-            >
+        <javac destdir="${build.dir}"
+               classpathref="class.path"
+               debug="on"
+               deprecation="on"
+               optimize="off"
+               source="${java.target}"
+               target="${java.target}"
+               includeantruntime="false">
             <src path="${src.java.dir}"/>
         </javac>
 
@@ -235,79 +232,79 @@
     <!-- =================================================================== -->
     <target name="artifacts" depends="jars">
 
-      <!-- Sources -->
-      <jar destfile="${dist.dir}/${tattletale-sources.jar}"
-           basedir="${src.java.dir}"
-           includes="**/*.java"
-           excludes="**/ant/**,**/maven/**"/>
+        <!-- Sources -->
+        <jar destfile="${dist.dir}/${tattletale-sources.jar}"
+             basedir="${src.java.dir}"
+             includes="**/*.java"
+             excludes="**/ant/**,**/maven/**"/>
 
-      <jar destfile="${dist.dir}/${tattletale-ant-sources.jar}"
-           basedir="${src.java.dir}"
-           includes="**/ant/*.java"/>
+        <jar destfile="${dist.dir}/${tattletale-ant-sources.jar}"
+             basedir="${src.java.dir}"
+             includes="**/ant/*.java"/>
 
-      <jar destfile="${dist.dir}/${tattletale-maven-sources.jar}"
-           basedir="${src.java.dir}"
-           includes="**/maven/*.java"/>
+        <jar destfile="${dist.dir}/${tattletale-maven-sources.jar}"
+             basedir="${src.java.dir}"
+             includes="**/maven/*.java"/>
 
-      <mkdir dir="${build.dir}/artifact-javadoc"/>
-      <javadoc destdir="${build.dir}/artifact-javadoc"
-               author="true"
-               version="true"
-               windowtitle="JBoss Tattletale"
-               doctitle="JBoss Tattletale"
-               use="true"
-               classpathref="class.path"
-               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
-        <packageset dir="${build.dir}" defaultexcludes="yes"/>
-        <packageset dir="src/main/java" defaultexcludes="yes">
-          <exclude name="**/ant/**"/>
-          <exclude name="**/maven/**"/>
-        </packageset>
-        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
-      </javadoc>
-      <jar destfile="${dist.dir}/${tattletale-javadoc.jar}"
-           basedir="${build.dir}/artifact-javadoc"/>
-      <delete dir="${build.dir}/artifact-javadoc"/>
+        <mkdir dir="${build.dir}/artifact-javadoc"/>
+        <javadoc destdir="${build.dir}/artifact-javadoc"
+                 author="true"
+                 version="true"
+                 windowtitle="JBoss Tattletale"
+                 doctitle="JBoss Tattletale"
+                 use="true"
+                 classpathref="class.path"
+                 bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
+            <packageset dir="${build.dir}" defaultexcludes="yes"/>
+            <packageset dir="src/main/java" defaultexcludes="yes">
+                <exclude name="**/ant/**"/>
+                <exclude name="**/maven/**"/>
+            </packageset>
+            <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
+        </javadoc>
+        <jar destfile="${dist.dir}/${tattletale-javadoc.jar}"
+             basedir="${build.dir}/artifact-javadoc"/>
+        <delete dir="${build.dir}/artifact-javadoc"/>
 
-      <mkdir dir="${build.dir}/artifact-javadoc"/>
-      <javadoc destdir="${build.dir}/artifact-javadoc"
-               author="true"
-               version="true"
-               windowtitle="JBoss Tattletale"
-               doctitle="JBoss Tattletale"
-               use="true"
-               classpathref="class.path"
-               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
-        <packageset dir="${build.dir}" defaultexcludes="yes"/>
-        <packageset dir="src/main/java" defaultexcludes="yes">
-          <include name="**/ant/**"/>
-        </packageset>
-        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
-      </javadoc>
-      <jar destfile="${dist.dir}/${tattletale-ant-javadoc.jar}"
-           basedir="${build.dir}/artifact-javadoc"
-           includes="**/ant/**"/>
-      <delete dir="${build.dir}/artifact-javadoc"/>
+        <mkdir dir="${build.dir}/artifact-javadoc"/>
+        <javadoc destdir="${build.dir}/artifact-javadoc"
+                 author="true"
+                 version="true"
+                 windowtitle="JBoss Tattletale"
+                 doctitle="JBoss Tattletale"
+                 use="true"
+                 classpathref="class.path"
+                 bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
+            <packageset dir="${build.dir}" defaultexcludes="yes"/>
+            <packageset dir="src/main/java" defaultexcludes="yes">
+                <include name="**/ant/**"/>
+            </packageset>
+            <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
+        </javadoc>
+        <jar destfile="${dist.dir}/${tattletale-ant-javadoc.jar}"
+             basedir="${build.dir}/artifact-javadoc"
+             includes="**/ant/**"/>
+        <delete dir="${build.dir}/artifact-javadoc"/>
 
-      <mkdir dir="${build.dir}/artifact-javadoc"/>
-      <javadoc destdir="${build.dir}/artifact-javadoc"
-               author="true"
-               version="true"
-               windowtitle="JBoss Tattletale"
-               doctitle="JBoss Tattletale"
-               use="true"
-               classpathref="class.path"
-               bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
-        <packageset dir="${build.dir}" defaultexcludes="yes"/>
-        <packageset dir="src/main/java" defaultexcludes="yes">
-          <include name="**/maven/**"/>
-        </packageset>
-        <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
-      </javadoc>
-      <jar destfile="${dist.dir}/${tattletale-maven-javadoc.jar}"
-           basedir="${build.dir}/artifact-javadoc"
-           includes="**/maven/**"/>
-      <delete dir="${build.dir}/artifact-javadoc"/>
+        <mkdir dir="${build.dir}/artifact-javadoc"/>
+        <javadoc destdir="${build.dir}/artifact-javadoc"
+                 author="true"
+                 version="true"
+                 windowtitle="JBoss Tattletale"
+                 doctitle="JBoss Tattletale"
+                 use="true"
+                 classpathref="class.path"
+                 bottom="Copyright &amp;copy; 2011 JBoss (http://www.jboss.com/)">
+            <packageset dir="${build.dir}" defaultexcludes="yes"/>
+            <packageset dir="src/main/java" defaultexcludes="yes">
+                <include name="**/maven/**"/>
+            </packageset>
+            <link offline="true" href="${java.api.doc}" packagelistLoc="${java.home}/../docs/api"/>
+        </javadoc>
+        <jar destfile="${dist.dir}/${tattletale-maven-javadoc.jar}"
+             basedir="${build.dir}/artifact-javadoc"
+             includes="**/maven/**"/>
+        <delete dir="${build.dir}/artifact-javadoc"/>
 
     </target>
 
@@ -338,25 +335,25 @@
     <target name="dist" depends="jars">
         <copy todir="${dist.dir}">
             <fileset dir="${lib.dir}/core">
-               <include name="**/*.jar"/>
-               <exclude name="**/ant.jar"/>
-               <exclude name="**/maven-plugin-api.jar"/>
+                <include name="**/*.jar"/>
+                <exclude name="**/ant.jar"/>
+                <exclude name="**/maven-plugin-api.jar"/>
             </fileset>
         </copy>
         <copy todir="${dist.dir}">
             <fileset dir="${etc.dir}">
-               <include name="**/log4j.xml"/>
+                <include name="**/log4j.xml"/>
             </fileset>
         </copy>
         <copy todir="${dist.dir}">
             <fileset dir="${etc.dir}">
-               <include name="**/*.properties"/>
+                <include name="**/*.properties"/>
             </fileset>
         </copy>
         <copy todir="${dist.dir}">
             <fileset dir="${doc.dir}">
-               <include name="*.txt"/>
-               <include name="*.html"/>
+                <include name="*.txt"/>
+                <include name="*.html"/>
             </fileset>
         </copy>
     </target>
@@ -373,9 +370,9 @@
         <mkdir dir="${build.dir}/${name}-${major}.${minor}.${patch}.${type}"/>
 
         <move flatten="true" todir="${build.dir}/${name}-${major}.${minor}.${patch}.${type}">
-          <fileset dir="${dist.dir}">
-            <include name="**/*.pdf"/>
-          </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="**/*.pdf"/>
+            </fileset>
         </move>
 
         <delete dir="${build.dir}/docbook"/>
@@ -384,8 +381,8 @@
         <move todir="${build.dir}/${name}-${major}.${minor}.${patch}.${type}"
               includeEmptyDirs="false">
             <fileset dir="${dist.dir}">
-              <include name="**/*"/>
-              <exclude name="**/${tattletale-tools.jar}"/>
+                <include name="**/*"/>
+                <exclude name="**/${tattletale-tools.jar}"/>
             </fileset>
         </move>
 
@@ -407,8 +404,7 @@
     <target name="checkstyle" depends="jars">
         <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="${version.checkstyle}"
                        inline="true" conf="default" pathid="checkstyle.class.path"/>
-        <taskdef resource="com/puppycrawl/tools/checkstyle/antlib.xml"
-                 classpathref="checkstyle.class.path"/>
+        <taskdef resource="com/puppycrawl/tools/checkstyle/antlib.xml" classpathref="checkstyle.class.path"/>
 
         <mkdir dir="${reports.dir}/checkstyle"/>
 
@@ -427,10 +423,10 @@
     <!-- =================================================================== -->
     <target name="clean">
         <delete>
-          <fileset dir="${basedir}" defaultexcludes="no">
-            <include name="**/*~" />
-            <include name="**/*.bak"/>
-          </fileset>
+            <fileset dir="${basedir}" defaultexcludes="no">
+                <include name="**/*~"/>
+                <include name="**/*.bak"/>
+            </fileset>
         </delete>
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
@@ -444,103 +440,102 @@
          Target: clean-cache
          ================================= -->
     <target name="clean-cache">
-       <ivy:cleancache />
+        <ivy:cleancache/>
     </target>
 
-  <!-- =================================
-       Target: nexus
-       ================================= -->
-  <macrodef name="deploy-file">
-    <attribute name="file"/>
-    <attribute name="artifact"/>
-    <attribute name="extension"/>
-    <sequential>
-      <concat destfile="${dist.dir}/@{file}" append="true" force="true" eol="unix">
+    <!-- =================================
+         Target: nexus
+         ================================= -->
+    <macrodef name="deploy-file">
+        <attribute name="file"/>
+        <attribute name="artifact"/>
+        <attribute name="extension"/>
+        <sequential>
+            <concat destfile="${dist.dir}/@{file}" append="true" force="true" eol="unix">
 mvn -s ${mavensettings} org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file -Dfile=$PWD/@{artifact}.@{extension} -DpomFile=@{artifact}.xml -Dsources=$PWD/@{artifact}-sources.jar -Djavadoc=$PWD/@{artifact}-javadoc.jar $REPOSITORY
 </concat>
-    </sequential>
-  </macrodef>
+        </sequential>
+    </macrodef>
 
-  <macrodef name="install-file">
-    <attribute name="file"/>
-    <attribute name="artifact"/>
-    <attribute name="extension"/>
-    <sequential>
-      <concat destfile="${dist.dir}/@{file}" append="true" force="true" eol="unix">
+    <macrodef name="install-file">
+        <attribute name="file"/>
+        <attribute name="artifact"/>
+        <attribute name="extension"/>
+        <sequential>
+            <concat destfile="${dist.dir}/@{file}" append="true" force="true" eol="unix">
 mvn install:install-file -Dfile=$PWD/@{artifact}.@{extension} -DpomFile=@{artifact}.xml -Dsources=$PWD/@{artifact}-sources.jar -Djavadoc=$PWD/@{artifact}-javadoc.jar
 </concat>
-    </sequential>
-  </macrodef>
+        </sequential>
+    </macrodef>
 
-  <target name="nexus" depends="clean,artifacts">
-    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]"
-                  conf="${name},${name}-ant,${name}-maven"
-                  sync="true"/>
+    <target name="nexus" depends="clean,artifacts">
+        <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact].[ext]"
+                      conf="${name},${name}-ant,${name}-maven"
+                      sync="true"/>
 
-    <delete file="${dist.dir}/deploy.sh"/>
-    <delete file="${dist.dir}/install.sh"/>
+        <delete file="${dist.dir}/deploy.sh"/>
+        <delete file="${dist.dir}/install.sh"/>
 
-    <concat destfile="${dist.dir}/deploy.sh" append="true" force="true" eol="unix">#!/bin/sh
+        <concat destfile="${dist.dir}/deploy.sh" append="true" force="true" eol="unix">#!/bin/sh
 PWD=`pwd`
 VERSION=${version}
 REPOSITORY='-Durl=${repositoryurl} -DrepositoryId=${repositoryid}'
 </concat>
 
-    <concat destfile="${dist.dir}/install.sh" append="true" force="true" eol="unix">#!/bin/sh
+        <concat destfile="${dist.dir}/install.sh" append="true" force="true" eol="unix">#!/bin/sh
 PWD=`pwd`
 VERSION=${version}
 </concat>
 
-    <!-- tattletale -->
-    <delete file="${dist.dir}/${name}.xml"/>
-    <ivy:makepom artifactName="${name}"
-                 conf="${name}"
-                 ivyfile="${basedir}/ivy.xml"
-                 pomfile="${dist.dir}/${name}.xml"
-                 headerFile="${basedir}/maven/HEADER"
-                 templatefile="${basedir}/maven/pom.template"
-                 printIvyInfo="false">
-      <mapping conf="${name}" scope="runtime"/>
-    </ivy:makepom>
+        <!-- tattletale -->
+        <delete file="${dist.dir}/${name}.xml"/>
+        <ivy:makepom artifactName="${name}"
+                     conf="${name}"
+                     ivyfile="${basedir}/ivy.xml"
+                     pomfile="${dist.dir}/${name}.xml"
+                     headerFile="${basedir}/maven/HEADER"
+                     templatefile="${basedir}/maven/pom.template"
+                     printIvyInfo="false">
+            <mapping conf="${name}" scope="runtime"/>
+        </ivy:makepom>
 
-    <deploy-file file="deploy.sh" artifact="${name}" extension="jar"/>
-    <install-file file="install.sh" artifact="${name}" extension="jar"/>
+        <deploy-file file="deploy.sh" artifact="${name}" extension="jar"/>
+        <install-file file="install.sh" artifact="${name}" extension="jar"/>
 
-    <!-- tattletale-ant -->
-    <delete file="${dist.dir}/${name}-ant.xml"/>
-    <ivy:makepom artifactName="${name}-ant"
-                 conf="${name}-ant"
-                 ivyfile="${basedir}/ivy.xml"
-                 pomfile="${dist.dir}/${name}-ant.xml"
-                 headerFile="${basedir}/maven/HEADER"
-                 templatefile="${basedir}/maven/pom.template"
-                 printIvyInfo="false">
-      <mapping conf="${name}-ant" scope="runtime"/>
-      <dependency artifact="${name}" scope="runtime"/>
-    </ivy:makepom>
+        <!-- tattletale-ant -->
+        <delete file="${dist.dir}/${name}-ant.xml"/>
+        <ivy:makepom artifactName="${name}-ant"
+                     conf="${name}-ant"
+                     ivyfile="${basedir}/ivy.xml"
+                     pomfile="${dist.dir}/${name}-ant.xml"
+                     headerFile="${basedir}/maven/HEADER"
+                     templatefile="${basedir}/maven/pom.template"
+                     printIvyInfo="false">
+            <mapping conf="${name}-ant" scope="runtime"/>
+            <dependency artifact="${name}" scope="runtime"/>
+        </ivy:makepom>
 
-    <deploy-file file="deploy.sh" artifact="${name}-ant" extension="jar"/>
-    <install-file file="install.sh" artifact="${name}-ant" extension="jar"/>
+        <deploy-file file="deploy.sh" artifact="${name}-ant" extension="jar"/>
+        <install-file file="install.sh" artifact="${name}-ant" extension="jar"/>
 
-    <!-- tattletale-maven -->
-    <delete file="${dist.dir}/${name}-maven.xml"/>
-    <ivy:makepom artifactName="${name}-maven"
-                 conf="${name}-maven"
-                 ivyfile="${basedir}/ivy.xml"
-                 pomfile="${dist.dir}/${name}-maven.xml"
-                 headerFile="${basedir}/maven/HEADER"
-                 templatefile="${basedir}/maven/pom.template"
-                 printIvyInfo="false">
-      <mapping conf="${name}-maven" scope="runtime"/>
-      <dependency artifact="${name}" scope="runtime"/>
-    </ivy:makepom>
+        <!-- tattletale-maven -->
+        <delete file="${dist.dir}/${name}-maven.xml"/>
+        <ivy:makepom artifactName="${name}-maven"
+                     conf="${name}-maven"
+                     ivyfile="${basedir}/ivy.xml"
+                     pomfile="${dist.dir}/${name}-maven.xml"
+                     headerFile="${basedir}/maven/HEADER"
+                     templatefile="${basedir}/maven/pom.template"
+                     printIvyInfo="false">
+            <mapping conf="${name}-maven" scope="runtime"/>
+            <dependency artifact="${name}" scope="runtime"/>
+        </ivy:makepom>
 
-    <deploy-file file="deploy.sh" artifact="${name}-maven" extension="jar"/>
-    <install-file file="install.sh" artifact="${name}-maven" extension="jar"/>
+        <deploy-file file="deploy.sh" artifact="${name}-maven" extension="jar"/>
+        <install-file file="install.sh" artifact="${name}-maven" extension="jar"/>
 
-    <chmod file="${dist.dir}/deploy.sh" perm="755"/>
-    <chmod file="${dist.dir}/install.sh" perm="755"/>
-
-  </target>
+        <chmod file="${dist.dir}/deploy.sh" perm="755"/>
+        <chmod file="${dist.dir}/install.sh" perm="755"/>
+    </target>
 
 </project>

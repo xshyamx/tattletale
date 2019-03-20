@@ -23,7 +23,6 @@ package org.jboss.tattletale.analyzers;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -122,13 +121,16 @@ public class DirectoryScanner
     */
    private static List<File> getFileListingNoSort(File aStartingDir, Set<String> excludes)
    {
-      final List<File> result = new ArrayList<File>();
-
       final File[] filesAndDirs = aStartingDir.listFiles();
 
-      final List<File> filesDirs = Arrays.asList(filesAndDirs);
+      if (filesAndDirs == null)
+      {
+         return Collections.emptyList();
+      }
 
-      for (File file : filesDirs)
+      final List<File> result = new ArrayList<File>();
+
+      for (File file : filesAndDirs)
       {
          if (file.isFile())
          {

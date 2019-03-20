@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -139,13 +138,16 @@ public class Main
     */
    private static List<File> getFileListingNoSort(File aStartingDir)
    {
-      final List<File> result = new ArrayList<File>();
-
       final File[] filesAndDirs = aStartingDir.listFiles();
 
-      final List<File> filesDirs = Arrays.asList(filesAndDirs);
+      if (filesAndDirs == null)
+      {
+         return Collections.emptyList();
+      }
 
-      for (File file : filesDirs)
+      final List<File> result = new ArrayList<File>();
+
+      for (File file : filesAndDirs)
       {
          if (file.isFile())
          {

@@ -77,9 +77,9 @@
     <!-- =================================
          Versions
          ================================= -->
-    <property name="version.ant" value="1.9.9"/>
-    <property name="version.javassist" value="3.22.0-GA"/>
-    <property name="version.maven" value="3.1.1"/>
+    <property name="version.ant" value="1.9.14"/>
+    <property name="version.javassist" value="3.23.1-GA"/>
+    <property name="version.maven" value="3.2.5"/>
 
     <!-- =================================================================== -->
     <!-- Define the class path                                               -->

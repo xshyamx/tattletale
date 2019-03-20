@@ -391,14 +391,8 @@ public abstract class AbstractReport implements Report
     */
    public boolean equals(Object obj)
    {
-      if (null == obj || !(obj instanceof Report))
-      {
-         return false;
-      }
-
-      final AbstractReport report = (AbstractReport) obj;
-
-      return getName().equals(report.getName());
+      return obj instanceof Report
+              && getName().equals(((AbstractReport) obj).getName());
    }
 
    /**

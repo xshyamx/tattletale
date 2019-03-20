@@ -377,14 +377,8 @@ public abstract class Archive implements Serializable, Comparable<Archive>
     */
    public boolean equals(Object obj)
    {
-      if (null == obj || !(obj instanceof Archive))
-      {
-         return false;
-      }
-
-      final Archive archive = (Archive) obj;
-
-      return name.equals(archive.getName());
+      return obj instanceof Archive
+              && name.equals(((Archive) obj).getName());
    }
 
    /**

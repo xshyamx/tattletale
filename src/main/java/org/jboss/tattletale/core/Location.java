@@ -92,15 +92,8 @@ public class Location implements Serializable, Comparable<Location>
     */
    public boolean equals(Object obj)
    {
-      if (null == obj || !(obj instanceof Location))
-      {
-         return false;
-      }
-
-      final Location loc = (Location) obj;
-
-      return filename.equals(loc.getFilename())
-         && ((null == version) || version.equals(loc.getVersion()));
+      return obj instanceof Location && filename.equals(((Location) obj).getFilename())
+              && (null == version || version.equals(((Location) obj).getVersion()));
    }
 
    /**

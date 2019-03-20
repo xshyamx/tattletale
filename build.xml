@@ -80,6 +80,7 @@
     <property name="version.ant" value="1.9.14"/>
     <property name="version.javassist" value="3.23.1-GA"/>
     <property name="version.maven" value="3.2.5"/>
+    <property name="version.checkstyle" value="6.1.1"/>
 
     <!-- =================================================================== -->
     <!-- Define the class path                                               -->
@@ -96,16 +97,6 @@
         </fileset>
         <fileset dir="${dist.dir}">
             <include name="*.jar"/>
-        </fileset>
-    </path>
-
-    <path id="checkstyle.class.path">
-        <fileset dir="${tools.dir}/checkstyle/lib"/>
-        <fileset dir="${lib.dir}/core">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${dist.dir}">
-            <include name="**/*.jar"/>
         </fileset>
     </path>
 
@@ -414,20 +405,21 @@
          Target: checkstyle
          ================================= -->
     <target name="checkstyle" depends="jars">
-      <taskdef name="checkstyle"
-               classname="com.puppycrawl.tools.checkstyle.CheckStyleTask"
-               classpathref="checkstyle.class.path"/>
+        <ivy:cachepath organisation="com.puppycrawl.tools" module="checkstyle" revision="${version.checkstyle}"
+                       inline="true" conf="default" pathid="checkstyle.class.path"/>
+        <taskdef resource="com/puppycrawl/tools/checkstyle/antlib.xml"
+                 classpathref="checkstyle.class.path"/>
 
-      <mkdir dir="${reports.dir}/checkstyle" />
+        <mkdir dir="${reports.dir}/checkstyle"/>
 
-      <checkstyle config="${tools.dir}/checkstyle/checkstyle.xml"
-                  failOnViolation="false"
-                  classpathref="checkstyle.class.path">
-        <fileset dir="${basedir}"
-                 includes="**/*.java"/>
-        <formatter type="plain"/>
-        <formatter type="xml" toFile="${reports.dir}/checkstyle/checkstyle-result.xml"/>
-      </checkstyle>
+        <checkstyle config="${tools.dir}/checkstyle/checkstyle.xml"
+                    failOnViolation="false"
+                    classpathref="checkstyle.class.path">
+            <fileset dir="${basedir}"
+                     includes="**/*.java"/>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="${reports.dir}/checkstyle/checkstyle-result.xml"/>
+        </checkstyle>
     </target>
 
     <!-- =================================================================== -->

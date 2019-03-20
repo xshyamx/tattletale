@@ -39,7 +39,7 @@
              pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
     <ibiblio name="snapshots" m2compatible="true" usepoms="false" root="${snapshots.repo}"
              pattern="[organisation]/[module]/[revision]/[artifact]-[snapshotrevision](-[classifier]).[ext]"/>
-    <ibiblio name="central" m2compatible="true" usepoms="false" root="${central.repo}"
+    <ibiblio name="central" m2compatible="true" usepoms="true" root="${central.repo}"
              pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
     <chain name="default" returnFirst="true">
       <resolver ref="local"/>

@@ -172,9 +172,11 @@ public abstract class AbstractProfile implements Profile
          final InputStreamReader isr = new InputStreamReader(gis);
          final BufferedReader br = new BufferedReader(isr);
 
-         for (String line; (line = br.readLine()) != null;)
+         String line = br.readLine();
+         while (line != null)
          {
             classSet.add(line);
+            line = br.readLine();
          }
       }
       catch (IOException ioe)

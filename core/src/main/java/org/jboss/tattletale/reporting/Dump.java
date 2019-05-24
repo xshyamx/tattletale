@@ -61,9 +61,11 @@ public class Dump
          is = Dump.class.getClassLoader().getResourceAsStream("style.css");
          os = new FileOutputStream(outputDir + "style.css");
 
-         for (int bytesRead; (bytesRead = is.read(buffer)) != -1;)
+         int bytesRead = is.read(buffer);
+         while (bytesRead != -1)
          {
             os.write(buffer, 0, bytesRead);
+            bytesRead = is.read(buffer);
          }
 
          os.flush();

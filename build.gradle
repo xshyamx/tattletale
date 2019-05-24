@@ -26,6 +26,7 @@ subprojects {
     version = '1.2.0'
     plugins.apply('java')
     plugins.apply('maven')
+    plugins.apply('checkstyle')
     tasks.withType(Jar) {
         archiveName "tattletale-${project.name}.jar"
         manifest {
@@ -34,9 +35,6 @@ subprojects {
                     'Implementation-Vendor': 'Red Hat Middleware LLC',
                     'Implementation-Vendor-Id': 'org.jboss',
                     'Implementation-Version': '1.2.0')
-        }
-        doLast {
-            println "jar"
         }
     }
     task generatePom {
@@ -61,4 +59,20 @@ artifactId=tattletale-${project.name}
                 "VERSION.TATTLETALE": project.version
         ]
     }
+    /*
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+     */
 }

@@ -358,9 +358,12 @@ public class GraphvizReport extends CLSReport
          final Process proc = pb.redirectErrorStream(true).start();
 
          final BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-         for (String line; (line = out.readLine()) != null;)
+
+         String line = out.readLine();
+         while (line != null)
          {
             System.err.println(line);
+            line = out.readLine();
          }
          out.close();
 
@@ -409,18 +412,22 @@ public class GraphvizReport extends CLSReport
          final BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
          final FileWriter redfw = new FileWriter(reducedName);
          final BufferedWriter redw = new BufferedWriter(redfw, 8192);
-         for (String line; (line = out.readLine()) != null; )
+         String line = out.readLine();
+         while (line != null)
          {
             redw.write(line + Dump.newLine());
+            line = out.readLine();
          }
          out.close();
          redw.flush();
          redw.close();
 
          final BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-         for (String line; (line = err.readLine()) != null;)
+         line = out.readLine();
+         while (line != null)
          {
             System.err.println(line);
+            line = out.readLine();
          }
 
          proc.waitFor();

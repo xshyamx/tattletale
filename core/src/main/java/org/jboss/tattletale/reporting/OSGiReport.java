@@ -115,7 +115,7 @@ public class OSGiReport extends AbstractReport
     * @throws IOException
     */
    private void writeArchiveOSGIManifest(Archive archive, List<String> osgiInformation, File archiveOutput)
-      throws IOException
+       throws IOException
    {
       final FileWriter mfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "MANIFEST.MF");
       final BufferedWriter mbw = new BufferedWriter(mfw, 8192);

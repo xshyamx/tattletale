@@ -1174,7 +1174,7 @@ public class Main
        * @throws IOException
        */
       ReportSetBuilder(String destination, boolean allReports, Set<String> reportSet, Properties filters)
-         throws IOException
+          throws IOException
       {
          outputDir = setupOutputDir(destination);
          this.allReports = allReports;

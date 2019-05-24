@@ -20,6 +20,10 @@ task genSources {
                     "VERSION.TATTLETALE": parent.version
             ]
         }
+        file("$buildDir/generated/sources/main/java/org/jboss/tattletale/package.html").text = '''<body>
+JBoss Profiler 2
+</body>
+'''
 
     }
 }

@@ -221,9 +221,11 @@ public class EarScanner extends AbstractScanner
                      lSign = new ArrayList<String>();
                   }
 
-                  for (String line; (line = lnr.readLine()) != null;)
+                  String line = lnr.readLine();
+                  while (line != null)
                   {
                      lSign.add(line);
+                     line = lnr.readLine();
                   }
                }
                catch (IOException ioe)

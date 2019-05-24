@@ -71,9 +71,11 @@ public abstract class AbstractScanner implements ArchiveScanner
          final InputStreamReader isr = new InputStreamReader(bais);
          final LineNumberReader lnr = new LineNumberReader(isr);
 
-         for (String line; (line = lnr.readLine()) != null;)
+         String line = lnr.readLine();
+         while (line != null)
          {
             result.add(line);
+            line = lnr.readLine();
          }
       }
       catch (IOException ioe)
@@ -163,7 +165,7 @@ public abstract class AbstractScanner implements ArchiveScanner
                               SortedSet<String> profiles, SortedMap<String, SortedSet<String>> classDependencies,
                               SortedMap<String, SortedSet<String>> packageDependencies,
                               SortedMap<String, SortedSet<String>> blacklistedDependencies)
-      throws IOException
+       throws IOException
    {
       final ClassPool classPool = new ClassPool();
       final CtClass ctClz = classPool.makeClass(is);

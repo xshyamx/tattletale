@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':core')
+    implementation "org.apache.maven:maven-plugin-api:$mavenVersion"
+}

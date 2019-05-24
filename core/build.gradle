@@ -1,0 +1,34 @@
+import org.apache.tools.ant.filters.*
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/sources/main/java"
+        }
+    }
+}
+task genSources {
+    doLast {
+        copy {
+            from 'src/main/java/org/jboss/tattletale/Version.java.in'
+            into "$buildDir/generated/sources/main/java/org/jboss/tattletale/"
+            rename {
+                String fn -> "Version.java"
+            }
+            filter ReplaceTokens, tokens: [
+                    "VERSION": parent.version,
+                    "VERSION.TATTLETALE": parent.version
+            ]
+        }
+
+    }
+}
+
+compileJava {
+    dependsOn genSources
+}
+
+dependencies {
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    compile "org.javassist:javassist:$javassistVersion"
+}

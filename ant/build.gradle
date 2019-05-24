@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+dependencies {
+    compile project(':core')
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation "org.apache.ant:ant:$antVersion"
+}

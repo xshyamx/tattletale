@@ -10,7 +10,7 @@ import org.apache.tools.ant.filters.*
 buildscript {
     ext {
         antVersion = '1.9.14'
-        javassistVersion = '3.23.1-GA'
+        javassistVersion = '3.24.1-GA'
         mavenVersion = '3.2.5'
         checkstyleVersion = '6.1.1'
     }

@@ -1,9 +1,9 @@
 <project name="developerguide" default="all" basedir=".">
 
 
-  <property name="docant.dir" value="${basedir}/../../tools/docant"/>
+  <property name="docant.dir" value="${basedir}/../docant"/>
   <property name="target.dir" value="${basedir}/../../dist" />
-  <property name="docant.target.dir" value="${basedir}/../../build" />
+  <property name="docant.target.dir" value="${basedir}/build" />
 
   <import file="${docant.dir}/support.xml"/>
 
@@ -43,8 +43,8 @@
             sourceDocumentName="${srcDocNameFile}"
             baseOutputDirectory="${docant.target.dir}">
       <format name="html" 
-	      stylesheetResource="classpath:/jbossorg-style/xhtml.xsl"
-	      targetFinalName="index.html"/>
+              stylesheetResource="classpath:/jbossorg-style/xhtml.xsl"
+              targetFinalName="index.html"/>
     </docant>
     <antcall target="docant-post"/>
   </target>
@@ -55,8 +55,8 @@
             sourceDocumentName="${srcDocNameFile}"
             baseOutputDirectory="${docant.target.dir}">
       <format name="html_single" 
-	      stylesheetResource="classpath:/jbossorg-style/xhtml-single.xsl"
-	      targetFinalName="index.html"/>
+              stylesheetResource="classpath:/jbossorg-style/xhtml-single.xsl"
+              targetFinalName="index.html"/>
     </docant>
     <antcall target="docant-post"/>
   </target>
@@ -67,8 +67,8 @@
             sourceDocumentName="${srcDocNameFile}"
             baseOutputDirectory="${docant.target.dir}">
       <format name="pdf" 
-	      stylesheetResource="classpath:/jbossorg-style/pdf.xsl"
-	      targetFinalName="${pdfName}"/>
+              stylesheetResource="classpath:/jbossorg-style/pdf.xsl"
+              targetFinalName="${pdfName}"/>
     </docant>
     <antcall target="docant-post"/>
   </target>
@@ -79,14 +79,14 @@
             sourceDocumentName="${srcDocNameFile}"
             baseOutputDirectory="${docant.target.dir}">
       <format name="html" 
-	      stylesheetResource="classpath:/jbossorg-style/xhtml.xsl"
-	      targetFinalName="index.html"/>
+              stylesheetResource="classpath:/jbossorg-style/xhtml.xsl"
+              targetFinalName="index.html"/>
       <format name="html_single" 
-	      stylesheetResource="classpath:/jbossorg-style/xhtml-single.xsl"
-	      targetFinalName="index.html"/>
+              stylesheetResource="classpath:/jbossorg-style/xhtml-single.xsl"
+              targetFinalName="index.html"/>
       <format name="pdf" 
-	      stylesheetResource="classpath:/jbossorg-style/pdf.xsl"
-	      targetFinalName="${pdfName}"/>
+              stylesheetResource="classpath:/jbossorg-style/pdf.xsl"
+              targetFinalName="${pdfName}"/>
     </docant>
     <antcall target="docant-post"/>
   </target>

@@ -1,0 +1,12 @@
+plugins {
+    id "org.podval.docbook-gradle-plugin" version "0.7.8"
+}
+docBook {
+
+    documents = [ "developer-guide", "user-guide" ]
+
+    outputFormats = ["html", "pdf", "epub3"]
+    // by default, all supported formats except html2 are generated;
+    // this property can be overridden on the command line using `-PdocBook.outputFormats="epub3, html"`
+
+}

@@ -156,7 +156,7 @@
 
   <!-- Enforce License Header -->
   <module name="RegexpHeader">
-    <property name="headerFile" value="${basedir}/tools/checkstyle/HEADER"/>
+    <property name="headerFile" value="${basedir}/config/checkstyle/HEADER"/>
   </module>
 
   <!-- Enforce file length -->

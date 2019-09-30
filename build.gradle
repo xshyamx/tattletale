@@ -27,6 +27,9 @@ subprojects {
     plugins.apply('java')
     plugins.apply('maven')
     plugins.apply('checkstyle')
+    checkstyle {
+        toolVersion "${checkstyleVersion}"
+    }
     tasks.withType(Jar) {
         archiveName "tattletale-${project.name}.jar"
         manifest {

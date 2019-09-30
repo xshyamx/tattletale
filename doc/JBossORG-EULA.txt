@@ -99,7 +99,7 @@ enforceability of the remaining provisions.  This License Agreement shall be gov
 State of North Carolina and of the United States, without regard to any conflict of laws provisions, 
 except that the United Nations Convention on the International Sale of Goods shall not apply.
 
-Copyright 2006 Red Hat, Inc.  All rights reserved.  
+Copyright 2019 Red Hat, Inc.  All rights reserved.  
 "JBoss" and the JBoss logo are registered trademarks of Red Hat, Inc.  
 All other trademarks are the property of their respective owners. 
 

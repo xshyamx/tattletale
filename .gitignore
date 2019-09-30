@@ -1,3 +1,6 @@
 .*
 !.gitignore
 build
+/doc/src/main/xsl
+/doc/src/main/xml
+/doc/src/main/fop

@@ -5,7 +5,7 @@ docBook {
 
     documents = [ "developer-guide", "user-guide" ]
 
-    outputFormats = ["html", "pdf", "epub3"]
+    outputFormats = ["html", "html2"]
     // by default, all supported formats except html2 are generated;
     // this property can be overridden on the command line using `-PdocBook.outputFormats="epub3, html"`
 

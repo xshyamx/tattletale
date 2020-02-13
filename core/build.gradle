@@ -31,6 +31,13 @@ JBoss Profiler 2
 compileJava {
     dependsOn genSources
 }
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'org.jboss.tattletale.Main'
+        )
+    }
+}
 
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.

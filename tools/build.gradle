@@ -1,6 +1,13 @@
 plugins {
     id 'java'
 }
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'org.jboss.tattletale.tools.as7.Main'
+        )
+    }
+}
 dependencies {
     compile project(':core')
 }
